@@ -5,35 +5,70 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    colors: {
-      txt: {
-        light: "#0C0C0D",
-        dark: "#FFFFFF",
-        alt: "#858586"
+    extend: {
+      colors: {
+        tx: {
+          light: "#0C0C0D",
+          dark: "#FFFFFF",
+          alt: "#858586"
+        },
+        bg: {
+          light: "#F5F5F7",
+          dark: "#151419"
+        },
+        card: {
+          light: "#FFFFFF",
+          dark: "#0C0C0D"
+        },
+        diff: {
+          expertplus: "#945FD3",
+          expert: "#BF2A42",
+          hard: "#FF6347",
+          normal: "#59B0F4",
+          easy: "#3CB371"
+        },
+        green: {
+          DEFAULT: "#3CB371"
+        },
+        blue: {
+          DEFAULT: "#59B0F4"
+        }
       },
-      bg: {
-        light: "#F5F5F7",
-        dark: "#151419"
+      fontSize: {
+        "ch1": ["89.76px", {
+          lineHeight: "89.8px",
+          letterSpacing: "-2px"
+        }],
+        "ch2": ["50.51px", {
+          lineHeight: "50.5px",
+          letterSpacing: "-1.11px"
+        }],
+        "csub": ["28.43px", {
+          lineHeight: "28.4px",
+          letterSpacing: "-0.63px"
+        }],
+        "cbody": ["16px", {
+          lineHeight: "25.6px",
+          letterSpacing: "0px"
+        }],
+        "ctri": ["12px", {
+          lineHeight: "19.2px",
+          letterSpacing: "0px"
+        }]
       },
-      card: {
-        light: "#FFFFFF",
-        dark: "#0C0C0D"
+      fontFamily: {
+        geist: ["Geist", "sans-serif"]
+        // gultralight: ["Geist-UltraLight", "sans-serif"],
+        // glight: ["Geist-Light", "sans-serif"],
+        // gthin: ["Geist-Thin", "sans-serif"],
+        // gregular: ["Geist-Regular", "sans-serif"],
+        // gmedium: ["Geist-Medium", "sans-serif"],
+        // gsemibold: ["Geist-SemiBold", "sans-serif"],
+        // gbold: ["Geist-Bold", "sans-serif"],
+        // gblack: ["Geist-Black", "sans-serif"],
+        // gultrablack: ["Geist-UltraBlack", "sans-serif"],
       },
-      diff: {
-        expertplus: "#945FD3",
-        expert: "#BF2A42",
-        hard: "#FF6347",
-        normal: "#59B0F4",
-        easy: "#3CB371"
-      },
-      green: {
-        DEFAULT: "#3CB371"
-      },
-      blue: {
-        DEFAULT: "#59B0F4"
-      }
     },
-    extend: {},
   },
   plugins: [],
 }
