@@ -5,6 +5,8 @@ import more from "../assets/icons/more.svg";
 import search from "../assets/icons/search.svg";
 import star from "../assets/icons/star.svg";
 import timer from "../assets/icons/timer.svg";
+import home from "../assets/icons/home.svg";
+import refresh from "../assets/icons/refresh.svg";
 
 export default {
   beatsaver,
@@ -13,5 +15,7 @@ export default {
   more,
   search,
   star,
-  timer
+  timer,
+  home,
+  refresh
 }
