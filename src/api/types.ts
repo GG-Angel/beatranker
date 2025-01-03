@@ -1,4 +1,7 @@
-export interface Prediction {
+type Difficulty = "ExpertPlus" | "Expert" | "Hard" | "Normal" | "Easy";
+type MapType = "Midspeed" | "Speed" | "Acc" | "Tech";
+
+export interface Recommendation {
   leaderboardId: string;
   songId: string;
   cover: string;
@@ -9,8 +12,8 @@ export interface Prediction {
   mapper: string;
   bpm: number;
   duration: number;
-  difficultyName: string;
-  type: string;
+  difficultyName: Difficulty;
+  type: MapType;
   stars: number;
   passRating: number;
   accRating: number;
@@ -19,7 +22,7 @@ export interface Prediction {
   passRatingMod: number;
   accRatingMod: number;
   techRatingMod: number;
-  status: string;
+  status: "played" | "unplayed";
   rank: number | null;
   timeAgo: string | null;
   currentMods: string[] | null;
@@ -35,4 +38,18 @@ export interface Prediction {
   weight: number;
 }
 
-export type Predictions = Prediction[]
+export interface Profile {
+  id: string;
+  name: string;
+  alias: string;
+  avatar: string;
+  country: string;
+  pp: number;
+  rank: number;
+  countryRank: number;
+}
+
+export interface APIResponse {
+  profile: Profile;
+  recs: Recommendation[];
+}
