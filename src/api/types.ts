@@ -1,5 +1,6 @@
 type Difficulty = "ExpertPlus" | "Expert" | "Hard" | "Normal" | "Easy";
 type MapType = "Midspeed" | "Speed" | "Acc" | "Tech";
+type Status = "played" | "unplayed";
 
 export interface Recommendation {
   leaderboardId: string;
@@ -22,7 +23,7 @@ export interface Recommendation {
   passRatingMod: number;
   accRatingMod: number;
   techRatingMod: number;
-  status: "played" | "unplayed";
+  status: Status;
   rank: number | null;
   timeAgo: string | null;
   currentMods: string[] | null;
