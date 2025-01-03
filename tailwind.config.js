@@ -28,10 +28,12 @@ export default {
           easy: "#3CB371"
         },
         green: {
-          DEFAULT: "#3CB371"
+          light: "#168E4C",
+          dark: "#48CB83",
         },
         blue: {
-          DEFAULT: "#59B0F4"
+          light: "#2991E1",
+          dark: "#2592E7"
         }
       },
       fontSize: {
