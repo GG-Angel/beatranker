@@ -21,9 +21,11 @@ function App() {
 
   const gridRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const windowRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
-  const [containerHeight, setContainerHeight] = useState(0);
+  const [windowHeight, setWindowHeight] = useState(0);
+  
 
   useEffect(() => {
     const updateColumns = () => {
@@ -35,9 +37,9 @@ function App() {
     }
     
     const updateSize = () => {
-      if (containerRef.current) {
+      if (containerRef.current && windowRef.current) {
         setContainerWidth(containerRef.current.offsetWidth)
-        setContainerHeight(containerRef.current.offsetHeight)
+        setWindowHeight(windowRef.current.offsetHeight)
       }
     };
 
@@ -59,7 +61,7 @@ function App() {
           {response && (
             <>
               <p>Home</p>
-              <p>Refresh {columns} {containerHeight} {containerWidth}</p>
+              <p>Refresh {windowHeight}</p>
             </>
           )}
           <p>Help</p>
@@ -71,7 +73,7 @@ function App() {
           </div>
         )}
       </header>
-      <div className="w-full h-full px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
+      <div className="w-full h-full px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark" ref={windowRef}>
         {response === null ? (
           <div className="flex h-full items-center">
             <div className="flex flex-1 flex-col items-center">
@@ -110,26 +112,38 @@ function App() {
               </p>
             </div>
           </div>
-          <div className="w-full xl:h-full grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16 border-slate-700 border-2" ref={gridRef}>
-            <div className="bg-blue-500 h-full">
+          <div className="w-full xl:h-full grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16" ref={gridRef}>
+            <div ref={containerRef}>
               <p className="text-csub font-bold mb-6">Not Played</p>
-              <div ref={containerRef}>
-                <FixedSizeList
-                  width={containerWidth}
-                  height={columns > 1 ? containerHeight : 548}
-                  itemCount={response?.recs.length!}
-                  itemSize={112}
-                >
-                  {({ index, style }) => (
-                    <div style={style}>
-                      <RecommendationCard rec={response?.recs[index]!} />
-                    </div>
-                  )}
-                </FixedSizeList>
-              </div>
+              <FixedSizeList
+                width={containerWidth}
+                height={columns > 1 ? (windowHeight - 248.4) : 548}
+                itemCount={response?.recs.length!}
+                itemSize={112}
+                overscanCount={3}
+              >
+                {({ index, style }) => (
+                  <div style={style}>
+                    <RecommendationCard rec={response?.recs[index]!} />
+                  </div>
+                )}
+              </FixedSizeList>
             </div>
-            <div className="bg-red-500">
+            <div>
               <p className="text-csub font-bold mb-6">To Improve</p>
+              <FixedSizeList
+                width={containerWidth}
+                height={columns > 1 ? (windowHeight - 248.4) : 548}
+                itemCount={response?.recs.length!}
+                itemSize={112}
+                overscanCount={3}
+              >
+                {({ index, style }) => (
+                  <div style={style}>
+                    <RecommendationCard rec={response?.recs[index]!} />
+                  </div>
+                )}
+              </FixedSizeList>
             </div>
           </div>
         </div>
