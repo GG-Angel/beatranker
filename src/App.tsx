@@ -6,6 +6,7 @@ import { APIResponse } from "./api/types";
 import ProfileSearchBox from "./components/ProfileSearchBox";
 import { FixedSizeList } from "react-window";
 import RecommendationCard from "./components/RecommendationCard";
+import SortDropdown from "./components/SortDropdown";
 
 function App() {
   const [data, setData] = useState<APIResponse | null>(
@@ -117,7 +118,12 @@ function App() {
           </div>
           <div className="w-full xl:h-full grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16" ref={gridRef}>
             <div ref={containerRef}>
-              <p className="text-csub font-bold mb-6">Not Played</p>
+              <div className="flex flex-row justify-between align-top">
+                <p className="text-csub font-bold mb-6">Not Played</p>
+                <div className="flex flex-row gap-x-2">
+                  <SortDropdown options={["PP gained", "Unweighted pp", "Current acc.", "Current rank", "Stars", "Date set"]} selected="PP gained" updateSelection={(option) => {}} />
+                </div> 
+              </div>
               <FixedSizeList
                 width={containerWidth}
                 height={columns > 1 ? (windowHeight - 248.4) : 548}

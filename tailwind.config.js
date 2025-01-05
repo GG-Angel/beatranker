@@ -24,6 +24,10 @@ export default {
             dark: "#242436"
           }
         },
+        active: {
+          light: "#646cff",
+          dark: "#4E4E92"
+        },
         diff: {
           expertplus: "#945FD3",
           expert: "#BF2A42",
