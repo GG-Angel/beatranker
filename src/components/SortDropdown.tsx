@@ -14,7 +14,10 @@ const SortDropdown: React.FC<{
   };
 
   return (
-    <div className="w-[200px] font-geist font-medium text-tx-light dark:text-tx-dark">
+    <div
+      className="w-[200px] font-geist font-medium text-tx-light dark:text-tx-dark"
+      onBlur={() => setIsOpened(false)}
+    >
       <button
         className={`w-full flex flex-row justify-between items-center px-4 py-1 space-x-3 rounded-t-lg bg-card-light dark:bg-card-dark border-b-2 hover:border-active-light dark:hover:border-active-dark ${
           isOpened
@@ -24,7 +27,12 @@ const SortDropdown: React.FC<{
         onClick={() => setIsOpened(!isOpened)}
       >
         <p>{selected}</p>
-        <img src={Icons.dropdown} className={`transform transition-transform duration-200 ${isOpened ? "rotate-180" : "rotate-0"}`} />
+        <img
+          src={Icons.dropdown}
+          className={`transform transition-transform duration-200 ${
+            isOpened ? "rotate-180" : "rotate-0"
+          }`}
+        />
       </button>
       {isOpened && (
         <div className="absolute w-[200px] z-50 bg-bg-light dark:bg-card-dark rounded-b-lg shadow-md">

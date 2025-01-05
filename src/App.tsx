@@ -7,6 +7,7 @@ import ProfileSearchBox from "./components/ProfileSearchBox";
 import { FixedSizeList } from "react-window";
 import RecommendationCard from "./components/RecommendationCard";
 import SortDropdown from "./components/SortDropdown";
+import SortDirection from "./components/SortDirection";
 
 function App() {
   const [data, setData] = useState<APIResponse | null>(
@@ -57,7 +58,7 @@ function App() {
 
   return (
     <>
-      <header className="flex justify-between px-16 py-8 sticky top-0 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
+      <header className="w-full fixed z-50 flex justify-between px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
         <div className="flex flex-row gap-x-8">
           {data && (
             <>
@@ -77,7 +78,7 @@ function App() {
           </div>
         )}
       </header>
-      <div className="w-full h-full px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark" ref={windowRef}>
+      <div className={`${columns > 1 && "h-full"} w-full mt-[89.6px] px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark`} ref={windowRef}>
         {data === null ? (
           <div className="flex h-full items-center">
             <div className="flex flex-1 flex-col items-center">
@@ -122,6 +123,7 @@ function App() {
                 <p className="text-csub font-bold mb-6">Not Played</p>
                 <div className="flex flex-row gap-x-2">
                   <SortDropdown options={["PP gained", "Unweighted pp", "Current acc.", "Current rank", "Stars", "Date set"]} selected="PP gained" updateSelection={(option) => {}} />
+                  <SortDirection direction="desc" updateDirection={() => {}} />
                 </div> 
               </div>
               <FixedSizeList
