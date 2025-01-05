@@ -18,7 +18,11 @@ export default {
         },
         card: {
           light: "#FFFFFF",
-          dark: "#0C0C0D"
+          dark: "#0C0C0D",
+          alt: {
+            light: "#E4E4E4",
+            dark: "#242436"
+          }
         },
         diff: {
           expertplus: "#945FD3",
