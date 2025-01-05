@@ -21,7 +21,7 @@ const DifficultyTextColor: { [key: string]: string } = {
 const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
   console.log(rec.currentMods);
   return (
-    <div className="flex flex-row w-full bg-card-dark rounded-r-lg">
+    <div className="flex flex-row w-full bg-card-light dark:bg-card-dark rounded-r-lg">
       <div
         className={`w-1 h-[100px] ${DifficultyBGColor[rec.difficultyName]}`}
       ></div>
@@ -32,7 +32,7 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
         width={100}
         loading="lazy"
       />
-      <div className="flex flex-1 flex-row items-center justify-between font-geist font-medium text-cbody text-tx-dark px-4 py-3 gap-x-8">
+      <div className="flex flex-1 flex-row items-center justify-between font-geist font-medium text-cbody text-tx-light dark:text-tx-dark px-4 py-3 gap-x-8">
         <div className="flex-1 w-0">
           <p className="truncate w-full">
             {rec.name} - {rec.author}
@@ -64,7 +64,7 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
           </p>
         </div>
         <div className="flex flex-row gap-x-8">
-          <div className="text-center">
+          <div className="min-w-[164px] text-center">
             <p>Potential</p>
             <p>
               {renderDecimal(rec.predictedAccuracy * 100)}
@@ -81,7 +81,7 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
               {renderDecimal(rec.predictedPP)}
               <span className="text-tx-alt">pp </span>
               <span
-                className="text-green"
+                className="text-green-light dark:text-green-dark"
                 title="Total (Weighted) PP Added to Your Rank"
               >
                 (+{renderDecimal(rec.weightedPPGain)})

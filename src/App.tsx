@@ -8,7 +8,7 @@ import { FixedSizeList } from "react-window";
 import RecommendationCard from "./components/RecommendationCard";
 
 function App() {
-  const [response, setResponse] = useState<APIResponse | null>(
+  const [data, setData] = useState<APIResponse | null>(
     ResponseJSON as APIResponse
   );
   const [isLoadingPlayer, setIsLoadingPlayer] = useState<boolean>(false);
@@ -16,7 +16,7 @@ function App() {
   const handleSubmitId = (player_id: string) => {
     setIsLoadingPlayer(true);
     console.log(player_id);
-    setResponse(ResponseJSON as APIResponse);
+    setData(ResponseJSON as APIResponse);
   };
 
   const gridRef = useRef<HTMLDivElement>(null);
@@ -58,23 +58,26 @@ function App() {
     <>
       <header className="flex justify-between px-16 py-8 sticky top-0 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
         <div className="flex flex-row gap-x-8">
-          {response && (
+          {data && (
             <>
-              <p>Home</p>
-              <p>Refresh {windowHeight}</p>
+              <button className="bg-transparent border-none focus:outline-none p-0 hover:underline" onClick={() => setData(null)}>
+                <p>Home</p>
+              </button>
+              <button className="bg-transparent border-none focus:outline-none p-0 hover:underline">
+                <p>Refresh</p>
+              </button>
             </>
           )}
           <p>Help</p>
         </div>
-        {response && (
+        {data && (
           <div className="flex flex-row gap-x-8">
-            <p>Sort By</p>
             <p>Modifiers</p>
           </div>
         )}
       </header>
       <div className="w-full h-full px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark" ref={windowRef}>
-        {response === null ? (
+        {data === null ? (
           <div className="flex h-full items-center">
             <div className="flex flex-1 flex-col items-center">
               <h1 className="text-ch2 font-extrabold text-center mb-6">
@@ -98,16 +101,16 @@ function App() {
           <div className="w-full flex flex-row justify-center items-center gap-x-6">
             <img
               className={`rounded-full border-tx-light dark:border-tx-dark border-8`}
-              src={response?.profile.avatar}
+              src={data?.profile.avatar}
               width={100}
             />
             <div>
-              <h2 className="text-csub font-bold">{response?.profile.alias}</h2>
+              <h2 className="text-csub font-bold">{data?.profile.alias}</h2>
               <p>
                 <span className="text-tx-alt">#</span>
-                {response?.profile.rank}
+                {data?.profile.rank}
                 <span className="text-tx-alt"> - </span>
-                {response?.profile.pp}
+                {data?.profile.pp}
                 <span className="text-tx-alt">pp</span>
               </p>
             </div>
@@ -118,13 +121,13 @@ function App() {
               <FixedSizeList
                 width={containerWidth}
                 height={columns > 1 ? (windowHeight - 248.4) : 548}
-                itemCount={response?.recs.length!}
+                itemCount={data?.recs.length!}
                 itemSize={112}
                 overscanCount={3}
               >
                 {({ index, style }) => (
                   <div style={style}>
-                    <RecommendationCard rec={response?.recs[index]!} />
+                    <RecommendationCard rec={data?.recs[index]!} />
                   </div>
                 )}
               </FixedSizeList>
@@ -134,13 +137,13 @@ function App() {
               <FixedSizeList
                 width={containerWidth}
                 height={columns > 1 ? (windowHeight - 248.4) : 548}
-                itemCount={response?.recs.length!}
+                itemCount={data?.recs.length!}
                 itemSize={112}
                 overscanCount={3}
               >
                 {({ index, style }) => (
                   <div style={style}>
-                    <RecommendationCard rec={response?.recs[index]!} />
+                    <RecommendationCard rec={data?.recs[index]!} />
                   </div>
                 )}
               </FixedSizeList>
