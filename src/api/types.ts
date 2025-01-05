@@ -26,6 +26,7 @@ export interface Recommendation {
   status: Status;
   rank: number | null;
   timeAgo: string | null;
+  timePost: number | null;
   currentMods: string[] | null;
   predictedMods: string[] | null;
   currentAccuracy: number;

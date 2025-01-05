@@ -3,7 +3,7 @@ import { Icons } from "../../constants";
 
 const SortDirection: React.FC<{
   direction: "asc" | "desc";
-  updateDirection: () => {};
+  updateDirection: () => void;
 }> = ({ direction, updateDirection }) => {
   return (
     <button
