@@ -4,15 +4,20 @@ import SortDropdown from "./SortDropdown";
 import SortDirection from "./SortDirection";
 import { FixedSizeList } from "react-window";
 import RecommendationCard from "./RecommendationCard";
+import { useResizeDetector } from "react-resize-detector";
+
 
 const RecommendationList: React.FC<{
   recs: Recommendation[];
   header: string;
+  columns: number;
+  containerHeight: number;
   options: Record<string, keyof Recommendation>;
-}> = ({ recs, header, options }) => {
+}> = ({ recs, header, columns, containerHeight, options }) => {
   const [localRecs, setLocalRecs] = useState<Recommendation[]>(recs);
   const [sortBy, setSortBy] = useState<string>(Object.keys(options)[0]);
   const [sortAscending, setSortAscending] = useState<boolean>(false);
+  const { width, ref } = useResizeDetector();
 
   useEffect(() => {
     const sortRecommendations = (recs: Recommendation[]) => {
@@ -25,10 +30,10 @@ const RecommendationList: React.FC<{
     };
   
     setLocalRecs(sortRecommendations(recs));
-  }, [recs, sortBy, sortAscending]);  
+  }, [recs, sortBy, sortAscending]);
 
   return (
-    <div>
+    <div ref={ref} className="h-full">
       <div className="flex flex-row justify-between align-top mb-6">
         <p className="text-csub font-bold">{header}</p>
         <div className="flex flex-row gap-x-2">
@@ -45,8 +50,8 @@ const RecommendationList: React.FC<{
       </div>
       <div>
         <FixedSizeList
-          width={800}
-          height={548}
+          width={width ?? 548}
+          height={columns > 1 ? (containerHeight - 59.59) : 548}
           itemCount={localRecs.length}
           itemSize={112}
           overscanCount={3}

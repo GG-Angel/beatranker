@@ -2,52 +2,46 @@ import "./App.css";
 import React, { useEffect, useRef, useState } from "react";
 
 import ResponseJSON from "./assets/documents/response.json";
-import { APIResponse, Recommendation } from "./api/types";
+import { APIResponse } from "./api/types";
 import ProfileSearchBox from "./components/ProfileSearchBox";
-import { FixedSizeList } from "react-window";
-import RecommendationCard from "./components/RecommendationCard";
-import SortDropdown from "./components/SortDropdown";
-import SortDirection from "./components/SortDirection";
 import RecommendationList from "./components/RecommendationList";
 
 function App() {
   const [isLoadingPlayer, setIsLoadingPlayer] = useState<boolean>(false);
   const [data, setData] = useState<APIResponse | null>(null);
-
-  function sortRecommendations(
-    recs: Recommendation[],
-    feature: string,
-    ascending: boolean
-  ) {
-    const conversion: Record<string, keyof Recommendation> = {
-      "PP gained": "weightedPPGain",
-      "PP estimate": "predictedPP",
-      "Acc estimate": "predictedAccuracy",
-      "Current acc": "currentAccuracy",
-      "Current rank": "rank",
-      "Star rating": "starsMod",
-      "Date set": "timePost",
-    };
-    const convertedFeature = conversion[feature];
-
-    return recs.sort((a, b) => {
-      const aValue = a[convertedFeature] ?? 0;
-      const bValue = b[convertedFeature] ?? 0;
-
-      if (typeof aValue !== "number" || typeof bValue !== "number") {
-        throw new Error(
-          `Invalid feature "${convertedFeature}" for sorting: values must be numbers.`
-        );
-      }
-
-      return ascending ? aValue - bValue : bValue - aValue;
-    });
-  }
+  
+  const gridRef = useRef<HTMLDivElement>(null)
+  const [columns, setColumns] = useState(1)
+  const [gridHeight, setGridHeight] = useState(500)
 
   useEffect(() => {
     const data = ResponseJSON as APIResponse;
     setData(data);
   }, []);
+
+  useEffect(() => {
+    const updateGrid = () => {
+      if (gridRef.current) {
+        const computedStyle = window.getComputedStyle(gridRef.current);
+        const columns = computedStyle.gridTemplateColumns;
+        const columnArray = columns.split(' ');
+
+        setColumns(columnArray.length);
+        
+      }
+
+      setGridHeight(window.innerHeight - 253.6)
+    };
+
+    const resizeObserver = new ResizeObserver(updateGrid);
+    if (gridRef.current) {
+      resizeObserver.observe(gridRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [])
 
   const handleSubmitId = (player_id: string) => {
     setIsLoadingPlayer(true);
@@ -80,7 +74,7 @@ function App() {
           </div>
         )}
       </header>
-      <div className="w-full px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
+      <div className="w-full xl:h-full px-16 pb-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
         {!data ? (
           <div className="flex h-full items-center">
             <div className="flex flex-1 flex-col items-center">
@@ -99,7 +93,7 @@ function App() {
             </div>
           </div>
         ) : (
-          <>
+          <div>
             <div className="w-full flex flex-row justify-center items-center gap-x-6">
               <img
                 className={`rounded-full border-tx-light dark:border-tx-dark border-8`}
@@ -117,10 +111,12 @@ function App() {
                 </p>
               </div>
             </div>
-            <div className="w-full xl:h-full grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16 mt-8">
+            <div className="w-full xl:h-[calc(100vh-253.59px)] grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16 mt-8" ref={gridRef}>
               <RecommendationList
                 recs={data.recs.filter(r => r.status === "unplayed")}
                 header="Not Played"
+                columns={columns}
+                containerHeight={gridHeight}
                 options={{
                   "PP gained": "weightedPPGain",
                   "Acc estimate": "predictedAccuracy",
@@ -130,6 +126,8 @@ function App() {
               <RecommendationList
                 recs={data.recs.filter(r => r.status === "played")}
                 header="To Improve"
+                columns={columns}
+                containerHeight={gridHeight}
                 options={{
                   "PP gained": "weightedPPGain",
                   "PP estimate": "predictedPP",
@@ -141,7 +139,7 @@ function App() {
                 }}
               />
             </div>
-          </>
+          </div>
         )}
       </div>
     </>
