@@ -12,18 +12,7 @@ import RecommendationList from "./components/RecommendationList";
 
 function App() {
   const [isLoadingPlayer, setIsLoadingPlayer] = useState<boolean>(false);
-
   const [data, setData] = useState<APIResponse | null>(null);
-
-  const [improveRecs, setImproveRecs] = useState<Recommendation[] | null>(null);
-  const [improveSort, setImproveSort] = useState("PP gained");
-  const [improveAscending, setImproveAscending] = useState(false);
-
-  const [unplayedRecs, setUnplayedRecs] = useState<Recommendation[] | null>(
-    null
-  );
-  const [unplayedSort, setUnplayedSort] = useState("PP gained");
-  const [unplayedAscending, setUnplayedAscending] = useState(false);
 
   function sortRecommendations(
     recs: Recommendation[],
@@ -60,77 +49,11 @@ function App() {
     setData(data);
   }, []);
 
-  useEffect(() => {
-    if (data) {
-      const improve = data.recs.filter((r) => r.status === "played");
-      const unplayed = data.recs.filter((r) => r.status === "unplayed");
-
-      setImproveRecs(improve);
-      setUnplayedRecs(unplayed);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (unplayedRecs) {
-      const sortUnplayed = sortRecommendations(
-        unplayedRecs,
-        unplayedSort,
-        unplayedAscending
-      );
-      setUnplayedRecs(sortUnplayed);
-    }
-  }, [unplayedSort, unplayedAscending]);
-
-  useEffect(() => {
-    if (improveRecs) {
-      const sortImprove = sortRecommendations(
-        improveRecs,
-        improveSort,
-        improveAscending
-      );
-      setUnplayedRecs(sortImprove);
-    }
-  }, [unplayedSort, unplayedAscending]);
-
   const handleSubmitId = (player_id: string) => {
     setIsLoadingPlayer(true);
     setData(ResponseJSON as APIResponse);
     setIsLoadingPlayer(false);
   };
-
-  const gridRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const windowRef = useRef<HTMLDivElement>(null);
-  const [columns, setColumns] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(0);
-  const [windowHeight, setWindowHeight] = useState(0);
-
-  useEffect(() => {
-    const updateColumns = () => {
-      if (gridRef.current) {
-        const computedStyle = window.getComputedStyle(gridRef.current);
-        const columnCount = computedStyle.gridTemplateColumns.split(" ").length;
-        setColumns(columnCount);
-      }
-    };
-
-    const updateSize = () => {
-      if (containerRef.current && windowRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
-        setWindowHeight(windowRef.current.offsetHeight);
-      }
-    };
-
-    updateColumns();
-    updateSize();
-
-    window.addEventListener("resize", updateColumns);
-    window.addEventListener("resize", updateSize);
-    return () => {
-      window.removeEventListener("resize", updateColumns);
-      window.removeEventListener("resize", updateSize);
-    };
-  }, []);
 
   return (
     <>
@@ -157,11 +80,8 @@ function App() {
           </div>
         )}
       </header>
-      <div
-        className="w-full h-full px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark"
-        ref={windowRef}
-      >
-        {data === null && (
+      <div className="w-full px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
+        {!data ? (
           <div className="flex h-full items-center">
             <div className="flex flex-1 flex-col items-center">
               <h1 className="text-ch2 font-extrabold text-center mb-6">
@@ -178,9 +98,8 @@ function App() {
               </div>
             </div>
           </div>
-        )}
-        { (data && improveRecs && unplayedRecs) && (
-          <div className="flex flex-col h-full gap-y-8">
+        ) : (
+          <>
             <div className="w-full flex flex-row justify-center items-center gap-x-6">
               <img
                 className={`rounded-full border-tx-light dark:border-tx-dark border-8`}
@@ -198,22 +117,18 @@ function App() {
                 </p>
               </div>
             </div>
-            <div
-              className="w-full xl:h-full grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16"
-              ref={gridRef}
-            >
+            <div className="w-full xl:h-full grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16 mt-8">
               <RecommendationList
-                recs={improveRecs!}
+                recs={data.recs.filter(r => r.status === "unplayed")}
                 header="Not Played"
                 options={{
                   "PP gained": "weightedPPGain",
-                  "PP estimate": "predictedPP",
                   "Acc estimate": "predictedAccuracy",
                   "Star rating": "starsMod",
                 }}
               />
               <RecommendationList
-                recs={unplayedRecs!}
+                recs={data.recs.filter(r => r.status === "played")}
                 header="To Improve"
                 options={{
                   "PP gained": "weightedPPGain",
@@ -225,47 +140,8 @@ function App() {
                   "Date set": "timePost",
                 }}
               />
-              {/* <div>
-                <div className="flex flex-row justify-between align-top">
-                  <p className="text-csub font-bold mb-6">To Improve</p>
-                  <div className="flex flex-row gap-x-2">
-                    <SortDropdown
-                      options={[
-                        "PP gained",
-                        "PP estimate",
-                        "Acc estimate",
-                        "Current acc",
-                        "Current rank",
-                        "Star rating",
-                        "Date set",
-                      ]}
-                      selected={improveSort}
-                      updateSelection={(option) => setImproveSort(option)}
-                    />
-                    <SortDirection
-                      ascending={improveAscending}
-                      updateDirection={() =>
-                        setImproveAscending(!improveAscending)
-                      }
-                    />
-                  </div>
-                </div>
-                <FixedSizeList
-                  width={containerWidth}
-                  height={columns > 1 ? windowHeight - 248.4 : 548}
-                  itemCount={improveRecs?.length || 0}
-                  itemSize={112}
-                  overscanCount={3}
-                >
-                  {({ index, style }) => (
-                    <div style={style}>
-                      <RecommendationCard rec={improveRecs![index]} />
-                    </div>
-                  )}
-                </FixedSizeList>
-              </div> */}
             </div>
-          </div>
+          </>
         )}
       </div>
     </>

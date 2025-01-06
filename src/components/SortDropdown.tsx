@@ -15,8 +15,7 @@ const SortDropdown: React.FC<{
 
   return (
     <div
-      className="w-[200px] font-geist font-medium text-tx-light dark:text-tx-dark"
-      // onBlur={() => setIsOpened(false)}
+      className="w-[180px] font-geist font-medium text-tx-light dark:text-tx-dark"
     >
       <button
         className={`w-full flex flex-row justify-between items-center px-4 py-1 space-x-3 rounded-t-lg bg-card-light dark:bg-card-dark border-b-2 hover:border-active-light dark:hover:border-active-dark ${
@@ -35,7 +34,7 @@ const SortDropdown: React.FC<{
         />
       </button>
       {isOpened && (
-        <div className="absolute w-[200px] z-50 bg-bg-light dark:bg-card-dark rounded-b-lg shadow-md">
+        <div className="absolute w-[180px] z-50 bg-bg-light dark:bg-card-dark rounded-b-lg shadow-md">
           {options
             .filter((o) => o !== selected)
             .map((option, index) => (
@@ -44,6 +43,7 @@ const SortDropdown: React.FC<{
                   index === options.length - 2 && "rounded-b-lg"
                 }`}
                 onClick={() => handleSelect(option)}
+                key={index}
               >
                 {option}
               </button>

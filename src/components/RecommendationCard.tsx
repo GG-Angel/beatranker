@@ -1,6 +1,6 @@
 import { Icons } from "../../constants";
 import { Recommendation } from "../api/types";
-import { renderDecimal, renderTime } from "../api/utils";
+import { renderCommas, renderDecimal, renderTime } from "../api/utils";
 
 const DifficultyBGColor: { [key: string]: string } = {
   ExpertPlus: "bg-diff-expertplus",
@@ -19,7 +19,6 @@ const DifficultyTextColor: { [key: string]: string } = {
 };
 
 const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
-  console.log(rec.currentMods);
   return (
     <div className="flex flex-row w-full bg-card-light dark:bg-card-dark rounded-r-lg">
       <div
@@ -52,7 +51,7 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
                 {rec.currentMods && (
                   <>
                     <span className="text-tx-alt">(</span>
-                    <span>{rec.currentMods}</span>
+                    <span>{renderCommas(rec.currentMods)}</span>
                     <span className="text-tx-alt">) </span>
                   </>
                 )}
@@ -72,7 +71,7 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
               {rec.predictedMods && (
                 <>
                   <span className="text-tx-alt"> (</span>
-                  {rec.predictedMods}
+                  {renderCommas(rec.predictedMods)}
                   <span className="text-tx-alt">)</span>
                 </>
               )}
@@ -80,12 +79,21 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
             <p>
               {renderDecimal(rec.predictedPP)}
               <span className="text-tx-alt">pp </span>
-              <span
-                className="text-green-light dark:text-green-dark"
-                title="Total (Weighted) PP Added to Your Rank"
-              >
-                (+{renderDecimal(rec.weightedPPGain)})
-              </span>
+              {rec.weightedPPGain > 0 ? (
+                <span
+                  className="text-green-light dark:text-green-dark"
+                  title="Total (Weighted) PP Added to Your Rank"
+                >
+                  (+{renderDecimal(rec.weightedPPGain)})
+                </span>
+              ) : (
+                <span
+                  className="text-tx-alt"
+                  title="Total (Weighted) PP Added to Your Rank"
+                >
+                  (0.00)
+                </span>
+              )}
             </p>
           </div>
           <div>
