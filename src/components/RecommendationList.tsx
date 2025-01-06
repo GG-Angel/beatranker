@@ -1,19 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Recommendation } from "../api/types";
 import SortDropdown from "./SortDropdown";
 import SortDirection from "./SortDirection";
 import { FixedSizeList } from "react-window";
 import RecommendationCard from "./RecommendationCard";
-import { useResizeDetector } from "react-resize-detector";
-
 
 const RecommendationList: React.FC<{
   recs: Recommendation[];
   options: Record<string, keyof Recommendation>;
   header: string;
   columns: number;
-  containerHeight: number;
-}> = ({ recs, options, header, columns, containerHeight }) => {
+}> = ({ recs, options, header, columns }) => {
   const [localRecs, setLocalRecs] = useState<Recommendation[]>(recs);
   const [sortBy, setSortBy] = useState<string>(Object.keys(options)[0]);
   const [sortAscending, setSortAscending] = useState<boolean>(false);
@@ -49,7 +46,7 @@ const RecommendationList: React.FC<{
       </div>
       <FixedSizeList
         width="100%"
-        height={columns > 1 ? containerHeight - 59.2 : 560}
+        height={columns > 1 ? window.innerHeight - 320 : 560}
         itemCount={localRecs.length}
         itemSize={112}
         overscanCount={3}
