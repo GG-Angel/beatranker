@@ -7,3 +7,7 @@ export function renderTime(seconds: number): string {
 export function renderDecimal(num: number): string {
   return num.toFixed(2);
 }
+
+export function renderCommas(arr: any[]): string {
+  return arr.join(", ");
+}

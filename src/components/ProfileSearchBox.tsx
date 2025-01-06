@@ -1,4 +1,4 @@
-import React, { Component, CSSProperties, useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { Icons, Images } from "../../constants";
 import { ClipLoader } from "react-spinners";
 
