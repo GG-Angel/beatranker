@@ -25,26 +25,22 @@ function App() {
         const computedStyle = window.getComputedStyle(gridRef.current);
         const columns = computedStyle.gridTemplateColumns;
         const columnArray = columns.split(' ');
-  
+
         setColumns(columnArray.length);
       }
-  
-      setGridHeight(window.innerHeight - 253.6);
+
+      setGridHeight(window.innerHeight - 253.6)
     };
-  
-    // Recalculate grid height after initial render
-    const timeoutId = setTimeout(updateGrid, 0);
-  
+
     const resizeObserver = new ResizeObserver(updateGrid);
     if (gridRef.current) {
       resizeObserver.observe(gridRef.current);
     }
-  
+
     return () => {
-      clearTimeout(timeoutId);
       resizeObserver.disconnect();
     };
-  }, []);
+  }, [])
 
   const handleSubmitId = (player_id: string) => {
     setIsLoadingPlayer(true);
@@ -53,31 +49,8 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col w-full xl:h-full font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
-      <header className="sticky top-0 z-50 flex justify-between px-16 py-8 bg-bg-light dark:bg-bg-dark">
-        <div className="flex flex-row gap-x-8">
-          {data && (
-            <>
-              <button
-                className="bg-transparent border-none focus:outline-none p-0 hover:underline"
-                onClick={() => setData(null)}
-              >
-                <p>Home</p>
-              </button>
-              <button className="bg-transparent border-none focus:outline-none p-0 hover:underline">
-                <p>Refresh</p>
-              </button>
-            </>
-          )}
-          <p>Help</p>
-        </div>
-        {data && (
-          <div className="flex flex-row gap-x-8">
-            <p>Modifiers</p>
-          </div>
-        )}
-      </header>
-      <div className="flex flex-col w-full h-full px-16 pb-8 gap-y-8">
+    <div className="w-full xl:h-full font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
+      <div className="flex flex-col w-full h-full px-16 py-8 gap-y-8">
         { data && (
           <>
             <div className="flex flex-row justify-center items-center gap-x-8">
@@ -130,27 +103,27 @@ function App() {
   // return (
   //   <>
   //     <header className="sticky top-0 z-50 flex justify-between px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
-        // <div className="flex flex-row gap-x-8">
-        //   {data && (
-        //     <>
-        //       <button
-        //         className="bg-transparent border-none focus:outline-none p-0 hover:underline"
-        //         onClick={() => setData(null)}
-        //       >
-        //         <p>Home</p>
-        //       </button>
-        //       <button className="bg-transparent border-none focus:outline-none p-0 hover:underline">
-        //         <p>Refresh</p>
-        //       </button>
-        //     </>
-        //   )}
-        //   <p>Help</p>
-        // </div>
-        // {data && (
-        //   <div className="flex flex-row gap-x-8">
-        //     <p>Modifiers</p>
-        //   </div>
-        // )}
+  //       <div className="flex flex-row gap-x-8">
+  //         {data && (
+  //           <>
+  //             <button
+  //               className="bg-transparent border-none focus:outline-none p-0 hover:underline"
+  //               onClick={() => setData(null)}
+  //             >
+  //               <p>Home</p>
+  //             </button>
+  //             <button className="bg-transparent border-none focus:outline-none p-0 hover:underline">
+  //               <p>Refresh</p>
+  //             </button>
+  //           </>
+  //         )}
+  //         <p>Help</p>
+  //       </div>
+  //       {data && (
+  //         <div className="flex flex-row gap-x-8">
+  //           <p>Modifiers</p>
+  //         </div>
+  //       )}
   //     </header>
   //     <div className="w-full xl:h-full px-16 pb-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
   //       {!data ? (

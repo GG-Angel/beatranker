@@ -9,15 +9,14 @@ import { useResizeDetector } from "react-resize-detector";
 
 const RecommendationList: React.FC<{
   recs: Recommendation[];
+  options: Record<string, keyof Recommendation>;
   header: string;
   columns: number;
   containerHeight: number;
-  options: Record<string, keyof Recommendation>;
-}> = ({ recs, header, columns, containerHeight, options }) => {
+}> = ({ recs, options, header, columns, containerHeight }) => {
   const [localRecs, setLocalRecs] = useState<Recommendation[]>(recs);
   const [sortBy, setSortBy] = useState<string>(Object.keys(options)[0]);
   const [sortAscending, setSortAscending] = useState<boolean>(false);
-  const { width, ref } = useResizeDetector();
 
   useEffect(() => {
     const sortRecommendations = (recs: Recommendation[]) => {
@@ -33,7 +32,7 @@ const RecommendationList: React.FC<{
   }, [recs, sortBy, sortAscending]);
 
   return (
-    <div ref={ref} className="h-full">
+    <div>
       <div className="flex flex-row justify-between align-top mb-6">
         <p className="text-csub font-bold">{header}</p>
         <div className="flex flex-row gap-x-2">
@@ -48,21 +47,19 @@ const RecommendationList: React.FC<{
           />
         </div>
       </div>
-      <div>
-        <FixedSizeList
-          width={width ?? 548}
-          height={columns > 1 ? (containerHeight - 59.59) : 548}
-          itemCount={localRecs.length}
-          itemSize={112}
-          overscanCount={3}
-        >
-          {({ index, style }) => (
-            <div style={style}>
-              <RecommendationCard rec={localRecs[index]} />
-            </div>
-          )}
-        </FixedSizeList>
-      </div>
+      <FixedSizeList
+        width="100%"
+        height={columns > 1 ? containerHeight - 59.2 : 560}
+        itemCount={localRecs.length}
+        itemSize={112}
+        overscanCount={3}
+      >
+        {({ index, style }) => (
+          <div style={style}>
+            <RecommendationCard rec={localRecs[index]} />
+          </div>
+        )}
+      </FixedSizeList>
     </div>
   );
 };
