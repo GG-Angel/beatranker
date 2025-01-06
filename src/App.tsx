@@ -8,47 +8,89 @@ import { FixedSizeList } from "react-window";
 import RecommendationCard from "./components/RecommendationCard";
 import SortDropdown from "./components/SortDropdown";
 import SortDirection from "./components/SortDirection";
+import RecommendationList from "./components/RecommendationList";
 
 function App() {
   const [isLoadingPlayer, setIsLoadingPlayer] = useState<boolean>(false);
 
   const [data, setData] = useState<APIResponse | null>(null);
+
   const [improveRecs, setImproveRecs] = useState<Recommendation[] | null>(null);
+  const [improveSort, setImproveSort] = useState("PP gained");
+  const [improveAscending, setImproveAscending] = useState(false);
+
   const [unplayedRecs, setUnplayedRecs] = useState<Recommendation[] | null>(
     null
   );
+  const [unplayedSort, setUnplayedSort] = useState("PP gained");
+  const [unplayedAscending, setUnplayedAscending] = useState(false);
 
-  function sortRecommendations(recs: Recommendation[], feature: string, direction: "asc" | "desc") {
-    const conversion: { [key: string]: string } = {
+  function sortRecommendations(
+    recs: Recommendation[],
+    feature: string,
+    ascending: boolean
+  ) {
+    const conversion: Record<string, keyof Recommendation> = {
       "PP gained": "weightedPPGain",
-      "Current acc.": "currentAccuracy",
+      "PP estimate": "predictedPP",
+      "Acc estimate": "predictedAccuracy",
+      "Current acc": "currentAccuracy",
       "Current rank": "rank",
-      "Stars": "starsMod",
-      "Date set": "timePost"
-    }
-    const convertedFeature = conversion[feature]
-    
+      "Star rating": "starsMod",
+      "Date set": "timePost",
+    };
+    const convertedFeature = conversion[feature];
+
     return recs.sort((a, b) => {
-      if (direction === "asc") {
-        return a[convertedFeature] - b[convertedFeature]
-      } else {
-        return b[convertedFeature] - a[convertedFeature]
+      const aValue = a[convertedFeature] ?? 0;
+      const bValue = b[convertedFeature] ?? 0;
+
+      if (typeof aValue !== "number" || typeof bValue !== "number") {
+        throw new Error(
+          `Invalid feature "${convertedFeature}" for sorting: values must be numbers.`
+        );
       }
-    })
+
+      return ascending ? aValue - bValue : bValue - aValue;
+    });
   }
 
   useEffect(() => {
-    if (ResponseJSON) {
-      const data = ResponseJSON as APIResponse;
+    const data = ResponseJSON as APIResponse;
+    setData(data);
+  }, []);
 
+  useEffect(() => {
+    if (data) {
       const improve = data.recs.filter((r) => r.status === "played");
       const unplayed = data.recs.filter((r) => r.status === "unplayed");
 
-      setData(data);
-      setImproveRecs(sortRecommendations(improve, "Stars", "desc"));
+      setImproveRecs(improve);
       setUnplayedRecs(unplayed);
     }
-  }, [ResponseJSON]);
+  }, [data]);
+
+  useEffect(() => {
+    if (unplayedRecs) {
+      const sortUnplayed = sortRecommendations(
+        unplayedRecs,
+        unplayedSort,
+        unplayedAscending
+      );
+      setUnplayedRecs(sortUnplayed);
+    }
+  }, [unplayedSort, unplayedAscending]);
+
+  useEffect(() => {
+    if (improveRecs) {
+      const sortImprove = sortRecommendations(
+        improveRecs,
+        improveSort,
+        improveAscending
+      );
+      setUnplayedRecs(sortImprove);
+    }
+  }, [unplayedSort, unplayedAscending]);
 
   const handleSubmitId = (player_id: string) => {
     setIsLoadingPlayer(true);
@@ -116,10 +158,10 @@ function App() {
         )}
       </header>
       <div
-        className={`w-full h-screen px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark`}
+        className="w-full h-full px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark"
         ref={windowRef}
       >
-        {data === null ? (
+        {data === null && (
           <div className="flex h-full items-center">
             <div className="flex flex-1 flex-col items-center">
               <h1 className="text-ch2 font-extrabold text-center mb-6">
@@ -136,7 +178,8 @@ function App() {
               </div>
             </div>
           </div>
-        ) : (
+        )}
+        { (data && improveRecs && unplayedRecs) && (
           <div className="flex flex-col h-full gap-y-8">
             <div className="w-full flex flex-row justify-center items-center gap-x-6">
               <img
@@ -159,44 +202,54 @@ function App() {
               className="w-full xl:h-full grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16"
               ref={gridRef}
             >
-              <div ref={containerRef}>
+              <RecommendationList
+                recs={improveRecs!}
+                header="Not Played"
+                options={{
+                  "PP gained": "weightedPPGain",
+                  "PP estimate": "predictedPP",
+                  "Acc estimate": "predictedAccuracy",
+                  "Star rating": "starsMod",
+                }}
+              />
+              <RecommendationList
+                recs={unplayedRecs!}
+                header="To Improve"
+                options={{
+                  "PP gained": "weightedPPGain",
+                  "PP estimate": "predictedPP",
+                  "Acc estimate": "predictedAccuracy",
+                  "Current acc": "currentAccuracy",
+                  "Current rank": "rank",
+                  "Star rating": "starsMod",
+                  "Date set": "timePost",
+                }}
+              />
+              {/* <div>
                 <div className="flex flex-row justify-between align-top">
-                  <p className="text-csub font-bold mb-6">Not Played</p>
+                  <p className="text-csub font-bold mb-6">To Improve</p>
                   <div className="flex flex-row gap-x-2">
                     <SortDropdown
                       options={[
                         "PP gained",
-                        "Unweighted pp",
-                        "Current acc.",
+                        "PP estimate",
+                        "Acc estimate",
+                        "Current acc",
                         "Current rank",
-                        "Stars",
+                        "Star rating",
                         "Date set",
                       ]}
-                      selected="PP gained"
-                      updateSelection={(option) => {}}
+                      selected={improveSort}
+                      updateSelection={(option) => setImproveSort(option)}
                     />
                     <SortDirection
-                      direction="desc"
-                      updateDirection={() => {}}
+                      ascending={improveAscending}
+                      updateDirection={() =>
+                        setImproveAscending(!improveAscending)
+                      }
                     />
                   </div>
                 </div>
-                <FixedSizeList
-                  width={containerWidth}
-                  height={columns > 1 ? windowHeight - 248.4 : 548}
-                  itemCount={unplayedRecs?.length || 0}
-                  itemSize={112}
-                  overscanCount={3}
-                >
-                  {({ index, style }) => (
-                    <div style={style}>
-                      <RecommendationCard rec={unplayedRecs![index]} />
-                    </div>
-                  )}
-                </FixedSizeList>
-              </div>
-              <div>
-                <p className="text-csub font-bold mb-6">To Improve</p>
                 <FixedSizeList
                   width={containerWidth}
                   height={columns > 1 ? windowHeight - 248.4 : 548}
@@ -210,7 +263,7 @@ function App() {
                     </div>
                   )}
                 </FixedSizeList>
-              </div>
+              </div> */}
             </div>
           </div>
         )}
