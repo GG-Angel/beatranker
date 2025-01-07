@@ -34,7 +34,7 @@ const SortDropdown: React.FC<{
         />
       </button>
       {isOpened && (
-        <div className="absolute w-[180px] z-50 bg-bg-light dark:bg-card-dark rounded-b-lg shadow-md">
+        <div className="absolute w-[180px] z-10 bg-card-light dark:bg-card-dark rounded-b-lg shadow-lg shadow-bg-light dark:shadow-bg-dark">
           {options
             .filter((o) => o !== selected)
             .map((option, index) => (

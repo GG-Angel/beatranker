@@ -5,6 +5,7 @@ import ResponseJSON from "./assets/documents/response.json";
 import { APIResponse } from "./api/types";
 import RecommendationList from "./components/RecommendationList";
 import ProfileSearchBox from "./components/ProfileSearchBox";
+import ModifiersDropdown from "./components/ModifiersDropdown";
 
 function App() {
   const [isLoadingPlayer, setIsLoadingPlayer] = useState<boolean>(false);
@@ -13,10 +14,10 @@ function App() {
   const gridRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(2);
 
-  // useEffect(() => {
-  //   const data = ResponseJSON as APIResponse;
-  //   setData(data);
-  // }, []);
+  useEffect(() => {
+    const data = ResponseJSON as APIResponse;
+    setData(data);
+  }, []);
 
   useEffect(() => {
     const updateGrid = () => {
@@ -52,24 +53,13 @@ function App() {
         <div className="flex flex-row gap-x-8">
           {data && (
             <>
-              <button
-                className="bg-transparent border-none focus:outline-none p-0 hover:underline"
-                onClick={() => setData(null)}
-              >
-                <p>Home</p>
-              </button>
-              <button className="bg-transparent border-none focus:outline-none p-0 hover:underline">
-                <p>Refresh</p>
-              </button>
+              <button onClick={() => setData(null)}>Home</button>
+              <button>Refresh</button>
+              <ModifiersDropdown modifiers={["SF", "NO"]} />
             </>
           )}
-          <p>Help</p>
         </div>
-        {data && (
-          <div className="flex flex-row gap-x-8">
-            <p>Modifiers</p>
-          </div>
-        )}
+        <button>Help</button>
       </header>
       <div className="flex flex-col w-full h-full px-16 pb-8 gap-y-8">
         {!data && (
@@ -129,7 +119,7 @@ function App() {
                 columns={columns}
                 options={{
                   "PP gained": "weightedPPGain",
-                  "PP estimate": "predictedPP",
+                  "Unweighted PP": "predictedPP",
                   "Acc estimate": "predictedAccuracy",
                   "Current acc": "currentAccuracy",
                   "Current rank": "rank",
