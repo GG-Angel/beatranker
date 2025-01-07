@@ -5,14 +5,22 @@ import ResponseJSON from "./assets/documents/response.json";
 import { APIResponse } from "./api/types";
 import RecommendationList from "./components/RecommendationList";
 import ProfileSearchBox from "./components/ProfileSearchBox";
-import ModifiersDropdown from "./components/ModifiersDropdown";
+import ModifiersMenu from "./components/ModifiersMenu";
 
 function App() {
-  const [isLoadingPlayer, setIsLoadingPlayer] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<APIResponse | null>(null);
+  const [modifiers, setModifiers] = useState<string[]>([]);
 
   const gridRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(2);
+
+  const updateModifier = (mod: string) =>
+    setModifiers(
+      modifiers.includes(mod)
+        ? modifiers.filter((m) => m !== mod)
+        : [...modifiers, mod]
+    );
 
   useEffect(() => {
     const data = ResponseJSON as APIResponse;
@@ -38,9 +46,9 @@ function App() {
   }, []);
 
   const handleSubmitId = (player_id: string) => {
-    setIsLoadingPlayer(true);
+    setIsLoading(true);
     setData(ResponseJSON as APIResponse);
-    setIsLoadingPlayer(false);
+    setIsLoading(false);
   };
 
   return (
@@ -55,7 +63,10 @@ function App() {
             <>
               <button onClick={() => setData(null)}>Home</button>
               <button>Refresh</button>
-              <ModifiersDropdown modifiers={["SF", "NO"]} />
+              <ModifiersMenu
+                modifiers={modifiers}
+                updateModifier={updateModifier}
+              />
             </>
           )}
         </div>
@@ -71,9 +82,9 @@ function App() {
               <div className="w-full max-w-[648px]">
                 <ProfileSearchBox
                   handleSubmit={handleSubmitId}
-                  isLoading={isLoadingPlayer}
+                  isLoading={isLoading}
                 />
-                {isLoadingPlayer && (
+                {isLoading && (
                   <p className="text-left mt-2">Predicting scores...</p>
                 )}
               </div>
