@@ -6,6 +6,7 @@ import { APIResponse } from "./api/types";
 import RecommendationList from "./components/RecommendationList";
 import ProfileSearchBox from "./components/ProfileSearchBox";
 import ModifiersMenu from "./components/ModifiersMenu";
+import { getFlagWidth } from "./api/utils";
 
 function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -100,7 +101,13 @@ function App() {
                 className="rounded-full border-tx-light dark:border-tx-dark border-8"
               />
               <div>
-                <h2 className="text-csub font-bold">{data?.profile.alias}</h2>
+                <div className="flex flex-row gap-x-2 items-center">
+                  <img 
+                    src={`https://flagcdn.com/${data.profile.country.toLowerCase()}.svg`}
+                    width={getFlagWidth(data.profile.country)}
+                  />
+                  <h2 className="text-csub font-bold">{data?.profile.alias}</h2>
+                </div>
                 <p>
                   <span className="text-tx-alt">#</span>
                   {data?.profile.rank}
