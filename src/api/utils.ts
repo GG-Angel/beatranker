@@ -11,3 +11,13 @@ export function renderDecimal(num: number): string {
 export function renderCommas(arr: any[]): string {
   return arr.join(", ");
 }
+
+export function getFlagWidth(country: string): number {
+  const nonRectangular: Record<string, number> = {
+    CH: 20,
+    VA: 20,
+    NP: 16,
+  };
+
+  return nonRectangular[country] ?? 36;
+}

@@ -5,18 +5,22 @@ import ResponseJSON from "./assets/documents/response.json";
 import { APIResponse } from "./api/types";
 import RecommendationList from "./components/RecommendationList";
 import ProfileSearchBox from "./components/ProfileSearchBox";
+import ModifiersMenu from "./components/ModifiersMenu";
+import { getFlagWidth } from "./api/utils";
+import axios from "axios";
 
 function App() {
-  const [isLoadingPlayer, setIsLoadingPlayer] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<APIResponse | null>(null);
+  const [modifiers, setModifiers] = useState<string[]>([]);
 
   const gridRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(2);
 
-  // useEffect(() => {
-  //   const data = ResponseJSON as APIResponse;
-  //   setData(data);
-  // }, []);
+  useEffect(() => {
+    const data = ResponseJSON as APIResponse;
+    setData(data);
+  }, []);
 
   useEffect(() => {
     const updateGrid = () => {
@@ -36,11 +40,20 @@ function App() {
     };
   }, []);
 
-  const handleSubmitId = (player_id: string) => {
-    setIsLoadingPlayer(true);
-    setData(ResponseJSON as APIResponse);
-    setIsLoadingPlayer(false);
-  };
+  const refreshData = async () => {
+
+  }
+
+  const refreshModifiers = async () => {
+
+  }
+
+  const updateModifier = (mod: string) =>
+    setModifiers(
+      modifiers.includes(mod)
+        ? modifiers.filter((m) => m !== mod)
+        : [...modifiers, mod]
+    );
 
   return (
     <div
@@ -52,40 +65,26 @@ function App() {
         <div className="flex flex-row gap-x-8">
           {data && (
             <>
-              <button
-                className="bg-transparent border-none focus:outline-none p-0 hover:underline"
-                onClick={() => setData(null)}
-              >
-                <p>Home</p>
-              </button>
-              <button className="bg-transparent border-none focus:outline-none p-0 hover:underline">
-                <p>Refresh</p>
-              </button>
+              <button onClick={() => setData(null)}>Home</button>
+              <button onClick={() => refreshData()}>Refresh</button>
+              <ModifiersMenu
+                modifiers={modifiers}
+                updateModifier={updateModifier}
+              />
             </>
           )}
-          <p>Help</p>
         </div>
-        {data && (
-          <div className="flex flex-row gap-x-8">
-            <p>Modifiers</p>
-          </div>
-        )}
+        <button>Help</button>
       </header>
       <div className="flex flex-col w-full h-full px-16 pb-8 gap-y-8">
         {!data && (
           <div className="flex h-full items-center">
             <div className="flex flex-1 flex-col items-center">
               <h1 className="text-ch2 font-extrabold text-center mb-6">
-                PPFinder
+                BeatRanker
               </h1>
               <div className="w-full max-w-[648px]">
-                <ProfileSearchBox
-                  handleSubmit={handleSubmitId}
-                  isLoading={isLoadingPlayer}
-                />
-                {isLoadingPlayer && (
-                  <p className="text-left mt-2">Predicting scores...</p>
-                )}
+                <ProfileSearchBox updateData={(player_data) => setData(player_data)} />
               </div>
             </div>
           </div>
@@ -99,7 +98,13 @@ function App() {
                 className="rounded-full border-tx-light dark:border-tx-dark border-8"
               />
               <div>
-                <h2 className="text-csub font-bold">{data?.profile.alias}</h2>
+                <div className="flex flex-row gap-x-2 items-center">
+                  <img
+                    src={`https://flagcdn.com/${data.profile.country.toLowerCase()}.svg`}
+                    width={getFlagWidth(data.profile.country)}
+                  />
+                  <h2 className="text-csub font-bold">{data?.profile.alias}</h2>
+                </div>
                 <p>
                   <span className="text-tx-alt">#</span>
                   {data?.profile.rank}
@@ -129,7 +134,7 @@ function App() {
                 columns={columns}
                 options={{
                   "PP gained": "weightedPPGain",
-                  "PP estimate": "predictedPP",
+                  "Unweighted PP": "predictedPP",
                   "Acc estimate": "predictedAccuracy",
                   "Current acc": "currentAccuracy",
                   "Current rank": "rank",
@@ -143,102 +148,6 @@ function App() {
       </div>
     </div>
   );
-
-  // return (
-  //   <>
-  //     <header className="sticky top-0 z-50 flex justify-between px-16 py-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
-  // <div className="flex flex-row gap-x-8">
-  //   {data && (
-  //     <>
-  //       <button
-  //         className="bg-transparent border-none focus:outline-none p-0 hover:underline"
-  //         onClick={() => setData(null)}
-  //       >
-  //         <p>Home</p>
-  //       </button>
-  //       <button className="bg-transparent border-none focus:outline-none p-0 hover:underline">
-  //         <p>Refresh</p>
-  //       </button>
-  //     </>
-  //   )}
-  //   <p>Help</p>
-  // </div>
-  // {data && (
-  //   <div className="flex flex-row gap-x-8">
-  //     <p>Modifiers</p>
-  //   </div>
-  // )}
-  //     </header>
-  //     <div className="w-full xl:h-full px-16 pb-8 font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark">
-  //       {!data ? (
-  // <div className="flex h-full items-center">
-  //   <div className="flex flex-1 flex-col items-center">
-  //     <h1 className="text-ch2 font-extrabold text-center mb-6">
-  //       where's my peepee?? 🤪
-  //     </h1>
-  //     <div className="w-full max-w-[648px]">
-  //       <ProfileSearchBox
-  //         handleSubmit={handleSubmitId}
-  //         isLoading={isLoadingPlayer}
-  //       />
-  //       {isLoadingPlayer && (
-  //         <p className="text-left mt-2">Predicting scores...</p>
-  //       )}
-  //     </div>
-  //   </div>
-  // </div>
-  //       ) : (
-  //         <div>
-  //           <div className="w-full flex flex-row justify-center items-center gap-x-6">
-  //             <img
-  //               className={`rounded-full border-tx-light dark:border-tx-dark border-8`}
-  //               src={data.profile.avatar}
-  //               width={100}
-  //             />
-  //             <div>
-  //               <h2 className="text-csub font-bold">{data.profile.alias}</h2>
-  //               <p>
-  //                 <span className="text-tx-alt">#</span>
-  //                 {data.profile.rank}
-  //                 <span className="text-tx-alt"> - </span>
-  //                 {data.profile.pp}
-  //                 <span className="text-tx-alt">pp</span>
-  //               </p>
-  //             </div>
-  //           </div>
-  //           <div className="w-full xl:h-[calc(100vh-253.59px)] grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16 mt-8" ref={gridRef}>
-  // <RecommendationList
-  //   recs={data.recs.filter(r => r.status === "unplayed")}
-  //   header="Not Played"
-  //   columns={columns}
-  //   containerHeight={gridHeight}
-  //   options={{
-  //     "PP gained": "weightedPPGain",
-  //     "Acc estimate": "predictedAccuracy",
-  //     "Star rating": "starsMod",
-  //   }}
-  // />
-  // <RecommendationList
-  //   recs={data.recs.filter(r => r.status === "played")}
-  //   header="To Improve"
-  //   columns={columns}
-  //   containerHeight={gridHeight}
-  //   options={{
-  //     "PP gained": "weightedPPGain",
-  //     "PP estimate": "predictedPP",
-  //     "Acc estimate": "predictedAccuracy",
-  //     "Current acc": "currentAccuracy",
-  //     "Current rank": "rank",
-  //     "Star rating": "starsMod",
-  //     "Date set": "timePost",
-  //   }}
-  //             />
-  //           </div>
-  //         </div>
-  //       )}
-  //     </div>
-  //   </>
-  // );
 }
 
 export default App;

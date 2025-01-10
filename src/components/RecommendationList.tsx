@@ -30,7 +30,7 @@ const RecommendationList: React.FC<{
 
   return (
     <div>
-      <div className="flex flex-row justify-between align-top mb-6">
+      <div className="flex flex-row justify-between items-start mb-6">
         <p className="text-csub font-bold">{header}</p>
         <div className="flex flex-row gap-x-2">
           <SortDropdown
