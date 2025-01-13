@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { renderCommas } from "../api/utils";
 import { APIResponse } from "../api/types";
+import { Icons } from "../../constants";
 
 const info = {
   SF: {
@@ -72,7 +73,7 @@ const ModifiersMenu: React.FC<{
         )}
       </button>
       {isOpened && (
-        <div className="fixed top-16 w-[256px] flex flex-col z-10 mt-2 rounded-lg shadow-xl bg-card-light dark:bg-card-dark shadow-bg-light dark:shadow-bg-dark">
+        <div className="fixed top-16 w-[256px] flex flex-col z-10 rounded-lg shadow-xl bg-card-light dark:bg-card-dark shadow-bg-light dark:shadow-bg-dark">
           {allMods.map((mod, index) => {
             const disabled =
               conflictingMods.includes(mod) &&
@@ -110,6 +111,10 @@ const ModifiersMenu: React.FC<{
               </button>
             );
           })}
+          <button className={`flex flex-row gap-x-2 items-center justify-center px-4 py-2 rounded-b-lg text-tx-dark bg-green-dark dark:bg-green-light ${tempMods.length == 0 ? "grayscale opacity-40" : "hover:opacity-80 active:opacity-60"}`}>
+            Apply Mods
+            <img src={Icons.check} />
+          </button>
         </div>
       )}
     </div>

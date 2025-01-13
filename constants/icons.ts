@@ -8,7 +8,8 @@ import timer from "../assets/icons/timer.svg";
 import home from "../assets/icons/home.svg";
 import refresh from "../assets/icons/refresh.svg";
 import arrow from "../assets/icons/arrow.svg";
-import dropdown from "../assets/icons/dropdown.svg"; 
+import dropdown from "../assets/icons/dropdown.svg";
+import check from "../assets/icons/check.svg"; 
 
 export default {
   beatsaver,
@@ -21,5 +22,6 @@ export default {
   home,
   refresh,
   arrow,
-  dropdown
+  dropdown,
+  check
 }
