@@ -11,12 +11,13 @@ const conversion = {
   NA: "No Arrows",
 };
 
+const conflictingMods = ["SF", "FS", "SS"];
+
 const ModifiersMenu: React.FC<{
   modifiers: string[];
   updateModifier: (mod: string) => void;
 }> = ({ modifiers, updateModifier }) => {
   const [isOpened, setIsOpened] = useState(false);
-  const speedMods = ["SF", "FS", "SS"];
 
   return (
     <div className="font-geist font-medium text-cbody text-tx-light dark:text-tx-dark">
@@ -30,8 +31,8 @@ const ModifiersMenu: React.FC<{
         <div className="absolute w-[180px] flex flex-col z-10 mt-2 rounded-lg shadow-xl shadow-bg-light dark:shadow-bg-dark">
           {Object.keys(conversion).map((mod, index) => {
             const disabled =
-              speedMods.includes(mod) &&
-              modifiers.some((m) => speedMods.includes(m) && m !== mod);
+              conflictingMods.includes(mod) &&
+              modifiers.some((m) => conflictingMods.includes(m) && m !== mod);
             return (
               <button
                 className={`w-full px-4 py-1 bg-transparent text-left ${

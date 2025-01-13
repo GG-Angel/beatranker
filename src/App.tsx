@@ -8,6 +8,8 @@ import ProfileSearchBox from "./components/ProfileSearchBox";
 import ModifiersMenu from "./components/ModifiersMenu";
 import { getFlagWidth } from "./api/utils";
 import axios from "axios";
+import { ClipLoader } from "react-spinners";
+import { LoadingSpinner } from "./components/LoadingSpinner";
 
 function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -41,12 +43,24 @@ function App() {
   }, []);
 
   const refreshData = async () => {
+    if (data) {
+      setIsLoading(true)
+      try {
+        const resp = await axios.get(`http://127.0.0.1:8000/recommendations/${data?.profile.id}`)
+        const player_data = resp.data
+        setData(player_data)
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
 
-  }
+        } else {
 
-  const refreshModifiers = async () => {
+        }
+      }
+      setIsLoading(false)
+    }
+  };
 
-  }
+  const refreshModifiers = async () => {};
 
   const updateModifier = (mod: string) =>
     setModifiers(
@@ -66,7 +80,14 @@ function App() {
           {data && (
             <>
               <button onClick={() => setData(null)}>Home</button>
-              <button onClick={() => refreshData()}>Refresh</button>
+              <div className="flex flex-col items-center">
+                <button onClick={() => refreshData()} disabled={isLoading}>
+                  Refresh
+                </button>
+                { isLoading && 
+                  <LoadingSpinner style="fixed top-16 z-10" />
+                }
+              </div>
               <ModifiersMenu
                 modifiers={modifiers}
                 updateModifier={updateModifier}
@@ -84,7 +105,9 @@ function App() {
                 BeatRanker
               </h1>
               <div className="w-full max-w-[648px]">
-                <ProfileSearchBox updateData={(player_data) => setData(player_data)} />
+                <ProfileSearchBox
+                  updateData={(player_data) => setData(player_data)}
+                />
               </div>
             </div>
           </div>
