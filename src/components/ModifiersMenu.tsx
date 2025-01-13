@@ -40,9 +40,7 @@ const info = {
     change: -30,
   },
 };
-
 const conflictingMods = ["SF", "FS", "SS"];
-
 const allMods = Object.keys(info);
 
 const ModifiersMenu: React.FC<{
@@ -50,18 +48,35 @@ const ModifiersMenu: React.FC<{
 }> = ({ setData }) => {
   const [isOpened, setIsOpened] = useState(true);
   const [modifiers, setModifiers] = useState<string[]>([]);
-  const [tempMods, setTempMods] = useState<string[]>([]);
+  const [localModifiers, setLocalModifiers] = useState<string[]>([]);
+  const [changesMade, setChangesMade] = useState<boolean>(false);
 
   useEffect(() => {
-    setTempMods(modifiers); // reset on close
+    setLocalModifiers(modifiers); // reset on close
   }, [isOpened]);
 
+  useEffect(() => {
+    function wereChangesMade(): boolean {
+      if (modifiers.length !== localModifiers.length) return false;
+      for (let i = 0; i < modifiers.length; i++) {
+        if (modifiers[i] !== localModifiers[i]) return false;
+      }
+      return true;
+    }
+    setChangesMade(wereChangesMade());
+  }, [modifiers, localModifiers])
+
   const toggleModifier = (mod: string) => {
-    setTempMods(
-      tempMods.includes(mod)
-        ? tempMods.filter((m) => m !== mod)
-        : [...tempMods, mod]
+    setLocalModifiers(
+      localModifiers.includes(mod)
+        ? localModifiers.filter((m) => m !== mod)
+        : [...localModifiers, mod]
     );
+  };
+
+  const handleApplyMods = () => {
+    setIsOpened(false);
+    setModifiers(localModifiers);
   };
 
   return (
@@ -77,13 +92,15 @@ const ModifiersMenu: React.FC<{
           {allMods.map((mod, index) => {
             const disabled =
               conflictingMods.includes(mod) &&
-              tempMods.some((m) => conflictingMods.includes(m) && m !== mod);
+              localModifiers.some(
+                (m) => conflictingMods.includes(m) && m !== mod
+              );
             const modInfo = info[mod as keyof typeof info];
             return (
               <button
                 className={`w-full flex flex-col px-4 py-2 bg-transparent text-left 
                 ${
-                  tempMods.includes(mod)
+                  localModifiers.includes(mod)
                     ? "bg-active-light dark:bg-active-dark"
                     : "hover:bg-card-alt-light dark:hover:bg-card-alt-dark"
                 }
@@ -111,7 +128,15 @@ const ModifiersMenu: React.FC<{
               </button>
             );
           })}
-          <button className={`flex flex-row gap-x-2 items-center justify-center px-4 py-2 rounded-b-lg text-tx-dark bg-green-dark dark:bg-green-light ${tempMods.length == 0 ? "grayscale opacity-40" : "hover:opacity-80 active:opacity-60"}`}>
+          <button
+            className={`flex flex-row gap-x-2 items-center justify-center px-4 py-2 rounded-b-lg text-tx-dark bg-green-dark dark:bg-green-light ${
+              changesMade
+                ? "grayscale opacity-40"
+                : "hover:opacity-80 active:opacity-60"
+            }`}
+            disabled={changesMade}
+            onClick={handleApplyMods}
+          >
             Apply Mods
             <img src={Icons.check} />
           </button>
