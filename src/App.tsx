@@ -8,9 +8,11 @@ import ProfileSearchBox from "./components/ProfileSearchBox";
 import ModifiersMenu from "./components/ModifiersMenu";
 import { getFlagWidth } from "./api/utils";
 import axios from "axios";
+import { ClipLoader } from "react-spinners";
+import { LoadingSpinner } from "./components/LoadingSpinner";
+import { RefreshButton } from "./components/RefreshButton";
 
 function App() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<APIResponse | null>(null);
   const [modifiers, setModifiers] = useState<string[]>([]);
 
@@ -40,14 +42,6 @@ function App() {
     };
   }, []);
 
-  const refreshData = async () => {
-
-  }
-
-  const refreshModifiers = async () => {
-
-  }
-
   const updateModifier = (mod: string) =>
     setModifiers(
       modifiers.includes(mod)
@@ -62,18 +56,16 @@ function App() {
       } font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark`}
     >
       <header className="sticky top-0 z-50 flex justify-between px-16 py-8 bg-bg-light dark:bg-bg-dark">
-        <div className="flex flex-row gap-x-8">
-          {data && (
-            <>
-              <button onClick={() => setData(null)}>Home</button>
-              <button onClick={() => refreshData()}>Refresh</button>
-              <ModifiersMenu
-                modifiers={modifiers}
-                updateModifier={updateModifier}
-              />
-            </>
-          )}
-        </div>
+        {data && (
+          <div className="flex flex-row gap-x-8">
+            <button onClick={() => setData(null)}>Home</button>
+            <RefreshButton data={data} setData={setData} />
+            <ModifiersMenu
+              modifiers={modifiers}
+              updateModifier={updateModifier}
+            />
+          </div>
+        )}
         <button>Help</button>
       </header>
       <div className="flex flex-col w-full h-full px-16 pb-8 gap-y-8">
@@ -84,7 +76,9 @@ function App() {
                 BeatRanker
               </h1>
               <div className="w-full max-w-[648px]">
-                <ProfileSearchBox updateData={(player_data) => setData(player_data)} />
+                <ProfileSearchBox
+                  updateData={(player_data) => setData(player_data)}
+                />
               </div>
             </div>
           </div>

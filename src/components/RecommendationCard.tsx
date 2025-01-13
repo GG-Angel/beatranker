@@ -25,9 +25,8 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
         className={`w-1 h-[100px] ${DifficultyBGColor[rec.difficultyName]}`}
       ></div>
       <img
-        className="object-cover"
+        className="object-cover bg-slate-700"
         src={rec.cover}
-        alt="Map Cover"
         width={100}
         loading="lazy"
       />
