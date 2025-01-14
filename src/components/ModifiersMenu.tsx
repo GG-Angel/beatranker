@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { renderCommas } from "../api/utils";
-import { APIResponse } from "../api/types";
+import { Modifier, PlayerData } from "../api/types";
 import { Icons } from "../../constants";
 
-const info = {
+type ModInfoDict = {
+  [key in Modifier]: {
+    name: string
+    desc: string
+    change: number
+  };
+};
+
+const info: ModInfoDict = {
   SF: {
     name: "Super Fast Song",
     desc: "Increases song speed by 50%",
@@ -41,14 +49,14 @@ const info = {
   },
 };
 const conflictingMods = ["SF", "FS", "SS"];
-const allMods = Object.keys(info);
+const allMods = Object.keys(info) as Modifier[];
 
 const ModifiersMenu: React.FC<{
-  setData: (data: APIResponse) => void;
+  setData: (data: PlayerData) => void;
 }> = ({ setData }) => {
   const [isOpened, setIsOpened] = useState<boolean>(true);
-  const [modifiers, setModifiers] = useState<string[]>([]);
-  const [localModifiers, setLocalModifiers] = useState<string[]>([]);
+  const [modifiers, setModifiers] = useState<Modifier[]>([]);
+  const [localModifiers, setLocalModifiers] = useState<Modifier[]>([]);
   const [changesMade, setChangesMade] = useState<boolean>(false);
 
   useEffect(() => {
@@ -66,7 +74,7 @@ const ModifiersMenu: React.FC<{
     setChangesMade(wereChangesMade());
   }, [modifiers, localModifiers]);
 
-  const toggleModifier = (mod: string) => {
+  const toggleModifier = (mod: Modifier) => {
     setLocalModifiers(
       localModifiers.includes(mod)
         ? localModifiers.filter((m) => m !== mod)
@@ -95,7 +103,7 @@ const ModifiersMenu: React.FC<{
               localModifiers.some(
                 (m) => conflictingMods.includes(m) && m !== mod
               );
-            const modInfo = info[mod as keyof typeof info];
+            const modInfo = info[mod];
             return (
               <button
                 className={`w-full flex flex-col px-4 py-2 bg-transparent text-left 

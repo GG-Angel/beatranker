@@ -1,7 +1,7 @@
 import React, { CSSProperties, useState } from "react";
 import { Icons, Images } from "../../constants";
 import { ClipLoader } from "react-spinners";
-import { APIResponse } from "../api/types";
+import { PlayerData } from "../api/types";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
 
@@ -11,7 +11,7 @@ const override: CSSProperties = {
 };
 
 const ProfileSearchBox: React.FC<{
-  updateData: (data: APIResponse) => void;
+  updateData: (data: PlayerData) => void;
 }> = ({ updateData }) => {
   const [playerId, setPlayerId] = useState("");
   const [statusText, setStatusText] = useState("");

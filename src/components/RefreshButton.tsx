@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { APIResponse } from "../api/types";
+import { PlayerData } from "../api/types";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
 
 export const RefreshButton: React.FC<{
-  data: APIResponse;
-  setData: (data: APIResponse) => void;
+  data: PlayerData;
+  setData: (data: PlayerData) => void;
 }> = ({ data, setData }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
@@ -38,7 +38,7 @@ export const RefreshButton: React.FC<{
       <div className="fixed top-14 z-10">
         {isLoading && <LoadingSpinner />}
         {status}
-      </div>      
+      </div>
     </div>
   );
 };
