@@ -46,7 +46,7 @@ const allMods = Object.keys(info);
 const ModifiersMenu: React.FC<{
   setData: (data: APIResponse) => void;
 }> = ({ setData }) => {
-  const [isOpened, setIsOpened] = useState(true);
+  const [isOpened, setIsOpened] = useState<boolean>(true);
   const [modifiers, setModifiers] = useState<string[]>([]);
   const [localModifiers, setLocalModifiers] = useState<string[]>([]);
   const [changesMade, setChangesMade] = useState<boolean>(false);
@@ -64,7 +64,7 @@ const ModifiersMenu: React.FC<{
       return true;
     }
     setChangesMade(wereChangesMade());
-  }, [modifiers, localModifiers])
+  }, [modifiers, localModifiers]);
 
   const toggleModifier = (mod: string) => {
     setLocalModifiers(
@@ -100,11 +100,12 @@ const ModifiersMenu: React.FC<{
               <button
                 className={`w-full flex flex-col px-4 py-2 bg-transparent text-left 
                 ${
-                  localModifiers.includes(mod)
+                  disabled
+                    ? "opacity-40 grayscale"
+                    : localModifiers.includes(mod)
                     ? "bg-active-light dark:bg-active-dark"
                     : "hover:bg-card-alt-light dark:hover:bg-card-alt-dark"
                 }
-                ${disabled && "opacity-40 grayscale"}
                 ${index == 0 && "rounded-t-lg"}
                 `}
                 onClick={() => toggleModifier(mod)}
