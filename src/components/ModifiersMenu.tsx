@@ -4,6 +4,7 @@ import { Modifier, PlayerData } from "../api/types";
 import { Icons } from "../../constants";
 import { updateMods } from "../api/fetch";
 import { isAxiosError } from "axios";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 type ModInfoDict = {
   [key in Modifier]: {
@@ -118,7 +119,7 @@ const ModifiersMenu: React.FC<{
         )}
       </button>
       {isOpened && (
-        <div className="fixed top-16 w-[256px] flex flex-col z-10 rounded-lg shadow-xl bg-card-light dark:bg-card-dark shadow-bg-light dark:shadow-bg-dark">
+        <div className="absolute top-16 w-[256px] flex flex-col z-20 rounded-lg shadow-xl bg-card-light dark:bg-card-dark shadow-bg-light dark:shadow-bg-dark">
           {allMods.map((mod, index) => {
             const disabled =
               conflictingMods.includes(mod) &&
@@ -173,6 +174,7 @@ const ModifiersMenu: React.FC<{
           </button>
         </div>
       )}
+      { isLoading && <LoadingSpinner style="absolute top-16 z-10" /> }
     </div>
   );
 };

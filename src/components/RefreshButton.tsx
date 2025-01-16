@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { PlayerData } from "../api/types";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { getPlayer } from "../api/fetch";
+import { isAxiosError } from "axios";
 
 export const RefreshButton: React.FC<{
   data: PlayerData;
   setData: (data: PlayerData) => void;
 }> = ({ data, setData }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>("");
 
   const refreshData = async () => {
     if (data) {
@@ -16,14 +16,14 @@ export const RefreshButton: React.FC<{
       try {
         const playerData = await getPlayer(data.profile.id);
         setData(playerData);
-        setStatus("☑️");
       } catch (error) {
-        setStatus("✖️");
+        if (isAxiosError(error)) {
+          console.error(error.response);
+        } else {
+          console.error("Failed to refresh scores");
+        }
       }
       setIsLoading(false);
-      setTimeout(() => {
-        setStatus("");
-      }, 4000);
     }
   };
 
@@ -32,10 +32,7 @@ export const RefreshButton: React.FC<{
       <button onClick={() => refreshData()} disabled={isLoading}>
         Refresh
       </button>
-      <div className="fixed top-16 z-10">
-        {isLoading && <LoadingSpinner />}
-        {status}
-      </div>
+      { isLoading && <LoadingSpinner style="absolute top-16 z-10" /> }
     </div>
   );
 };
