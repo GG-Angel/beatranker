@@ -24,7 +24,7 @@ const RecommendationList: React.FC<{
         return sortAscending ? aVal - bVal : bVal - aVal;
       });
     };
-  
+
     setLocalRecs(sortRecommendations(recs));
   }, [recs, sortBy, sortAscending]);
 

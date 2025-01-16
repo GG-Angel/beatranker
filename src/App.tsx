@@ -1,21 +1,16 @@
 import "./App.css";
 import { useEffect, useRef, useState } from "react";
 
-import ResponseJSON from "./assets/documents/response.json";
-import { PlayerData } from "./api/types";
-import RecommendationList from "./components/RecommendationList";
-import ProfileSearchBox from "./components/ProfileSearchBox";
-import ModifiersMenu from "./components/ModifiersMenu";
-import { getFlagWidth } from "./api/utils";
-import axios from "axios";
-import { ClipLoader } from "react-spinners";
-import { LoadingSpinner } from "./components/LoadingSpinner";
-import { RefreshButton } from "./components/RefreshButton";
+import ResponseJSON from "../api/response.json";
+import { PlayerData } from "../api/types";
+import RecommendationList from "../components/RecommendationList";
+import ProfileSearchBox from "../components/ProfileSearchBox";
+import ModifiersMenu from "../components/ModifiersMenu";
+import { getFlagWidth } from "../api/utils";
+import { RefreshButton } from "../components/RefreshButton";
 
 function App() {
   const [data, setData] = useState<PlayerData | null>(null);
-  const [modifiers, setModifiers] = useState<string[]>([]);
-
   const gridRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(2);
 
@@ -41,13 +36,6 @@ function App() {
       window.removeEventListener("resize", updateGrid);
     };
   }, []);
-
-  const updateModifier = (mod: string) =>
-    setModifiers(
-      modifiers.includes(mod)
-        ? modifiers.filter((m) => m !== mod)
-        : [...modifiers, mod]
-    );
 
   return (
     <div

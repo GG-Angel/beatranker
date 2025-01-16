@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Icons, Images } from "../../constants";
+import { Icons, Images } from "../constants";
 import { PlayerData } from "../api/types";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { renderCommas } from "../api/utils";
 import { Modifier, PlayerData } from "../api/types";
-import { Icons } from "../../constants";
+import { Icons } from "../constants";
 import { updateMods } from "../api/fetch";
 import { isAxiosError } from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
@@ -174,7 +174,7 @@ const ModifiersMenu: React.FC<{
           </button>
         </div>
       )}
-      { isLoading && <LoadingSpinner style="absolute top-16 z-10" /> }
+      {isLoading && <LoadingSpinner style="absolute top-16 z-10" />}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { Icons } from "../../constants";
+import { Icons } from "../constants";
 
 const SortDirection: React.FC<{
   ascending: boolean;

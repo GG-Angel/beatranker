@@ -32,7 +32,7 @@ export const RefreshButton: React.FC<{
       <button onClick={() => refreshData()} disabled={isLoading}>
         Refresh
       </button>
-      { isLoading && <LoadingSpinner style="absolute top-16 z-10" /> }
+      {isLoading && <LoadingSpinner style="absolute top-16 z-10" />}
     </div>
   );
 };

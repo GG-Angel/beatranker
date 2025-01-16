@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Icons } from "../../constants";
+import { Icons } from "../constants";
 
 const SortDropdown: React.FC<{
   options: string[];
@@ -14,9 +14,7 @@ const SortDropdown: React.FC<{
   };
 
   return (
-    <div
-      className="w-[180px] font-geist font-medium text-tx-light dark:text-tx-dark"
-    >
+    <div className="w-[180px] font-geist font-medium text-tx-light dark:text-tx-dark">
       <button
         className={`w-full flex flex-row justify-between items-center px-4 py-1 space-x-3 rounded-t-lg bg-card-light dark:bg-card-dark border-b-2 hover:border-active-light dark:hover:border-active-dark ${
           isOpened

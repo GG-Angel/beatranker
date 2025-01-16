@@ -1,4 +1,4 @@
-import { Icons } from "../../constants";
+import { Icons } from "../constants";
 import { Recommendation } from "../api/types";
 import { renderCommas, renderDecimal, renderTime } from "../api/utils";
 
@@ -22,7 +22,7 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
   return (
     <div className="flex flex-row w-full bg-card-light dark:bg-card-dark rounded-r-lg">
       <div
-        className={`w-1 h-[100px] ${DifficultyBGColor[rec.difficultyName]}`}
+        className={`w-1 h-[101.2px] ${DifficultyBGColor[rec.difficultyName]}`}
       ></div>
       <img
         className="object-cover bg-slate-700"
