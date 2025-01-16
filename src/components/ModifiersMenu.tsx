@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { renderCommas } from "../api/utils";
 import { Modifier, PlayerData } from "../api/types";
 import { Icons } from "../../constants";
+import { updateMods } from "../api/fetch";
+import { isAxiosError } from "axios";
 
 type ModInfoDict = {
   [key in Modifier]: {
-    name: string
-    desc: string
-    change: number
+    name: string;
+    desc: string;
+    change: number;
   };
 };
 
@@ -52,16 +54,18 @@ const conflictingMods = ["SF", "FS", "SS"];
 const allMods = Object.keys(info) as Modifier[];
 
 const ModifiersMenu: React.FC<{
+  data: PlayerData;
   setData: (data: PlayerData) => void;
-}> = ({ setData }) => {
-  const [isOpened, setIsOpened] = useState<boolean>(true);
+}> = ({ data, setData }) => {
   const [modifiers, setModifiers] = useState<Modifier[]>([]);
   const [localModifiers, setLocalModifiers] = useState<Modifier[]>([]);
   const [changesMade, setChangesMade] = useState<boolean>(false);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    setLocalModifiers(modifiers); // reset on close
-  }, [isOpened]);
+  // useEffect(() => {
+  //   setLocalModifiers(modifiers); // reset on close
+  // }, [isOpened]);
 
   useEffect(() => {
     function wereChangesMade(): boolean {
@@ -82,9 +86,27 @@ const ModifiersMenu: React.FC<{
     );
   };
 
-  const handleApplyMods = () => {
+  const handleApplyMods = async () => {
+    setIsLoading(true);
     setIsOpened(false);
-    setModifiers(localModifiers);
+    try {
+      console.log(localModifiers);
+      const updatedRecs = await updateMods(
+        localModifiers,
+        data.recs,
+        data.ml.model
+      );
+      setData({ ...data, recs: updatedRecs });
+      setModifiers(localModifiers);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        console.error(error.response);
+      } else {
+        console.error("Failed to refresh mods");
+      }
+    }
+
+    setIsLoading(false);
   };
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PlayerData } from "../api/types";
-import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
+import { getPlayer } from "../api/fetch";
 
 export const RefreshButton: React.FC<{
   data: PlayerData;
@@ -14,11 +14,8 @@ export const RefreshButton: React.FC<{
     if (data) {
       setIsLoading(true);
       try {
-        const resp = await axios.get(
-          `http://127.0.0.1:8000/recommendations/${data?.profile.id}`
-        );
-        const player_data = resp.data;
-        setData(player_data);
+        const playerData = await getPlayer(data.profile.id);
+        setData(playerData);
         setStatus("☑️");
       } catch (error) {
         setStatus("✖️");
@@ -35,7 +32,7 @@ export const RefreshButton: React.FC<{
       <button onClick={() => refreshData()} disabled={isLoading}>
         Refresh
       </button>
-      <div className="fixed top-14 z-10">
+      <div className="fixed top-16 z-10">
         {isLoading && <LoadingSpinner />}
         {status}
       </div>
