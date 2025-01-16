@@ -1,6 +1,7 @@
-type Difficulty = "ExpertPlus" | "Expert" | "Hard" | "Normal" | "Easy";
-type MapType = "Midspeed" | "Speed" | "Acc" | "Tech";
-type Status = "played" | "unplayed";
+export type Modifier = "SF" | "FS" | "GN" | "NB" | "NO" | "SS" | "NA";
+export type Difficulty = "ExpertPlus" | "Expert" | "Hard" | "Normal" | "Easy";
+export type MapType = "Midspeed" | "Speed" | "Acc" | "Tech";
+export type Status = "played" | "unplayed";
 
 export interface Recommendation {
   leaderboardId: string;
@@ -27,8 +28,8 @@ export interface Recommendation {
   rank: number | null;
   timeAgo: string | null;
   timePost: number | null;
-  currentMods: string[] | null;
-  predictedMods: string[] | null;
+  currentMods: Modifier[] | null;
+  predictedMods: Modifier[] | null;
   currentAccuracy: number;
   predictedAccuracy: number;
   accuracyGained: number;
@@ -51,7 +52,12 @@ export interface Profile {
   countryRank: number;
 }
 
-export interface APIResponse {
+export interface MLData {
+  model: number[];
+}
+
+export interface PlayerData {
   profile: Profile;
   recs: Recommendation[];
+  ml: MLData;
 }

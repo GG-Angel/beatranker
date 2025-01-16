@@ -2,7 +2,7 @@ import "./App.css";
 import { useEffect, useRef, useState } from "react";
 
 import ResponseJSON from "./assets/documents/response.json";
-import { APIResponse } from "./api/types";
+import { PlayerData } from "./api/types";
 import RecommendationList from "./components/RecommendationList";
 import ProfileSearchBox from "./components/ProfileSearchBox";
 import ModifiersMenu from "./components/ModifiersMenu";
@@ -13,14 +13,14 @@ import { LoadingSpinner } from "./components/LoadingSpinner";
 import { RefreshButton } from "./components/RefreshButton";
 
 function App() {
-  const [data, setData] = useState<APIResponse | null>(null);
+  const [data, setData] = useState<PlayerData | null>(null);
   const [modifiers, setModifiers] = useState<string[]>([]);
 
   const gridRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(2);
 
   useEffect(() => {
-    const data = ResponseJSON as APIResponse;
+    const data = ResponseJSON as PlayerData;
     setData(data);
   }, []);
 
@@ -60,10 +60,7 @@ function App() {
           <div className="flex flex-row gap-x-8">
             <button onClick={() => setData(null)}>Home</button>
             <RefreshButton data={data} setData={setData} />
-            <ModifiersMenu
-              modifiers={modifiers}
-              updateModifier={updateModifier}
-            />
+            <ModifiersMenu data={data} setData={setData} />
           </div>
         )}
         <button>Help</button>

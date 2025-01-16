@@ -35,6 +35,10 @@ export default {
           normal: "#59B0F4",
           easy: "#3CB371"
         },
+        red: {
+          light: "#BF2A42", 
+          dark: "#F87171"
+        },
         green: {
           light: "#168E4C",
           dark: "#48CB83",
@@ -42,7 +46,7 @@ export default {
         blue: {
           light: "#2991E1",
           dark: "#2592E7"
-        }
+        },
       },
       fontSize: {
         "ch1": ["89.76px", {

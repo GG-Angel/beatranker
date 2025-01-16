@@ -1,17 +1,12 @@
-import React, { CSSProperties, useState } from "react";
+import React, { useState } from "react";
 import { Icons, Images } from "../../constants";
-import { ClipLoader } from "react-spinners";
-import { APIResponse } from "../api/types";
+import { PlayerData } from "../api/types";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
-
-const override: CSSProperties = {
-  display: "block",
-  margin: "0 auto",
-};
+import { getPlayer } from "../api/fetch";
 
 const ProfileSearchBox: React.FC<{
-  updateData: (data: APIResponse) => void;
+  updateData: (data: PlayerData) => void;
 }> = ({ updateData }) => {
   const [playerId, setPlayerId] = useState("");
   const [statusText, setStatusText] = useState("");
@@ -21,11 +16,8 @@ const ProfileSearchBox: React.FC<{
     setIsLoading(true);
     setStatusText("Predicting scores...");
     try {
-      const resp = await axios.get(
-        `http://127.0.0.1:8000/recommendations/${playerId.trim()}`
-      );
-      const player_data = resp.data;
-      updateData(player_data);
+      const playerData = await getPlayer(playerId);
+      updateData(playerData);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setStatusText(error.response?.data?.detail);
