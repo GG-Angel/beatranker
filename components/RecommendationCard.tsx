@@ -1,6 +1,7 @@
 import { Icons } from "../constants";
 import { Recommendation } from "../api/types";
 import { renderCommas, renderDecimal, renderTime } from "../api/utils";
+import { downloadMap } from "../api/beatsaver";
 
 const DifficultyBGColor: { [key: string]: string } = {
   ExpertPlus: "bg-diff-expertplus",
@@ -119,11 +120,7 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
               >
                 <img src={Icons.beatsaver} />
               </a>
-              <a
-                href={`https://beatsaver.com/maps/${rec.songId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a className="cursor-pointer" onClick={() => downloadMap(rec.songId)}>
                 <img src={Icons.download} />
               </a>
               <a>

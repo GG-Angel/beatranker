@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { renderCommas } from "../api/utils";
 import { Modifier, PlayerData } from "../api/types";
 import { Icons } from "../constants";
-import { updateMods } from "../api/fetch";
+import { updateMods } from "../api/beatranker";
 import { isAxiosError } from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
 import GlobalContext from "../context/GlobalContext";
@@ -56,8 +56,9 @@ const conflictingMods = ["SF", "FS", "SS"];
 const allMods = Object.keys(info) as Modifier[];
 
 const ModifiersMenu = () => {
-  const { data, setData, modifiers, setModifiers, isUpdating, setIsUpdating } = useContext(GlobalContext);
-  
+  const { data, setData, modifiers, setModifiers, isUpdating, setIsUpdating } =
+    useContext(GlobalContext);
+
   const [localModifiers, setLocalModifiers] = useState<Modifier[]>([]);
   const [changesMade, setChangesMade] = useState<boolean>(false);
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -81,7 +82,7 @@ const ModifiersMenu = () => {
     if (isUpdating) {
       setIsOpened(false);
     }
-  }, [isUpdating])
+  }, [isUpdating]);
 
   const toggleModifier = (mod: Modifier) => {
     setLocalModifiers(
@@ -115,7 +116,11 @@ const ModifiersMenu = () => {
   };
 
   return (
-    <div className={`flex flex-col items-center font-geist font-medium text-cbody ${isUpdating ? "text-tx-alt" : "text-tx-light dark:text-tx-dark"}`}>
+    <div
+      className={`flex flex-col items-center font-geist font-medium text-cbody ${
+        isUpdating ? "text-tx-alt" : "text-tx-light dark:text-tx-dark"
+      }`}
+    >
       <button onClick={() => setIsOpened(!isOpened)} disabled={isUpdating}>
         Modifiers
         {modifiers.length > 0 && (
@@ -124,7 +129,7 @@ const ModifiersMenu = () => {
       </button>
       {isOpened && (
         <div className="absolute top-[72px] w-[256px] flex flex-col items-center z-20 rounded-lg shadow-xl bg-card-light dark:bg-card-dark shadow-bg-light dark:shadow-bg-dark">
-          <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-b-[12px] border-solid border-b-card-light dark:border-b-card-dark border-l-transparent border-r-transparent absolute top-[-12px]"></div> 
+          <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-b-[12px] border-solid border-b-card-light dark:border-b-card-dark border-l-transparent border-r-transparent absolute top-[-12px]"></div>
           {allMods.map((mod, index) => {
             const disabled =
               conflictingMods.includes(mod) &&

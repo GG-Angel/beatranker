@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { getPlayer, updateMods } from "../api/fetch";
+import { getPlayer, updateMods } from "../api/beatranker";
 import { isAxiosError } from "axios";
 import GlobalContext from "../context/GlobalContext";
 
@@ -14,8 +14,12 @@ export const RefreshButton = () => {
       try {
         const playerData = await getPlayer(data.profile.id);
         if (modifiers.length > 0) {
-          const moddedRecs = await updateMods(modifiers, playerData.recs, playerData.ml.model)
-          setData({ ...playerData, recs: moddedRecs })
+          const moddedRecs = await updateMods(
+            modifiers,
+            playerData.recs,
+            playerData.ml.model
+          );
+          setData({ ...playerData, recs: moddedRecs });
         } else {
           setData(playerData);
         }
@@ -31,7 +35,11 @@ export const RefreshButton = () => {
   };
 
   return (
-    <div className={`flex flex-col items-center font-geist font-medium text-cbody ${isUpdating ? "text-tx-alt" : "text-tx-light dark:text-tx-dark"}`}>
+    <div
+      className={`flex flex-col items-center font-geist font-medium text-cbody ${
+        isUpdating ? "text-tx-alt" : "text-tx-light dark:text-tx-dark"
+      }`}
+    >
       <button onClick={() => refreshData()} disabled={isUpdating}>
         Refresh
       </button>

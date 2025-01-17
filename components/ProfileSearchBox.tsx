@@ -3,7 +3,7 @@ import { Icons, Images } from "../constants";
 import { PlayerData } from "../api/types";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { getPlayer } from "../api/fetch";
+import { getPlayer } from "../api/beatranker";
 import GlobalContext from "../context/GlobalContext";
 
 const ProfileSearchBox: React.FC<{
@@ -60,7 +60,9 @@ const ProfileSearchBox: React.FC<{
         </button>
       </div>
       {statusText && (
-        <p className={`${!isLoading && "text-red-light dark:text-red-dark"}`}>{statusText}</p>
+        <p className={`${!isLoading && "text-red-light dark:text-red-dark"}`}>
+          {statusText}
+        </p>
       )}
     </div>
   );
