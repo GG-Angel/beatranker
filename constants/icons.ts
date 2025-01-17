@@ -10,6 +10,10 @@ import refresh from "../assets/icons/refresh.svg";
 import arrow from "../assets/icons/arrow.svg";
 import dropdown from "../assets/icons/dropdown.svg";
 import check from "../assets/icons/check.svg"; 
+import close from "../assets/icons/close.svg";
+import error from "../assets/icons/error.svg";
+import info from "../assets/icons/info.svg";
+import success from "../assets/icons/success.svg"; 
 
 export default {
   beatsaver,
@@ -23,5 +27,9 @@ export default {
   refresh,
   arrow,
   dropdown,
-  check
+  check,
+  close,
+  error,
+  info,
+  success
 }
