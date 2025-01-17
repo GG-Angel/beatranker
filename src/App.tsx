@@ -1,28 +1,26 @@
 import "./App.css";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
-import ResponseJSON from "./assets/documents/response.json";
-import { PlayerData } from "./api/types";
-import RecommendationList from "./components/RecommendationList";
-import ProfileSearchBox from "./components/ProfileSearchBox";
-import ModifiersMenu from "./components/ModifiersMenu";
-import { getFlagWidth } from "./api/utils";
-import axios from "axios";
-import { ClipLoader } from "react-spinners";
-import { LoadingSpinner } from "./components/LoadingSpinner";
-import { RefreshButton } from "./components/RefreshButton";
+import ResponseJSON from "../api/response.json";
+import { PlayerData } from "../api/types";
+import RecommendationList from "../components/RecommendationList";
+import ProfileSearchBox from "../components/ProfileSearchBox";
+import ModifiersMenu from "../components/ModifiersMenu";
+import { getFlagWidth } from "../api/utils";
+import { RefreshButton } from "../components/RefreshButton";
+import GlobalContext from "../context/GlobalContext";
+import PlayerCard from "../components/PlayerCard";
 
 function App() {
-  const [data, setData] = useState<PlayerData | null>(null);
-  const [modifiers, setModifiers] = useState<string[]>([]);
-
-  const gridRef = useRef<HTMLDivElement>(null);
-  const [columns, setColumns] = useState(2);
+  const { data, setData } = useContext(GlobalContext);
 
   useEffect(() => {
     const data = ResponseJSON as PlayerData;
     setData(data);
   }, []);
+
+  const [columns, setColumns] = useState(2);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateGrid = () => {
@@ -42,13 +40,6 @@ function App() {
     };
   }, []);
 
-  const updateModifier = (mod: string) =>
-    setModifiers(
-      modifiers.includes(mod)
-        ? modifiers.filter((m) => m !== mod)
-        : [...modifiers, mod]
-    );
-
   return (
     <div
       className={`flex flex-col w-full ${
@@ -59,8 +50,8 @@ function App() {
         {data && (
           <div className="flex flex-row gap-x-8">
             <button onClick={() => setData(null)}>Home</button>
-            <RefreshButton data={data} setData={setData} />
-            <ModifiersMenu data={data} setData={setData} />
+            <RefreshButton />
+            <ModifiersMenu />
           </div>
         )}
         <button>Help</button>
@@ -82,29 +73,7 @@ function App() {
         )}
         {data && (
           <>
-            <div className="flex flex-row justify-center items-center gap-x-8">
-              <img
-                src={data.profile.avatar}
-                width={100}
-                className="rounded-full border-tx-light dark:border-tx-dark border-8"
-              />
-              <div>
-                <div className="flex flex-row gap-x-2 items-center">
-                  <img
-                    src={`https://flagcdn.com/${data.profile.country.toLowerCase()}.svg`}
-                    width={getFlagWidth(data.profile.country)}
-                  />
-                  <h2 className="text-csub font-bold">{data?.profile.alias}</h2>
-                </div>
-                <p>
-                  <span className="text-tx-alt">#</span>
-                  {data?.profile.rank}
-                  <span className="text-tx-alt"> - </span>
-                  {data?.profile.pp}
-                  <span className="text-tx-alt">pp</span>
-                </p>
-              </div>
-            </div>
+            <PlayerCard />
             <div
               className="w-full h-full grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16"
               ref={gridRef}
