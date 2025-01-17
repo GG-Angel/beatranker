@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import ResponseJSON from "../api/response.json";
 import { PlayerData } from "../api/types";
@@ -8,16 +8,18 @@ import ProfileSearchBox from "../components/ProfileSearchBox";
 import ModifiersMenu from "../components/ModifiersMenu";
 import { getFlagWidth } from "../api/utils";
 import { RefreshButton } from "../components/RefreshButton";
+import GlobalContext from "../context/GlobalContext";
 
 function App() {
-  const [data, setData] = useState<PlayerData | null>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-  const [columns, setColumns] = useState(2);
+  const { data, setData } = useContext(GlobalContext);
 
-  useEffect(() => {
-    const data = ResponseJSON as PlayerData;
-    setData(data);
-  }, []);
+  // useEffect(() => {
+  //   const data = ResponseJSON as PlayerData;
+  //   setData(data);
+  // }, []);
+  
+  const [columns, setColumns] = useState(2);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateGrid = () => {
@@ -58,7 +60,7 @@ function App() {
           <div className="flex h-full items-center">
             <div className="flex flex-1 flex-col items-center">
               <h1 className="text-ch2 font-extrabold text-center mb-6">
-                BeatRanker
+               BeatRanker
               </h1>
               <div className="w-full max-w-[648px]">
                 <ProfileSearchBox
