@@ -1,21 +1,24 @@
-import React, { useState } from "react";
-import { PlayerData } from "../api/types";
+import { useContext } from "react";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { getPlayer } from "../api/fetch";
+import { getPlayer, updateMods } from "../api/fetch";
 import { isAxiosError } from "axios";
+import GlobalContext from "../context/GlobalContext";
 
-export const RefreshButton: React.FC<{
-  data: PlayerData;
-  setData: (data: PlayerData) => void;
-}> = ({ data, setData }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+export const RefreshButton = () => {
+  const { data, setData, modifiers, isUpdating, setIsUpdating } =
+    useContext(GlobalContext);
 
   const refreshData = async () => {
     if (data) {
-      setIsLoading(true);
+      setIsUpdating(true);
       try {
         const playerData = await getPlayer(data.profile.id);
-        setData(playerData);
+        if (modifiers.length > 0) {
+          const moddedRecs = await updateMods(modifiers, playerData.recs, playerData.ml.model)
+          setData({ ...playerData, recs: moddedRecs })
+        } else {
+          setData(playerData);
+        }
       } catch (error) {
         if (isAxiosError(error)) {
           console.error(error.response);
@@ -23,16 +26,16 @@ export const RefreshButton: React.FC<{
           console.error("Failed to refresh scores");
         }
       }
-      setIsLoading(false);
+      setIsUpdating(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center font-geist font-medium text-cbody text-tx-light dark:text-tx-dark">
-      <button onClick={() => refreshData()} disabled={isLoading}>
+    <div className={`flex flex-col items-center font-geist font-medium text-cbody ${isUpdating ? "text-tx-alt" : "text-tx-light dark:text-tx-dark"}`}>
+      <button onClick={() => refreshData()} disabled={isUpdating}>
         Refresh
       </button>
-      {isLoading && <LoadingSpinner style="absolute top-16 z-10" />}
+      {isUpdating && <LoadingSpinner style="absolute top-16 z-10" />}
     </div>
   );
 };

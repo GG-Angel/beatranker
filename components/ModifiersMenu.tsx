@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { renderCommas } from "../api/utils";
 import { Modifier, PlayerData } from "../api/types";
 import { Icons } from "../constants";
 import { updateMods } from "../api/fetch";
 import { isAxiosError } from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
+import GlobalContext from "../context/GlobalContext";
 
 type ModInfoDict = {
   [key in Modifier]: {
@@ -54,15 +55,12 @@ const info: ModInfoDict = {
 const conflictingMods = ["SF", "FS", "SS"];
 const allMods = Object.keys(info) as Modifier[];
 
-const ModifiersMenu: React.FC<{
-  data: PlayerData;
-  setData: (data: PlayerData) => void;
-}> = ({ data, setData }) => {
-  const [modifiers, setModifiers] = useState<Modifier[]>([]);
+const ModifiersMenu = () => {
+  const { data, setData, modifiers, setModifiers, isUpdating, setIsUpdating } = useContext(GlobalContext);
+  
   const [localModifiers, setLocalModifiers] = useState<Modifier[]>([]);
   const [changesMade, setChangesMade] = useState<boolean>(false);
   const [isOpened, setIsOpened] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   // useEffect(() => {
   //   setLocalModifiers(modifiers); // reset on close
@@ -79,6 +77,12 @@ const ModifiersMenu: React.FC<{
     setChangesMade(wereChangesMade());
   }, [modifiers, localModifiers]);
 
+  useEffect(() => {
+    if (isUpdating) {
+      setIsOpened(false);
+    }
+  }, [isUpdating])
+
   const toggleModifier = (mod: Modifier) => {
     setLocalModifiers(
       localModifiers.includes(mod)
@@ -88,38 +92,39 @@ const ModifiersMenu: React.FC<{
   };
 
   const handleApplyMods = async () => {
-    setIsLoading(true);
-    setIsOpened(false);
-    try {
-      console.log(localModifiers);
-      const updatedRecs = await updateMods(
-        localModifiers,
-        data.recs,
-        data.ml.model
-      );
-      setData({ ...data, recs: updatedRecs });
-      setModifiers(localModifiers);
-    } catch (error) {
-      if (isAxiosError(error)) {
-        console.error(error.response);
-      } else {
-        console.error("Failed to refresh mods");
+    if (data) {
+      setIsUpdating(true);
+      try {
+        console.log(localModifiers);
+        const updatedRecs = await updateMods(
+          localModifiers,
+          data.recs,
+          data.ml.model
+        );
+        setData({ ...data, recs: updatedRecs });
+        setModifiers(localModifiers);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          console.error(error.response);
+        } else {
+          console.error("Failed to refresh mods");
+        }
       }
+      setIsUpdating(false);
     }
-
-    setIsLoading(false);
   };
 
   return (
-    <div className="flex flex-col items-center font-geist font-medium text-cbody text-tx-light dark:text-tx-dark">
-      <button onClick={() => setIsOpened(!isOpened)}>
+    <div className={`flex flex-col items-center font-geist font-medium text-cbody ${isUpdating ? "text-tx-alt" : "text-tx-light dark:text-tx-dark"}`}>
+      <button onClick={() => setIsOpened(!isOpened)} disabled={isUpdating}>
         Modifiers
         {modifiers.length > 0 && (
           <span className="text-tx-alt ml-2">({renderCommas(modifiers)})</span>
         )}
       </button>
       {isOpened && (
-        <div className="absolute top-16 w-[256px] flex flex-col z-20 rounded-lg shadow-xl bg-card-light dark:bg-card-dark shadow-bg-light dark:shadow-bg-dark">
+        <div className="absolute top-[72px] w-[256px] flex flex-col items-center z-20 rounded-lg shadow-xl bg-card-light dark:bg-card-dark shadow-bg-light dark:shadow-bg-dark">
+          <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-b-[12px] border-solid border-b-card-light dark:border-b-card-dark border-l-transparent border-r-transparent absolute top-[-12px]"></div> 
           {allMods.map((mod, index) => {
             const disabled =
               conflictingMods.includes(mod) &&
@@ -161,7 +166,7 @@ const ModifiersMenu: React.FC<{
             );
           })}
           <button
-            className={`flex flex-row gap-x-2 items-center justify-center px-4 py-2 rounded-b-lg text-tx-dark bg-green-dark dark:bg-green-light ${
+            className={`flex flex-row w-full gap-x-2 items-center justify-center px-4 py-2 rounded-b-lg text-tx-dark bg-green-dark dark:bg-green-light ${
               changesMade
                 ? "grayscale opacity-40"
                 : "hover:opacity-80 active:opacity-60"
@@ -174,7 +179,7 @@ const ModifiersMenu: React.FC<{
           </button>
         </div>
       )}
-      {isLoading && <LoadingSpinner style="absolute top-16 z-10" />}
+      {isUpdating && <LoadingSpinner style="absolute top-16 z-10" />}
     </div>
   );
 };

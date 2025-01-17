@@ -50,6 +50,10 @@ export interface Profile {
   pp: number;
   rank: number;
   countryRank: number;
+  bestPP: number;
+  bestRank: number;
+  medianPP: number;
+  medianRank: number;
 }
 
 export interface MLData {

@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Icons, Images } from "../constants";
 import { PlayerData } from "../api/types";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { getPlayer } from "../api/fetch";
+import GlobalContext from "../context/GlobalContext";
 
 const ProfileSearchBox: React.FC<{
   updateData: (data: PlayerData) => void;
 }> = ({ updateData }) => {
+  const { isLoading, setIsLoading } = useContext(GlobalContext);
   const [playerId, setPlayerId] = useState("");
   const [statusText, setStatusText] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmitId = async () => {
     setIsLoading(true);
@@ -59,7 +60,7 @@ const ProfileSearchBox: React.FC<{
         </button>
       </div>
       {statusText && (
-        <p className={`${!isLoading && "text-red-400"}`}>{statusText}</p>
+        <p className={`${!isLoading && "text-red-light dark:text-red-dark"}`}>{statusText}</p>
       )}
     </div>
   );
