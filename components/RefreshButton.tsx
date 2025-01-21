@@ -5,12 +5,13 @@ import { isAxiosError } from "axios";
 import GlobalContext from "../context/GlobalContext";
 
 export const RefreshButton = () => {
-  const { data, setData, modifiers, isUpdating, setIsUpdating } =
+  const { data, setData, modifiers, isUpdating, setIsUpdating, addLog } =
     useContext(GlobalContext);
 
   const refreshData = async () => {
     if (data) {
       setIsUpdating(true);
+      addLog("information", "Refreshing scores...");
       try {
         const playerData = await getPlayer(data.profile.id);
         if (modifiers.length > 0) {
@@ -23,13 +24,14 @@ export const RefreshButton = () => {
         } else {
           setData(playerData);
         }
+        addLog("success", "Successfully refreshed scores! :D");
       } catch (error) {
-        if (isAxiosError(error)) {
-          console.error(error.response);
-        } else {
-          console.error("Failed to refresh scores");
-        }
+        let message = `Failed to refresh scores${
+          isAxiosError(error) ? `: ${error.message}` : ". :("
+        }`;
+        addLog("error", message);
       }
+
       setIsUpdating(false);
     }
   };
@@ -43,7 +45,6 @@ export const RefreshButton = () => {
       <button onClick={() => refreshData()} disabled={isUpdating}>
         Refresh
       </button>
-      {isUpdating && <LoadingSpinner style="absolute top-16 z-10" />}
     </div>
   );
 };

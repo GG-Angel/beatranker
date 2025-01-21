@@ -56,7 +56,7 @@ const conflictingMods = ["SF", "FS", "SS"];
 const allMods = Object.keys(info) as Modifier[];
 
 const ModifiersMenu = () => {
-  const { data, setData, modifiers, setModifiers, isUpdating, setIsUpdating } =
+  const { data, setData, modifiers, setModifiers, isUpdating, setIsUpdating, addLog } =
     useContext(GlobalContext);
 
   const [localModifiers, setLocalModifiers] = useState<Modifier[]>([]);
@@ -95,6 +95,7 @@ const ModifiersMenu = () => {
   const handleApplyMods = async () => {
     if (data) {
       setIsUpdating(true);
+      addLog("information", "Recalculating modifiers...");
       try {
         console.log(localModifiers);
         const updatedRecs = await updateMods(
@@ -104,12 +105,12 @@ const ModifiersMenu = () => {
         );
         setData({ ...data, recs: updatedRecs });
         setModifiers(localModifiers);
+        addLog("success", "Successfully recalculated scores! :D");
       } catch (error) {
-        if (isAxiosError(error)) {
-          console.error(error.response);
-        } else {
-          console.error("Failed to refresh mods");
-        }
+        let message = `Failed to refresh scores${
+          isAxiosError(error) ? `: ${error.message}` : ". :("
+        }`;
+        addLog("error", message);
       }
       setIsUpdating(false);
     }
@@ -184,7 +185,6 @@ const ModifiersMenu = () => {
           </button>
         </div>
       )}
-      {isUpdating && <LoadingSpinner style="absolute top-16 z-10" />}
     </div>
   );
 };

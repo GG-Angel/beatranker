@@ -49,7 +49,7 @@ const LogMessage: React.FC<{ log: LogMessage }> = ({ log }) => {
     <div className="flex flex-row items-start gap-x-2 px-4 py-3 text-tx-light dark:text-tx-dark bg-card-light dark:bg-card-dark border-2 rounded-lg border-card-alt-light dark:border-card-alt-dark shadow-2xl shadow-bg-light dark:shadow-bg-dark">
       <img src={data.icon} color={data.color} width={26} />
       <p className="flex flex-1 flex-wrap">
-        {log.message} Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        {log.message}
       </p>
       <button onClick={() => removeLog(log.id)}>
         <img src={Icons.close} width={26} />
@@ -63,7 +63,7 @@ const Logger = () => {
 
   return (
     <div className="-bg-slate-600 fixed lg:max-w-[740px] max-w-[400px] z-50 right-0 bottom-0 flex flex-col gap-y-2 justify-end py-4 px-4">
-      {logs.map((log) => <LogMessage log={log} /> )}
+      {logs.map((log) => <LogMessage key={log.id} log={log} /> )}
     </div>
   );
 };
