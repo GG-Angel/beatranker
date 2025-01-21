@@ -11,7 +11,7 @@ export const RefreshButton = () => {
   const refreshData = async () => {
     if (data) {
       setIsUpdating(true);
-      const logId = addLog("information", "Refreshing scores...");
+      const logId = addLog("information", "Refreshing scores...", true);
       try {
         const playerData = await getPlayer(data.profile.id);
         if (modifiers.length > 0) {
@@ -24,8 +24,7 @@ export const RefreshButton = () => {
         } else {
           setData(playerData);
         }
-
-        addLog("success", "Successfully refreshed scores! :D");
+        updateLog(logId, "success", "Successfully refreshed scores! :D", false)
       } catch (error) {
         let message = `Failed to refresh scores${
           isAxiosError(error) ? `: ${error.message}` : ". :("
