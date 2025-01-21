@@ -1,16 +1,16 @@
 import { useContext } from "react";
-import { LoadingSpinner } from "./LoadingSpinner";
 import { getPlayer, updateMods } from "../api/beatranker";
 import { isAxiosError } from "axios";
 import GlobalContext from "../context/GlobalContext";
 
 export const RefreshButton = () => {
-  const { data, setData, modifiers, isUpdating, setIsUpdating } =
+  const { data, setData, modifiers, isUpdating, setIsUpdating, addLog, updateLog } =
     useContext(GlobalContext);
 
   const refreshData = async () => {
     if (data) {
       setIsUpdating(true);
+      const logId = addLog("information", "Refreshing scores...", true);
       try {
         const playerData = await getPlayer(data.profile.id);
         if (modifiers.length > 0) {
@@ -23,12 +23,12 @@ export const RefreshButton = () => {
         } else {
           setData(playerData);
         }
+        updateLog(logId, "success", "Successfully refreshed scores! :D", false)
       } catch (error) {
-        if (isAxiosError(error)) {
-          console.error(error.response);
-        } else {
-          console.error("Failed to refresh scores");
-        }
+        let message = `Failed to refresh scores${
+          isAxiosError(error) ? `: ${error.message}` : ". :("
+        }`;
+        updateLog(logId, "error", message, false)
       }
       setIsUpdating(false);
     }
@@ -43,7 +43,6 @@ export const RefreshButton = () => {
       <button onClick={() => refreshData()} disabled={isUpdating}>
         Refresh
       </button>
-      {isUpdating && <LoadingSpinner style="absolute top-16 z-10" />}
     </div>
   );
 };

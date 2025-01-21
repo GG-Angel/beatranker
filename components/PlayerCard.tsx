@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import GlobalContext from "../context/GlobalContext";
 import { getFlagWidth, renderDecimal } from "../api/utils";
 import { Profile } from "../api/types";
@@ -34,13 +34,13 @@ const PlayerCard = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {profile.alias}
+                {profile.alias ?? profile.name}
               </a>
             </div>
             <div className="flex flex-row min-w-[190px] gap-x-3 justify-between pointer-events-none">
               <div>
                 {["Overall", "Median", "Best"].map((ticker) => (
-                  <p className="mb-[-2px]">{ticker}:</p>
+                  <p className="mb-[-2px]" key={ticker}>{ticker}:</p>
                 ))}
               </div>
               <div>
@@ -49,7 +49,7 @@ const PlayerCard = () => {
                   ["medianRank", "medianPP"],
                   ["bestRank", "bestPP"],
                 ].map((row) => (
-                  <p className="mb-[-2px]">
+                  <p className="mb-[-2px]" key={row[0]}>
                     <span className="text-tx-alt">#</span>
                     {profile[row[0] as keyof Profile]} <span className="text-tx-alt">-</span>{" "}
                     {renderDecimal(profile[row[1] as keyof Profile] as number)}

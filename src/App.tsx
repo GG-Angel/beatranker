@@ -6,10 +6,10 @@ import { PlayerData } from "../api/types";
 import RecommendationList from "../components/RecommendationList";
 import ProfileSearchBox from "../components/ProfileSearchBox";
 import ModifiersMenu from "../components/ModifiersMenu";
-import { getFlagWidth } from "../api/utils";
 import { RefreshButton } from "../components/RefreshButton";
 import GlobalContext from "../context/GlobalContext";
 import PlayerCard from "../components/PlayerCard";
+import Logger from "../components/Logger";
 
 function App() {
   const { data, setData } = useContext(GlobalContext);
@@ -106,6 +106,7 @@ function App() {
           </>
         )}
       </div>
+      <Logger />
     </div>
   );
 }
