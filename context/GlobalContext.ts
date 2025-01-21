@@ -1,7 +1,6 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { Modifier, PlayerData } from "../api/types";
 import { LogMessage, MessageType } from "../components/Logger";
-import { logAction } from "./GlobalProvider";
 
 interface GlobalContextValues {
   data: PlayerData | null;

@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { LoadingSpinner } from "./LoadingSpinner";
 import { getPlayer, updateMods } from "../api/beatranker";
 import { isAxiosError } from "axios";
 import GlobalContext from "../context/GlobalContext";
@@ -29,9 +28,8 @@ export const RefreshButton = () => {
         let message = `Failed to refresh scores${
           isAxiosError(error) ? `: ${error.message}` : ". :("
         }`;
-        addLog("error", message);
+        updateLog(logId, "error", message, false)
       }
-
       setIsUpdating(false);
     }
   };

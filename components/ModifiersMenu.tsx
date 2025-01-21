@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { renderCommas } from "../api/utils";
-import { Modifier, PlayerData } from "../api/types";
+import { Modifier } from "../api/types";
 import { Icons } from "../constants";
 import { updateMods } from "../api/beatranker";
 import { isAxiosError } from "axios";
-import { LoadingSpinner } from "./LoadingSpinner";
 import GlobalContext from "../context/GlobalContext";
 
 type ModInfoDict = {
