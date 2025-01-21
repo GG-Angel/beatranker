@@ -6,11 +6,10 @@ import { PlayerData } from "../api/types";
 import RecommendationList from "../components/RecommendationList";
 import ProfileSearchBox from "../components/ProfileSearchBox";
 import ModifiersMenu from "../components/ModifiersMenu";
-import { getFlagWidth } from "../api/utils";
 import { RefreshButton } from "../components/RefreshButton";
 import GlobalContext from "../context/GlobalContext";
 import PlayerCard from "../components/PlayerCard";
-import LogMessage from "../components/LogMessage";
+import Logger from "../components/Logger";
 
 function App() {
   const { data, setData } = useContext(GlobalContext);
@@ -107,9 +106,7 @@ function App() {
           </>
         )}
       </div>
-      <div className="bg-red-500 fixed h-full md:max-w-[740px] max-w-[400px] z-50 right-0 flex flex-col justify-end py-4 px-4">
-        <LogMessage type="information" message="This is a test." />
-      </div>
+      <Logger />
     </div>
   );
 }
