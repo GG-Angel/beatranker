@@ -13,9 +13,9 @@ interface GlobalContextValues {
   setModifiers: Dispatch<SetStateAction<Modifier[]>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsUpdating: Dispatch<SetStateAction<boolean>>;
-  addLog: (type: MessageType, message: string, time?: number) => void;
-  
+  addLog: (type: MessageType, message: string, inProgress?: boolean, time?: number) => void;
   removeLog: (id: number) => void;
+  updateLog: (id: number, type?: MessageType, message?: string, inProgress?: boolean, time?: number) => void
 }
 
 const GlobalContext = createContext<GlobalContextValues>({} as GlobalContextValues);

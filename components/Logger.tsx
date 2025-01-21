@@ -46,7 +46,7 @@ const LogMessage: React.FC<{ log: LogMessage }> = ({ log }) => {
   
       return () => clearTimeout(tid);
     }
-  }, [log.time, log.inProgress]);
+  }, [log.id, log.time, log.inProgress]);
 
   return (
     <div className="flex flex-row items-start gap-x-2 px-4 py-3 text-tx-light dark:text-tx-dark bg-card-light dark:bg-card-dark border-2 rounded-lg border-card-alt-light dark:border-card-alt-dark shadow-2xl shadow-bg-light dark:shadow-bg-dark">

@@ -67,9 +67,9 @@ export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
-  const addLog = (type: MessageType, message: string, time?: number): number => {
+  const addLog = (type: MessageType, message: string, inProgress?: boolean, time?: number): number => {
     const id = Date.now();
-    logDispatch({ type: "ADD_LOG", payload: { id, type, message, time } });
+    logDispatch({ type: "ADD_LOG", payload: { id, type, message, inProgress, time } });
     return id;
   };
 
