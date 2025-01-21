@@ -42,14 +42,14 @@ const LogMessage: React.FC<{ log: LogMessage }> = ({ log }) => {
     if (!log.inProgress) { // start deletion timer after finished
       const tid = setTimeout(() => {
         removeLog(log.id);
-      }, log.time ?? 5000); // default to 5 sec
+      }, log.time ?? 6000); // default to 6 sec
   
       return () => clearTimeout(tid);
     }
   }, [log.id, log.time, log.inProgress]);
 
   return (
-    <div className="flex flex-row w-full items-start gap-x-2 px-4 py-3 text-tx-light dark:text-tx-dark bg-card-light dark:bg-card-dark border-2 rounded-lg border-card-alt-light dark:border-card-alt-dark shadow-2xl shadow-bg-light dark:shadow-bg-dark">
+    <div className={`flex flex-row w-full items-start gap-x-2 px-4 py-3 text-tx-light dark:text-tx-dark bg-card-light dark:bg-card-dark border-2 rounded-lg shadow-2xl shadow-bg-light dark:shadow-bg-dark ${log.inProgress ? "border-active-light dark:border-active-dark" : "border-card-alt-light dark:border-card-alt-dark "}`}>
       <img src={data.icon} color={data.color} width={26} />
       <p className="flex flex-1 flex-wrap">
         {log.message}
