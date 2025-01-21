@@ -14,6 +14,7 @@ interface GlobalContextValues {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsUpdating: Dispatch<SetStateAction<boolean>>;
   addLog: (type: MessageType, message: string, time?: number) => void;
+  
   removeLog: (id: number) => void;
 }
 

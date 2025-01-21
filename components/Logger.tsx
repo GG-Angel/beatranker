@@ -8,6 +8,7 @@ export interface LogMessage {
   id: number;
   type: MessageType;
   message: string;
+  inProgress?: boolean;
   time?: number;
 }
 
@@ -38,12 +39,14 @@ const LogMessage: React.FC<{ log: LogMessage }> = ({ log }) => {
   const data = MessageData[log.type];
 
   useEffect(() => {
-    const tid = setTimeout(() => {
-      removeLog(log.id);
-    }, log.time ?? 7000); // default to 7 sec
-
-    return () => clearTimeout(tid);
-  }, [log.time]);
+    if (!log.inProgress) { // start deletion timer after finished
+      const tid = setTimeout(() => {
+        removeLog(log.id);
+      }, log.time ?? 5000); // default to 5 sec
+  
+      return () => clearTimeout(tid);
+    }
+  }, [log.time, log.inProgress]);
 
   return (
     <div className="flex flex-row items-start gap-x-2 px-4 py-3 text-tx-light dark:text-tx-dark bg-card-light dark:bg-card-dark border-2 rounded-lg border-card-alt-light dark:border-card-alt-dark shadow-2xl shadow-bg-light dark:shadow-bg-dark">

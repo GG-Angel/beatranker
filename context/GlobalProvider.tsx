@@ -6,24 +6,41 @@ import { LogMessage, MessageType } from "../components/Logger";
 export type logAction =
   | {
       type: "ADD_LOG";
-      payload: { type: MessageType; message: string; time?: number };
+      payload: {
+        id: number;
+        type: MessageType;
+        message: string;
+        inProgress?: boolean;
+        time?: number;
+      };
     }
-  | { type: "REMOVE_LOG"; payload: { id: number } };
+  | {
+      type: "REMOVE_LOG";
+      payload: { id: number };
+    }
+  | {
+      type: "UPDATE_LOG";
+      payload: {
+        id: number;
+        type?: MessageType;
+        message?: string;
+        inProgress?: boolean;
+        time?: number;
+      };
+    };
 
 function logReducer(state: LogMessage[], action: logAction) {
   switch (action.type) {
     case "ADD_LOG": {
-      const newLog: LogMessage = {
-        id: Date.now(),
-        type: action.payload.type,
-        message: action.payload.message,
-        time: action.payload.time
-      }
-      return [...state, newLog]
+      return [...state, { ...action.payload }]
     }
 
     case "REMOVE_LOG": {
-      return state.filter(log => log.id !== action.payload.id)
+      return state.filter((log) => log.id !== action.payload.id);
+    }
+
+    case "UPDATE_LOG": {
+      return state.map((log) => log.id === action.payload.id ? { ...log, ...action.payload } : log)
     }
   }
 }
@@ -33,12 +50,13 @@ const ExampleLogs: LogMessage[] = [
     id: 123,
     type: "information",
     message: "This is a test.",
-    time: 3000
+    time: 3000,
   },
   {
     id: 456,
     type: "success",
-    message: "This is a success.",
+    message: "This is some process",
+    inProgress: true,
   },
 ];
 
@@ -49,13 +67,19 @@ export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
-  const addLog = (type: MessageType, message: string, time?: number) => {
-    logDispatch({ type: 'ADD_LOG', payload: { type, message, time } });
+  const addLog = (type: MessageType, message: string, time?: number): number => {
+    const id = Date.now();
+    logDispatch({ type: "ADD_LOG", payload: { id, type, message, time } });
+    return id;
   };
 
-  const removeLog = (id: number) => {
-    logDispatch({ type: 'REMOVE_LOG', payload: { id } });
+  const removeLog = (id: number): void => {
+    logDispatch({ type: "REMOVE_LOG", payload: { id } });
   };
+
+  const updateLog = (id: number, type?: MessageType, message?: string, inProgress?: boolean, time?: number): void => {
+    logDispatch({ type: "UPDATE_LOG", payload: { id, type, message, inProgress, time } })
+  }
 
   const value = {
     data,
@@ -68,7 +92,8 @@ export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
     setIsLoading,
     setIsUpdating,
     addLog,
-    removeLog
+    removeLog,
+    updateLog
   };
 
   return (
