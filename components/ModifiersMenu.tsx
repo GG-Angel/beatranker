@@ -55,7 +55,7 @@ const conflictingMods = ["SF", "FS", "SS"];
 const allMods = Object.keys(info) as Modifier[];
 
 const ModifiersMenu = () => {
-  const { data, setData, modifiers, setModifiers, isUpdating, setIsUpdating, addLog } =
+  const { data, setData, modifiers, setModifiers, isUpdating, setIsUpdating, addLog, updateLog } =
     useContext(GlobalContext);
 
   const [localModifiers, setLocalModifiers] = useState<Modifier[]>([]);
@@ -94,7 +94,7 @@ const ModifiersMenu = () => {
   const handleApplyMods = async () => {
     if (data) {
       setIsUpdating(true);
-      addLog("information", "Recalculating modifiers...");
+      const logId = addLog("information", "Recalculating modifiers...", true);
       try {
         console.log(localModifiers);
         const updatedRecs = await updateMods(
@@ -104,12 +104,12 @@ const ModifiersMenu = () => {
         );
         setData({ ...data, recs: updatedRecs });
         setModifiers(localModifiers);
-        addLog("success", "Successfully recalculated scores! :D");
+        updateLog(logId, "success", "Successfully applied modifiers! :D", false)
       } catch (error) {
         let message = `Failed to refresh scores${
           isAxiosError(error) ? `: ${error.message}` : ". :("
         }`;
-        addLog("error", message);
+        updateLog(logId, "error", message, false)
       }
       setIsUpdating(false);
     }

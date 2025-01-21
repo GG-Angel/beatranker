@@ -45,25 +45,10 @@ function logReducer(state: LogMessage[], action: logAction) {
   }
 }
 
-const ExampleLogs: LogMessage[] = [
-  {
-    id: 123,
-    type: "information",
-    message: "This is a test.",
-    time: 3000,
-  },
-  {
-    id: 456,
-    type: "success",
-    message: "This is some process",
-    inProgress: true,
-  },
-];
-
 export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [data, setData] = useState<PlayerData | null>(null);
   const [modifiers, setModifiers] = useState<Modifier[]>([]);
-  const [logs, logDispatch] = useReducer(logReducer, ExampleLogs);
+  const [logs, logDispatch] = useReducer(logReducer, []);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 

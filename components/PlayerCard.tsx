@@ -34,7 +34,7 @@ const PlayerCard = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {profile.alias}
+                {profile.alias ?? profile.name}
               </a>
             </div>
             <div className="flex flex-row min-w-[190px] gap-x-3 justify-between pointer-events-none">
