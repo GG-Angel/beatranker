@@ -11,11 +11,14 @@ const PlayerCard = () => {
     <>
       {profile && (
         <div className="flex flex-row justify-center items-center gap-x-8 font-geist font-medium text-cbody text-tx-light dark:text-tx-dark">
-          <img
-            src={profile.avatar}
-            width={100}
-            className="rounded-full border-8 border-tx-light dark:border-tx-dark"
-          />
+          
+          <div className="w-[100px] h-[100px] rounded-full bg-slate-600 border-4 border-tx-light dark:border-tx-dark">
+            <img
+              src={profile.avatar}
+              width={100}
+              className="rounded-full"
+            />
+          </div>
           <div className="flex flex-col justify-between h-full">
             <div className="flex flex-row gap-x-2 items-center">
               <a

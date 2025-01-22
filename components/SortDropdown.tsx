@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Icons } from "../constants";
+import { Colors, Icons } from "../constants";
 
 const SortDropdown: React.FC<{
   options: string[];
@@ -24,8 +24,8 @@ const SortDropdown: React.FC<{
         onClick={() => setIsOpened(!isOpened)}
       >
         <p>{selected}</p>
-        <img
-          src={Icons.dropdown}
+        <Icons.dropdown
+          fill={Colors.tx.alt}
           className={`transform transition-transform duration-200 ${
             isOpened ? "rotate-180" : "rotate-0"
           }`}
@@ -37,7 +37,7 @@ const SortDropdown: React.FC<{
             .filter((o) => o !== selected)
             .map((option, index) => (
               <button
-                className={`w-full px-4 py-1 bg-transparent hover:bg-card-alt-light dark:hover:bg-card-alt-dark active:bg-active-light dark:active:bg-active-dark text-left ${
+                className={`w-full px-4 py-1 transition hover:bg-card-alt-light dark:hover:bg-card-alt-dark text-left ${
                   index === options.length - 2 && "rounded-b-lg"
                 }`}
                 onClick={() => handleSelect(option)}

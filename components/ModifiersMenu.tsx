@@ -117,7 +117,7 @@ const ModifiersMenu = () => {
 
   return (
     <div
-      className={`flex flex-col items-center font-geist font-medium text-cbody ${
+      className={`flex flex-col items-center font-geist font-medium text-cbody transition ${
         isUpdating ? "text-tx-alt" : "text-tx-light dark:text-tx-dark"
       }`}
     >
@@ -139,12 +139,12 @@ const ModifiersMenu = () => {
             const modInfo = info[mod];
             return (
               <button
-                className={`w-full flex flex-col px-4 py-2 bg-transparent text-left 
+                className={`w-full flex flex-col px-4 py-2 text-left transition
                 ${
                   disabled
                     ? "opacity-40 grayscale"
                     : localModifiers.includes(mod)
-                    ? "bg-active-light dark:bg-active-dark"
+                    ? "bg-active-light bg-opacity-25 dark:bg-active-dark dark:bg-opacity-75"
                     : "hover:bg-card-alt-light dark:hover:bg-card-alt-dark"
                 }
                 ${index == 0 && "rounded-t-lg"}
@@ -171,7 +171,7 @@ const ModifiersMenu = () => {
             );
           })}
           <button
-            className={`flex flex-row w-full gap-x-2 items-center justify-center px-4 py-2 rounded-b-lg text-tx-dark bg-green-dark dark:bg-green-light ${
+            className={`flex flex-row w-full gap-x-2 items-center justify-center px-4 py-2 rounded-b-lg transition text-tx-dark bg-green-dark dark:bg-green-light ${
               changesMade
                 ? "grayscale opacity-40"
                 : "hover:opacity-80 active:opacity-60"
@@ -180,7 +180,7 @@ const ModifiersMenu = () => {
             onClick={handleApplyMods}
           >
             Apply Mods
-            <img src={Icons.check} />
+            <Icons.check fill="white" />
           </button>
         </div>
       )}

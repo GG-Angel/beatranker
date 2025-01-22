@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Icons, Images } from "../constants";
+import { Colors, Icons, Images } from "../constants";
 import { PlayerData } from "../api/types";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
@@ -56,7 +56,7 @@ const ProfileSearchBox: React.FC<{
           onClick={handleSubmitId}
           disabled={isLoading || playerId.trim().length === 0}
         >
-          {isLoading ? <LoadingSpinner /> : <img src={Icons.search} />}
+          {isLoading ? <LoadingSpinner /> : <Icons.search fill="white" />}
         </button>
       </div>
       {statusText && (

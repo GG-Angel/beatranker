@@ -23,20 +23,22 @@ const DifficultyTextColor: { [key: string]: string } = {
 
 const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
   const { isDark } = useContext(GlobalContext);
-  const iconFill = isDark ? Colors.tx.dark : Colors.tx.light
+  const iconFill = isDark ? Colors.tx.dark : Colors.tx.light;
 
   return (
     <div className="flex flex-row w-full bg-card-light dark:bg-card-dark rounded-r-lg">
       <div
-        className={`w-2 h-[101.2px] ${DifficultyBGColor[rec.difficultyName]}`}
+        className={`w-2 h-[100px] ${DifficultyBGColor[rec.difficultyName]}`}
       ></div>
-      <img
-        className="object-cover bg-slate-700"
-        src={rec.cover}
-        width={100}
-        loading="lazy"
-      />
-      <div className="flex flex-1 flex-row items-center justify-between font-geist font-medium text-cbody text-tx-light dark:text-tx-dark px-4 py-3 gap-x-8">
+      <div className="w-[100px] h-[100px] bg-slate-600">
+        <img
+          className="object-cover"
+          src={rec.cover}
+          width={100}
+          loading="lazy"
+        />
+      </div>
+      <div className="flex flex-1 flex-row h-[100px] items-center justify-between font-geist font-medium text-cbody text-tx-light dark:text-tx-dark px-4 py-3 gap-x-8">
         <div className="flex-1 w-0">
           <p className="truncate w-full">
             {rec.name} - {rec.author}
@@ -125,7 +127,10 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
               >
                 <Icons.beatsaver fill={iconFill} />
               </a>
-              <a className="cursor-pointer" onClick={() => downloadMap(rec.songId)}>
+              <a
+                className="cursor-pointer"
+                onClick={() => downloadMap(rec.songId)}
+              >
                 <Icons.download fill={iconFill} />
               </a>
               <a>
