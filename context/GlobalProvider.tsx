@@ -91,6 +91,7 @@ export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
     setModifiers,
     setIsLoading,
     setIsUpdating,
+    setIsDark,
     addLog,
     removeLog,
     updateLog

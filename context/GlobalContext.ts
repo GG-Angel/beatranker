@@ -13,6 +13,7 @@ interface GlobalContextValues {
   setModifiers: Dispatch<SetStateAction<Modifier[]>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsUpdating: Dispatch<SetStateAction<boolean>>;
+  setIsDark: Dispatch<SetStateAction<boolean>>;
   addLog: (type: MessageType, message: string, inProgress?: boolean, time?: number) => number;
   removeLog: (id: number) => void;
   updateLog: (id: number, type?: MessageType, message?: string, inProgress?: boolean, time?: number) => void
