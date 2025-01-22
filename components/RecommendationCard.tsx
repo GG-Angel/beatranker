@@ -1,4 +1,4 @@
-import { Icons } from "../constants";
+import { Colors, Icons } from "../constants";
 import { Recommendation } from "../api/types";
 import { renderCommas, renderDecimal, renderTime } from "../api/utils";
 import { downloadMap } from "../api/beatsaver";
@@ -23,6 +23,7 @@ const DifficultyTextColor: { [key: string]: string } = {
 
 const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
   const { isDark } = useContext(GlobalContext);
+  const iconFill = isDark ? Colors.tx.dark : Colors.tx.light
 
   return (
     <div className="flex flex-row w-full bg-card-light dark:bg-card-dark rounded-r-lg">
@@ -103,11 +104,11 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
           <div>
             <div className="flex flex-row items-center justify-end gap-x-[2px]">
               <p>{renderDecimal(rec.starsMod)}</p>
-              <img src={Icons.star} />
+              <Icons.star fill={iconFill} />
             </div>
             <div className="flex flex-row items-center justify-end gap-x-[2px]">
               <p>{renderTime(rec.duration)}</p>
-              <img src={Icons.timer} />
+              <Icons.timer fill={iconFill} />
             </div>
             <div className="flex flex-row items-center justify-end h-[26px] gap-x-1">
               <a
@@ -115,21 +116,20 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src={Icons.leaderboard} />
+                <Icons.leaderboard fill={iconFill} />
               </a>
               <a
                 href={`https://beatsaver.com/maps/${rec.songId}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src={Icons.beatsaver} />
+                <Icons.beatsaver fill={iconFill} />
               </a>
               <a className="cursor-pointer" onClick={() => downloadMap(rec.songId)}>
-                <img src={Icons.download} />
+                <Icons.download fill={iconFill} />
               </a>
               <a>
-                {/* <img src={Icons.more} /> */}
-                <Icons.NewIcon fill={isDark ? "white" : "green"} width={16} />
+                <Icons.more fill={iconFill} />
               </a>
             </div>
           </div>
