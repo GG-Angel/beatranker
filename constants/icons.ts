@@ -1,3 +1,6 @@
+/// <reference types="vite/client" />
+/// <reference types="vite-plugin-svgr/client" />
+
 import beatsaver from "../assets/icons/beatsaver.svg";
 import download from "../assets/icons/download.svg";
 import leaderboard from "../assets/icons/leaderboard.svg";
@@ -14,6 +17,7 @@ import close from "../assets/icons/close.svg";
 import error from "../assets/icons/error.svg";
 import info from "../assets/icons/info.svg";
 import success from "../assets/icons/success.svg"; 
+import NewIcon from "../assets/icons/success.svg?react"
 
 export default {
   beatsaver,
@@ -31,5 +35,6 @@ export default {
   close,
   error,
   info,
-  success
+  success,
+  NewIcon
 }

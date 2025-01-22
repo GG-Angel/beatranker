@@ -2,6 +2,8 @@ import { Icons } from "../constants";
 import { Recommendation } from "../api/types";
 import { renderCommas, renderDecimal, renderTime } from "../api/utils";
 import { downloadMap } from "../api/beatsaver";
+import { useContext } from "react";
+import GlobalContext from "../context/GlobalContext";
 
 const DifficultyBGColor: { [key: string]: string } = {
   ExpertPlus: "bg-diff-expertplus",
@@ -20,6 +22,8 @@ const DifficultyTextColor: { [key: string]: string } = {
 };
 
 const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
+  const { isDark } = useContext(GlobalContext);
+
   return (
     <div className="flex flex-row w-full bg-card-light dark:bg-card-dark rounded-r-lg">
       <div
@@ -124,7 +128,8 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
                 <img src={Icons.download} />
               </a>
               <a>
-                <img src={Icons.more} />
+                {/* <img src={Icons.more} /> */}
+                <Icons.NewIcon fill={isDark ? "white" : "green"} width={16} />
               </a>
             </div>
           </div>
