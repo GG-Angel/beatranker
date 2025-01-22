@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Colors, Icons } from "../constants";
+import { useOnClickOutside } from "../utils/utils";
 
 const SortDropdown: React.FC<{
   options: string[];
@@ -7,6 +8,9 @@ const SortDropdown: React.FC<{
   updateSelection: (selection: string) => void;
 }> = ({ options, selected, updateSelection }) => {
   const [isOpened, setIsOpened] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useOnClickOutside(dropdownRef, () => setIsOpened(false));
 
   const handleSelect = (option: string) => {
     updateSelection(option);
@@ -14,7 +18,10 @@ const SortDropdown: React.FC<{
   };
 
   return (
-    <div className="w-[180px] font-geist font-medium text-tx-light dark:text-tx-dark">
+    <div
+      ref={dropdownRef}
+      className="w-[180px] font-geist font-medium text-tx-light dark:text-tx-dark"
+    >
       <button
         className={`w-full flex flex-row justify-between items-center px-4 py-1 space-x-3 rounded-t-lg transition bg-card-light dark:bg-card-dark border-b-2 hover:border-active-light dark:hover:border-active-dark ${
           isOpened

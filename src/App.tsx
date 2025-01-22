@@ -10,7 +10,6 @@ import { RefreshButton } from "../components/RefreshButton";
 import GlobalContext from "../context/GlobalContext";
 import PlayerCard from "../components/PlayerCard";
 import Logger from "../components/Logger";
-import { ThemeToggle } from "../components/ThemeToggle";
 
 function App() {
   const { data, setData } = useContext(GlobalContext);

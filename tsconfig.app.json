@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "api", "components"]
+  "include": ["src", "api", "components", "utils/utils.ts"]
 }

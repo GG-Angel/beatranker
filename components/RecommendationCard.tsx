@@ -1,6 +1,6 @@
 import { Colors, Icons } from "../constants";
 import { Recommendation } from "../api/types";
-import { renderCommas, renderDecimal, renderTime } from "../api/utils";
+import { renderCommas, renderDecimal, renderTime } from "../utils/utils";
 import { downloadMap } from "../api/beatsaver";
 import { useContext } from "react";
 import GlobalContext from "../context/GlobalContext";
