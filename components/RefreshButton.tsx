@@ -36,7 +36,7 @@ export const RefreshButton = () => {
 
   return (
     <div
-      className={`flex flex-col items-center font-geist font-medium text-cbody ${
+      className={`flex flex-col items-center font-geist font-medium text-cbody transition ${
         isUpdating ? "text-tx-alt" : "text-tx-light dark:text-tx-dark"
       }`}
     >

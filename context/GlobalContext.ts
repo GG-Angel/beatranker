@@ -8,10 +8,12 @@ interface GlobalContextValues {
   logs: LogMessage[];
   isLoading: boolean;
   isUpdating: boolean;
+  isDark: boolean;
   setData: Dispatch<SetStateAction<PlayerData | null>>;
   setModifiers: Dispatch<SetStateAction<Modifier[]>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsUpdating: Dispatch<SetStateAction<boolean>>;
+  setIsDark: Dispatch<SetStateAction<boolean>>;
   addLog: (type: MessageType, message: string, inProgress?: boolean, time?: number) => number;
   removeLog: (id: number) => void;
   updateLog: (id: number, type?: MessageType, message?: string, inProgress?: boolean, time?: number) => void

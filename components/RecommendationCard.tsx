@@ -1,7 +1,9 @@
-import { Icons } from "../constants";
+import { Colors, Icons } from "../constants";
 import { Recommendation } from "../api/types";
 import { renderCommas, renderDecimal, renderTime } from "../api/utils";
 import { downloadMap } from "../api/beatsaver";
+import { useContext } from "react";
+import GlobalContext from "../context/GlobalContext";
 
 const DifficultyBGColor: { [key: string]: string } = {
   ExpertPlus: "bg-diff-expertplus",
@@ -20,18 +22,23 @@ const DifficultyTextColor: { [key: string]: string } = {
 };
 
 const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
+  const { isDark } = useContext(GlobalContext);
+  const iconFill = isDark ? Colors.tx.dark : Colors.tx.light;
+
   return (
     <div className="flex flex-row w-full bg-card-light dark:bg-card-dark rounded-r-lg">
       <div
-        className={`w-2 h-[101.2px] ${DifficultyBGColor[rec.difficultyName]}`}
+        className={`w-2 h-[100px] ${DifficultyBGColor[rec.difficultyName]}`}
       ></div>
-      <img
-        className="object-cover bg-slate-700"
-        src={rec.cover}
-        width={100}
-        loading="lazy"
-      />
-      <div className="flex flex-1 flex-row items-center justify-between font-geist font-medium text-cbody text-tx-light dark:text-tx-dark px-4 py-3 gap-x-8">
+      <div className="w-[100px] h-[100px] bg-slate-600">
+        <img
+          className="object-cover"
+          src={rec.cover}
+          width={100}
+          loading="lazy"
+        />
+      </div>
+      <div className="flex flex-1 flex-row h-[100px] items-center justify-between font-geist font-medium text-cbody text-tx-light dark:text-tx-dark px-4 py-3 gap-x-8">
         <div className="flex-1 w-0">
           <p className="truncate w-full">
             {rec.name} - {rec.author}
@@ -99,11 +106,11 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
           <div>
             <div className="flex flex-row items-center justify-end gap-x-[2px]">
               <p>{renderDecimal(rec.starsMod)}</p>
-              <img src={Icons.star} />
+              <Icons.star fill={iconFill} />
             </div>
             <div className="flex flex-row items-center justify-end gap-x-[2px]">
               <p>{renderTime(rec.duration)}</p>
-              <img src={Icons.timer} />
+              <Icons.timer fill={iconFill} />
             </div>
             <div className="flex flex-row items-center justify-end h-[26px] gap-x-1">
               <a
@@ -111,20 +118,23 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src={Icons.leaderboard} />
+                <Icons.leaderboard fill={iconFill} />
               </a>
               <a
                 href={`https://beatsaver.com/maps/${rec.songId}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src={Icons.beatsaver} />
+                <Icons.beatsaver fill={iconFill} />
               </a>
-              <a className="cursor-pointer" onClick={() => downloadMap(rec.songId)}>
-                <img src={Icons.download} />
+              <a
+                className="cursor-pointer"
+                onClick={() => downloadMap(rec.songId)}
+              >
+                <Icons.download fill={iconFill} />
               </a>
               <a>
-                <img src={Icons.more} />
+                <Icons.more fill={iconFill} />
               </a>
             </div>
           </div>

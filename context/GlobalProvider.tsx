@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useReducer, useState } from "react";
+import React, { PropsWithChildren, useEffect, useReducer, useState } from "react";
 import { Modifier, PlayerData } from "../api/types";
 import GlobalContext from "./GlobalContext";
 import { LogMessage, MessageType } from "../components/Logger";
@@ -49,6 +49,7 @@ export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [data, setData] = useState<PlayerData | null>(null);
   const [modifiers, setModifiers] = useState<Modifier[]>([]);
   const [logs, logDispatch] = useReducer(logReducer, []);
+  const [isDark, setIsDark] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
@@ -66,16 +67,31 @@ export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
     logDispatch({ type: "UPDATE_LOG", payload: { id, type, message, inProgress, time } })
   }
 
+  useEffect(() => {
+    const detectTheme = () => {
+      const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      setIsDark(darkModeMediaQuery.matches);
+    };
+    detectTheme();
+    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    darkModeMediaQuery.addEventListener('change', () => detectTheme());
+    return () => {
+      darkModeMediaQuery.removeEventListener('change', () => detectTheme());
+    };
+  }, []);
+
   const value = {
     data,
     modifiers,
     logs,
     isLoading,
     isUpdating,
+    isDark,
     setData,
     setModifiers,
     setIsLoading,
     setIsUpdating,
+    setIsDark,
     addLog,
     removeLog,
     updateLog
