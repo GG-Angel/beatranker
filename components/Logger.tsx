@@ -55,10 +55,10 @@ const LogMessage: React.FC<{ log: LogMessage }> = ({ log }) => {
 
   return (
     <div
-      className={`flex flex-row w-full items-start gap-x-2 px-4 py-3 text-tx-light dark:text-tx-dark bg-card-light dark:bg-card-dark border-2 rounded-lg shadow-2xl shadow-bg-light dark:shadow-bg-dark ${
+      className={`flex flex-row w-full items-start gap-x-2 px-4 py-3 text-tx-light dark:text-tx-dark bg-card-light dark:bg-card-dark border-2 rounded-lg shadow-xl ${
         log.inProgress
-          ? "border-active-light dark:border-active-dark"
-          : "border-card-alt-light dark:border-card-alt-dark "
+          ? "border-active-light dark:border-active-dark shadow-active-light/30 dark:shadow-active-dark/30"
+          : "border-card-alt-light dark:border-card-alt-dark shadow-black/5"
       }`}
     >
       {LogMessageIcon(log.type)}

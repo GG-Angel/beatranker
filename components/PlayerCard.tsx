@@ -32,7 +32,7 @@ const PlayerCard = () => {
                 />
               </a>
               <a
-                className="text-csub font-bold"
+                className="text-csub font-bold transition hover:text-active-light"
                 href={`https://beatleader.xyz/u/${profile.id}`}
                 target="_blank"
                 rel="noopener noreferrer"

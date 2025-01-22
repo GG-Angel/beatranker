@@ -17,7 +17,8 @@ export default {
     }
   },
   active: {
-    light: "#646cff",
+    // light: "#646cff",
+    light: "#787ef5",
     dark: "#404078"
   },
   diff: {

@@ -9,7 +9,7 @@ const SortDirection: React.FC<{
   const { isDark } = useContext(GlobalContext);
   return (
     <button
-      className="flex items-center justify-center w-[35.2px] h-[35.2px] rounded-lg border-b-2 bg-card-light dark:bg-card-dark border-card-alt-light dark:border-card-alt-dark hover:border-active-light dark:hover:border-active-dark"
+      className="flex items-center justify-center w-[35.2px] h-[35.2px] rounded-lg border-b-2 transition bg-card-light dark:bg-card-dark border-card-alt-light dark:border-card-alt-dark hover:border-active-light dark:hover:border-active-dark"
       onClick={updateDirection}
     >
       <Icons.arrow 
