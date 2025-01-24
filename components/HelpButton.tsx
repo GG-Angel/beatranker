@@ -53,7 +53,7 @@ const HelpButton = () => {
         Help
       </button>
       {isOpened && (
-        <div className="fixed top-0 left-0 flex justify-center items-center w-full h-full z-40 bg-black/10 dark:bg-white/10 bg-opacity-50 backdrop-blur-md fade-in">
+        <div className="fixed top-0 left-0 flex justify-center items-center w-full h-full z-40 bg-black/10 dark:bg-white/5 bg-opacity-50 backdrop-blur-md fade-in">
           <div
             ref={helpRef}
             className="relative w-5/6 sm:w-4/5 h-3/5 max-w-[800px] p-8 rounded-2xl border-4 border-solid border-card-alt-light dark:border-card-alt-dark bg-card-light dark:bg-card-dark text-tx-light dark:text-tx-dark shadow-xl shadow-black/25 fade-in-slide"

@@ -20,8 +20,8 @@ const ProfileSearchBox: React.FC<{
       const playerData = await getPlayer(playerId);
       updateData(playerData);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setStatusText(error.response?.data?.detail);
+      if (axios.isAxiosError(error) && error.response?.data.detail) {
+        setStatusText(error.response.data.detail);
       } else {
         setStatusText("Unexpected error, please try again. :(");
       }
