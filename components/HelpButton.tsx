@@ -1,5 +1,4 @@
 import {
-  PropsWithChildren,
   ReactNode,
   useContext,
   useRef,
@@ -17,7 +16,7 @@ type SectionProps = {
 
 const HelpButton = () => {
   const { isDark } = useContext(GlobalContext);
-  const [isOpened, setIsOpened] = useState(true);
+  const [isOpened, setIsOpened] = useState(false);
   const helpRef = useRef<HTMLDivElement | null>(null);
 
   useOnClickOutside(helpRef, () => setIsOpened(false));
