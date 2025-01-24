@@ -58,6 +58,7 @@ export interface Profile {
 
 export interface MLData {
   model: number[];
+  plot: string;
 }
 
 export interface PlayerData {

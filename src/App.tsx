@@ -10,6 +10,7 @@ import { RefreshButton } from "../components/RefreshButton";
 import GlobalContext from "../context/GlobalContext";
 import PlayerCard from "../components/PlayerCard";
 import Logger from "../components/Logger";
+import HelpButton from "../components/HelpButton";
 
 function App() {
   const { data, setData } = useContext(GlobalContext);
@@ -55,8 +56,7 @@ function App() {
           </div>
         )}
         <div className="flex flex-row flex-1 gap-x-8 justify-end">
-          <button>Help</button>
-          {/* <ThemeToggle /> */}
+          <HelpButton />
         </div>
       </header>
       <div className="flex flex-col w-full h-full px-16 pb-8 gap-y-8">

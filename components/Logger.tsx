@@ -80,7 +80,7 @@ const Logger = () => {
   const { logs } = useContext(GlobalContext);
 
   return (
-    <div className="fixed w-full lg:max-w-[500px] max-w-[400px] z-50 right-0 bottom-0 flex flex-col gap-y-2 justify-end py-4 px-4">
+    <div className="fixed w-full lg:max-w-[500px] max-w-[400px] z-40 right-0 bottom-0 flex flex-col gap-y-2 justify-end py-4 px-4">
       {logs.map((log) => (
         <LogMessage key={log.id} log={log} />
       ))}

@@ -17,8 +17,9 @@ import close from "../assets/icons/close.svg?react";
 import error from "../assets/icons/error.svg?react";
 import info from "../assets/icons/info.svg?react";
 import success from "../assets/icons/success.svg?react"; 
+import linestart from "../assets/icons/linestart.svg?react";
 import light from "../assets/icons/light.svg?react"; 
-import dark from "../assets/icons/dark.svg?react"; 
+import dark from "../assets/icons/dark.svg?react";
 
 export default {
   beatsaver,
@@ -37,6 +38,7 @@ export default {
   error,
   info,
   success,
+  linestart,
   light,
   dark
 }
