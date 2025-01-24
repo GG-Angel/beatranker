@@ -30,7 +30,7 @@ const HelpButton = () => {
             <Icons.linestart fill={isDark ? Colors.tx.dark : Colors.tx.light} />
           </div>
           <div className="flex flex-row flex-1 items-center">
-            <div className="w-[3px] h-[95%] ml-2 rounded-full bg-tx-light dark:bg-tx-dark"></div>
+            <div className="w-[3px] h-[95%] ml-2 rounded-full bg-tx-alt"></div>
           </div>
         </div>
         <div className="flex flex-col gap-y-2">
@@ -41,7 +41,7 @@ const HelpButton = () => {
     );
   };
 
-  const altStyle = "text-indigo-600 dark:text-active-light hover:underline";
+  const altStyle = "text-indigo-600 dark:text-indigo-400 hover:underline";
 
   return (
     <>
@@ -60,7 +60,7 @@ const HelpButton = () => {
           >
             <button
               onClick={() => setIsOpened(false)}
-              className="hover:brightness-95 active:brightness-75 transition absolute flex items-center justify-center w-12 h-12 -top-6 -right-6 rounded-full border-4 border-solid z-50 border-card-alt-light dark:border-card-alt-dark bg-card-light dark:bg-card-dark"
+              className="hover:brightness-95 active:brightness-75 dark:hover:brightness-75 dark:active:brightness-50 transition absolute flex items-center justify-center w-12 h-12 -top-6 -right-6 rounded-full border-4 border-solid z-50 border-card-alt-light dark:border-card-alt-dark bg-card-light dark:bg-card-dark"
             >
               <Icons.close fill={isDark ? Colors.tx.dark : Colors.tx.alt} />
             </button>
