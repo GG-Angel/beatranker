@@ -6,6 +6,12 @@ export function renderTime(seconds: number): string {
   return `${minutes}:${secondsLeft.toString().padStart(2, "0")}`;
 }
 
+export function renderUTCAsLocal(isostring: string, timeOffset: number = 0): string {
+  const date = new Date(isostring)
+  date.setTime(date.getTime() + timeOffset)
+  return date.toLocaleString();
+}
+
 export function renderDecimal(num: number): string {
   return num.toFixed(2);
 }

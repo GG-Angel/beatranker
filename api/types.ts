@@ -59,6 +59,7 @@ export interface Profile {
 export interface MLData {
   model: number[];
   plot: string;
+  lastMapRefresh: string;
 }
 
 export interface PlayerData {
