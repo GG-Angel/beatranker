@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Icons, Images } from "../constants";
-import { PlayerData } from "../api/types";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { getPlayer } from "../api/beatranker";
@@ -36,7 +35,7 @@ const ProfileSearchBox = () => {
           <img src={Images.beatleader} width={26} />
         </div>
         <input
-          className={`flex flex-1 px-4 py-3 bg-card-light  text-tx-light font-geist font-medium text-cbody bg-transparent outline-none`}
+          className={`flex flex-1 px-4 py-3 bg-card-light text-tx-light font-geist font-medium text-cbody bg-transparent outline-none`}
           placeholder="BeatLeader Profile ID"
           onChange={(e) => setPlayerId(e.target.value)}
           onSubmit={handleSubmitId}

@@ -83,7 +83,7 @@ function App() {
               ref={gridRef}
             >
               <RecommendationList
-                recs={data.recs.filter((r) => r.status === "unplayed")}
+                recs={data.recs.filter((r) => r.status === "unplayed" && !r.isFiltered)}
                 header="Not Played"
                 columns={columns}
                 options={{
@@ -93,7 +93,7 @@ function App() {
                 }}
               />
               <RecommendationList
-                recs={data.recs.filter((r) => r.status === "played")}
+                recs={data.recs.filter((r) => r.status === "played" && !r.isFiltered)}
                 header="To Improve"
                 columns={columns}
                 options={{

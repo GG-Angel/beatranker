@@ -58,6 +58,7 @@ const ModifiersMenu = () => {
   const {
     data,
     setData,
+    originalRecs,
     modifiers,
     setModifiers,
     isUpdating,
@@ -92,7 +93,7 @@ const ModifiersMenu = () => {
     if (isUpdating) {
       setIsOpened(false);
     }
-  }, [isUpdating]);
+  }, [isOpened, isUpdating]);
 
   const toggleModifier = (mod: Modifier) => {
     setLocalModifiers(
@@ -107,7 +108,6 @@ const ModifiersMenu = () => {
       setIsUpdating(true);
       const logId = addLog("information", "Recalculating modifiers...", true);
       try {
-        console.log(localModifiers);
         const updatedRecs = await updateMods(
           localModifiers,
           data.recs,
