@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useEffect, useReducer, useState } from "react";
-import { Modifier, PlayerData } from "../api/types";
+import { Modifier, PlayerData, Recommendation } from "../api/types";
 import GlobalContext from "./GlobalContext";
 import { LogMessage, MessageType } from "../components/Logger";
 
@@ -47,6 +47,7 @@ function logReducer(state: LogMessage[], action: logAction) {
 
 export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [data, setData] = useState<PlayerData | null>(null);
+  const [originalRecs, setOriginalRecs] = useState<Recommendation[] | null>(null);
   const [modifiers, setModifiers] = useState<Modifier[]>([]);
   const [logs, logDispatch] = useReducer(logReducer, []);
   const [isDark, setIsDark] = useState<boolean>(false);
@@ -80,14 +81,22 @@ export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!data) {
+      setOriginalRecs(null);
+    }
+  }, [data, originalRecs])
+
   const value = {
     data,
+    originalRecs,
     modifiers,
     logs,
     isLoading,
     isUpdating,
     isDark,
     setData,
+    setOriginalRecs,
     setModifiers,
     setIsLoading,
     setIsUpdating,

@@ -14,11 +14,12 @@ import HelpView from "../components/HelpView";
 import { FiltersMenu } from "../components/FiltersMenu";
 
 function App() {
-  const { data, setData } = useContext(GlobalContext);
+  const { data, setData, setOriginalRecs } = useContext(GlobalContext);
 
   useEffect(() => {
     const data = ResponseJSON as PlayerData;
     setData(data);
+    setOriginalRecs(data.recs)
   }, []);
 
   const [columns, setColumns] = useState(2);
@@ -69,9 +70,7 @@ function App() {
                 BeatRanker
               </h1>
               <div className="w-full max-w-[648px]">
-                <ProfileSearchBox
-                  updateData={(player_data) => setData(player_data)}
-                />
+                <ProfileSearchBox />
               </div>
             </div>
           </div>

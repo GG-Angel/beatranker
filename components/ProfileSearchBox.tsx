@@ -6,9 +6,8 @@ import { LoadingSpinner } from "./LoadingSpinner";
 import { getPlayer } from "../api/beatranker";
 import GlobalContext from "../context/GlobalContext";
 
-const ProfileSearchBox: React.FC<{
-  updateData: (data: PlayerData) => void;
-}> = ({ updateData }) => {
+const ProfileSearchBox = () => {
+  const { setData, setOriginalRecs } = useContext(GlobalContext);
   const { isLoading, setIsLoading } = useContext(GlobalContext);
   const [playerId, setPlayerId] = useState("");
   const [statusText, setStatusText] = useState("");
@@ -18,7 +17,8 @@ const ProfileSearchBox: React.FC<{
     setStatusText("Predicting scores...");
     try {
       const playerData = await getPlayer(playerId);
-      updateData(playerData);
+      setData(playerData);
+      setOriginalRecs(playerData.recs)
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data.detail) {
         setStatusText(error.response.data.detail);
