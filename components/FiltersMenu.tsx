@@ -14,6 +14,8 @@ export const FiltersMenu = () => {
     gainsOnly: false,
     starRange: [-Infinity, Infinity],
   });
+  const isStarRangeEnabled =
+    filters.starRange[0] > 0 || filters.starRange[1] < Infinity;
 
   const menuRef = useRef<HTMLDivElement | null>(null);
   useOnClickOutside(menuRef, () => setIsOpened(false));
@@ -23,13 +25,17 @@ export const FiltersMenu = () => {
     field: "min" | "max"
   ) => {
     const input = e.target.value;
-    const [min, max] = filters.starRange
-    const value = /^\d+\.?\d*$/.test(input) ? Number(input) : (field === "min" ? -Infinity : Infinity)
+    const [min, max] = filters.starRange;
+    const value = /^\d+\.?\d*$/.test(input)
+      ? Number(input)
+      : field === "min"
+      ? -Infinity
+      : Infinity;
     if (field === "min" && value <= max) {
-      setFilters((prev) => ({...prev, starRange: [value, max]}))
+      setFilters((prev) => ({ ...prev, starRange: [value, max] }));
     }
     if (field === "max" && min <= value) {
-      setFilters((prev) => ({...prev, starRange: [min, value]}))
+      setFilters((prev) => ({ ...prev, starRange: [min, value] }));
     }
   };
 
@@ -49,7 +55,7 @@ export const FiltersMenu = () => {
           <button
             className={`w-full flex flex-col px-4 py-2 rounded-t-lg text-left transition ${
               filters.gainsOnly
-                ? "bg-active-light bg-opacity-25 dark:bg-active-dark dark:bg-opacity-75"
+                ? "bg-indigo-100 bg-indigo-400/30"
                 : "hover:bg-card-alt-light dark:hover:bg-card-alt-dark"
             }`}
             onClick={() =>
@@ -61,14 +67,18 @@ export const FiltersMenu = () => {
               Only show maps you can gain PP from
             </p>
           </button>
-          <div className="w-full flex flex-col px-4 py-2 rounded-b-lg text-left transition">
+          <div
+            className={`w-full flex flex-col px-4 py-2 rounded-b-lg text-left transition ${
+              isStarRangeEnabled && "bg-indigo-100 bg-indigo-400/30"
+            }`}
+          >
             <p>Reach for the Stars 💫</p>
             <p className="text-ctri text-tx-alt">
               Only show maps within this star range
             </p>
             <div className="flex flex-row gap-x-2 my-1">
               <input
-                className="w-full rounded-sm px-2 outline-none bg-card-alt-light dark:bg-card-alt-dark"
+                className={`w-full rounded-sm px-2 outline-none transition bg-card-alt-light dark:bg-card-alt-dark`}
                 value={filters.starRange[0]}
                 onChange={(e) => updateStarRange(e, "min")}
                 placeholder="min"

@@ -161,7 +161,7 @@ const ModifiersMenu = () => {
                   disabled
                     ? "opacity-40 grayscale"
                     : localModifiers.includes(mod)
-                    ? "bg-active-light bg-opacity-25 dark:bg-active-dark dark:bg-opacity-75"
+                    ? "bg-indigo-100 dark:bg-indigo-400/30"
                     : "hover:bg-card-alt-light dark:hover:bg-card-alt-dark"
                 }
                 ${index == 0 && "rounded-t-lg"}
