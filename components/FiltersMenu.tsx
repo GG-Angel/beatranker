@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
 import { useOnClickOutside } from "../utils/utils";
+import { PlayerData } from "../api/types";
 
 export interface FilterState {
   gainsOnly: boolean;
@@ -32,6 +33,18 @@ export const FiltersMenu = () => {
       setFilters((prev) => ({ ...prev, starRange: [min, value] }));
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      const { gainsOnly, starRange } = filters
+      const [min, max] = starRange
+      const updatedRecs = data.recs.map((r) => ({
+        ...r,
+        isFiltered: (gainsOnly && r.weightedPPGain <= 0) || r.starsMod < min || r.starsMod > max
+      }));
+      setData((prev) => ({...prev, recs: updatedRecs} as PlayerData))
+    }
+  }, [data, filters])
 
   const isStarRangeEnabled =
     filters.starRange[0] > 0 || filters.starRange[1] < Infinity;
