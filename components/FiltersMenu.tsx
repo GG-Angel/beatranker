@@ -2,20 +2,14 @@ import { useContext, useEffect, useRef, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
 import { useOnClickOutside } from "../utils/utils";
 
-interface FilterState {
+export interface FilterState {
   gainsOnly: boolean;
   starRange: [number, number];
 }
 
 export const FiltersMenu = () => {
-  const { data, setData, isUpdating } = useContext(GlobalContext);
+  const { data, setData, filters, setFilters, isUpdating } = useContext(GlobalContext);
   const [isOpened, setIsOpened] = useState<boolean>(true);
-  const [filters, setFilters] = useState<FilterState>({
-    gainsOnly: false,
-    starRange: [-Infinity, Infinity],
-  });
-  const isStarRangeEnabled =
-    filters.starRange[0] > 0 || filters.starRange[1] < Infinity;
 
   const menuRef = useRef<HTMLDivElement | null>(null);
   useOnClickOutside(menuRef, () => setIsOpened(false));
@@ -38,6 +32,9 @@ export const FiltersMenu = () => {
       setFilters((prev) => ({ ...prev, starRange: [min, value] }));
     }
   };
+
+  const isStarRangeEnabled =
+    filters.starRange[0] > 0 || filters.starRange[1] < Infinity;
 
   return (
     <div
@@ -78,7 +75,7 @@ export const FiltersMenu = () => {
             </p>
             <div className="flex flex-row gap-x-2 my-1">
               <input
-                className={`w-full rounded-sm px-2 outline-none transition bg-card-alt-light dark:bg-card-alt-dark`}
+                className={`w-full rounded-sm pl-2 outline-none transition bg-card-alt-light dark:bg-card-alt-dark`}
                 value={filters.starRange[0]}
                 onChange={(e) => updateStarRange(e, "min")}
                 placeholder="min"
@@ -88,7 +85,7 @@ export const FiltersMenu = () => {
                 step="any"
               />
               <input
-                className="w-full rounded-sm px-2 outline-none bg-card-alt-light dark:bg-card-alt-dark"
+                className="w-full rounded-sm pl-2 outline-none bg-card-alt-light dark:bg-card-alt-dark"
                 value={filters.starRange[1]}
                 onChange={(e) => updateStarRange(e, "max")}
                 placeholder="max"

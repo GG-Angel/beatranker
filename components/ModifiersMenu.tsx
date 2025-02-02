@@ -58,7 +58,6 @@ const ModifiersMenu = () => {
   const {
     data,
     setData,
-    originalRecs,
     modifiers,
     setModifiers,
     isUpdating,
@@ -170,9 +169,9 @@ const ModifiersMenu = () => {
                 disabled={disabled}
                 key={index}
               >
-                <p className="flex flex-row justify-between">
-                  {modInfo.name}
-                  <span
+                <div className="w-full flex flex-row justify-between">
+                  <p>{modInfo.name}</p>
+                  <p
                     className={`${
                       modInfo.change >= 0
                         ? "text-green-light dark:text-green-dark"
@@ -181,8 +180,8 @@ const ModifiersMenu = () => {
                   >
                     {modInfo.change >= 0 && "+"}
                     {modInfo.change}%
-                  </span>
-                </p>
+                  </p>
+                </div>
                 <p className="text-ctri text-tx-alt">{modInfo.desc}</p>
               </button>
             );
