@@ -92,7 +92,7 @@ const ModifiersMenu = () => {
     if (isUpdating) {
       setIsOpened(false);
     }
-  }, [isUpdating]);
+  }, [isOpened, isUpdating]);
 
   const toggleModifier = (mod: Modifier) => {
     setLocalModifiers(
@@ -107,7 +107,6 @@ const ModifiersMenu = () => {
       setIsUpdating(true);
       const logId = addLog("information", "Recalculating modifiers...", true);
       try {
-        console.log(localModifiers);
         const updatedRecs = await updateMods(
           localModifiers,
           data.recs,
@@ -161,7 +160,7 @@ const ModifiersMenu = () => {
                   disabled
                     ? "opacity-40 grayscale"
                     : localModifiers.includes(mod)
-                    ? "bg-active-light bg-opacity-25 dark:bg-active-dark dark:bg-opacity-75"
+                    ? "bg-indigo-100 dark:bg-indigo-400/30"
                     : "hover:bg-card-alt-light dark:hover:bg-card-alt-dark"
                 }
                 ${index == 0 && "rounded-t-lg"}
@@ -170,9 +169,9 @@ const ModifiersMenu = () => {
                 disabled={disabled}
                 key={index}
               >
-                <p className="flex flex-row justify-between">
-                  {modInfo.name}
-                  <span
+                <div className="w-full flex flex-row justify-between">
+                  <p>{modInfo.name}</p>
+                  <p
                     className={`${
                       modInfo.change >= 0
                         ? "text-green-light dark:text-green-dark"
@@ -181,8 +180,8 @@ const ModifiersMenu = () => {
                   >
                     {modInfo.change >= 0 && "+"}
                     {modInfo.change}%
-                  </span>
-                </p>
+                  </p>
+                </div>
                 <p className="text-ctri text-tx-alt">{modInfo.desc}</p>
               </button>
             );

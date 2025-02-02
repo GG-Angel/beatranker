@@ -49,7 +49,7 @@ const RecommendationList: React.FC<{
         height={columns > 1 ? window.innerHeight - 320 : 560}
         itemCount={localRecs.length}
         itemSize={112}
-        overscanCount={3}
+        overscanCount={10}
       >
         {({ index, style }) => (
           <div style={style}>

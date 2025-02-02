@@ -25,6 +25,7 @@ export interface Recommendation {
   accRatingMod: number;
   techRatingMod: number;
   status: Status;
+  isFiltered: boolean;
   rank: number | null;
   timeAgo: string | null;
   timePost: number | null;
@@ -59,6 +60,7 @@ export interface Profile {
 export interface MLData {
   model: number[];
   plot: string;
+  lastMapRefresh: string;
 }
 
 export interface PlayerData {

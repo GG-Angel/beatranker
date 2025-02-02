@@ -1,7 +1,8 @@
 import React, { PropsWithChildren, useEffect, useReducer, useState } from "react";
-import { Modifier, PlayerData } from "../api/types";
+import { Modifier, PlayerData, Recommendation } from "../api/types";
 import GlobalContext from "./GlobalContext";
 import { LogMessage, MessageType } from "../components/Logger";
+import { FilterState } from "../components/FiltersMenu";
 
 export type logAction =
   | {
@@ -47,7 +48,12 @@ function logReducer(state: LogMessage[], action: logAction) {
 
 export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [data, setData] = useState<PlayerData | null>(null);
+  const [originalRecs, setOriginalRecs] = useState<Recommendation[] | null>(null);
   const [modifiers, setModifiers] = useState<Modifier[]>([]);
+  const [filters, setFilters] = useState<FilterState>({
+    gainsOnly: false,
+    starRange: [-Infinity, Infinity],
+  });
   const [logs, logDispatch] = useReducer(logReducer, []);
   const [isDark, setIsDark] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -80,15 +86,25 @@ export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!data) {
+      setOriginalRecs(null);
+    }
+  }, [data, originalRecs])
+
   const value = {
     data,
+    originalRecs,
     modifiers,
+    filters,
     logs,
     isLoading,
     isUpdating,
     isDark,
     setData,
+    setOriginalRecs,
     setModifiers,
+    setFilters,
     setIsLoading,
     setIsUpdating,
     setIsDark,

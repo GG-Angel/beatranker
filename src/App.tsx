@@ -10,14 +10,16 @@ import { RefreshButton } from "../components/RefreshButton";
 import GlobalContext from "../context/GlobalContext";
 import PlayerCard from "../components/PlayerCard";
 import Logger from "../components/Logger";
-import HelpButton from "../components/HelpButton";
+import HelpView from "../components/HelpView";
+import { FiltersMenu } from "../components/FiltersMenu";
 
 function App() {
-  const { data, setData } = useContext(GlobalContext);
+  const { data, setData, setOriginalRecs } = useContext(GlobalContext);
 
   useEffect(() => {
     const data = ResponseJSON as PlayerData;
     setData(data);
+    setOriginalRecs(data.recs)
   }, []);
 
   const [columns, setColumns] = useState(2);
@@ -52,11 +54,12 @@ function App() {
           <div className="flex flex-row gap-x-8">
             <button onClick={() => setData(null)}>Home</button>
             <RefreshButton />
+            <FiltersMenu />
             <ModifiersMenu />
           </div>
         )}
         <div className="flex flex-row flex-1 gap-x-8 justify-end">
-          <HelpButton />
+          <HelpView />
         </div>
       </header>
       <div className="flex flex-col w-full h-full px-16 pb-8 gap-y-8">
@@ -67,9 +70,7 @@ function App() {
                 BeatRanker
               </h1>
               <div className="w-full max-w-[648px]">
-                <ProfileSearchBox
-                  updateData={(player_data) => setData(player_data)}
-                />
+                <ProfileSearchBox />
               </div>
             </div>
           </div>
@@ -82,7 +83,7 @@ function App() {
               ref={gridRef}
             >
               <RecommendationList
-                recs={data.recs.filter((r) => r.status === "unplayed")}
+                recs={data.recs.filter((r) => r.status === "unplayed" && !r.isFiltered)}
                 header="Not Played"
                 columns={columns}
                 options={{
@@ -92,7 +93,7 @@ function App() {
                 }}
               />
               <RecommendationList
-                recs={data.recs.filter((r) => r.status === "played")}
+                recs={data.recs.filter((r) => r.status === "played" && !r.isFiltered)}
                 header="To Improve"
                 columns={columns}
                 options={{

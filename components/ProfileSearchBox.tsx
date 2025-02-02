@@ -1,14 +1,12 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Icons, Images } from "../constants";
-import { PlayerData } from "../api/types";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { getPlayer } from "../api/beatranker";
 import GlobalContext from "../context/GlobalContext";
 
-const ProfileSearchBox: React.FC<{
-  updateData: (data: PlayerData) => void;
-}> = ({ updateData }) => {
+const ProfileSearchBox = () => {
+  const { setData, setOriginalRecs } = useContext(GlobalContext);
   const { isLoading, setIsLoading } = useContext(GlobalContext);
   const [playerId, setPlayerId] = useState("");
   const [statusText, setStatusText] = useState("");
@@ -18,7 +16,8 @@ const ProfileSearchBox: React.FC<{
     setStatusText("Predicting scores...");
     try {
       const playerData = await getPlayer(playerId);
-      updateData(playerData);
+      setData(playerData);
+      setOriginalRecs(playerData.recs)
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data.detail) {
         setStatusText(error.response.data.detail);
@@ -36,7 +35,7 @@ const ProfileSearchBox: React.FC<{
           <img src={Images.beatleader} width={26} />
         </div>
         <input
-          className={`flex flex-1 px-4 py-3 bg-card-light  text-tx-light font-geist font-medium text-cbody bg-transparent outline-none`}
+          className={`flex flex-1 px-4 py-3 bg-card-light text-tx-light font-geist font-medium text-cbody bg-transparent outline-none`}
           placeholder="BeatLeader Profile ID"
           onChange={(e) => setPlayerId(e.target.value)}
           onSubmit={handleSubmitId}
