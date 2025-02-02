@@ -9,7 +9,8 @@ export interface FilterState {
 }
 
 export const FiltersMenu = () => {
-  const { data, setData, filters, setFilters, isUpdating } = useContext(GlobalContext);
+  const { data, setData, isUpdating, filters, setFilters } =
+    useContext(GlobalContext);
   const [isOpened, setIsOpened] = useState<boolean>(true);
 
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -26,25 +27,26 @@ export const FiltersMenu = () => {
       : field === "min"
       ? -Infinity
       : Infinity;
-    if (field === "min" && value <= max) {
-      setFilters((prev) => ({ ...prev, starRange: [value, max] }));
-    }
-    if (field === "max" && min <= value) {
-      setFilters((prev) => ({ ...prev, starRange: [min, value] }));
-    }
+    setFilters((prev) => ({
+      ...prev,
+      starRange: field === "min" ? [value, max] : [min, value],
+    }));
   };
 
   useEffect(() => {
-    if (data) {
-      const { gainsOnly, starRange } = filters
-      const [min, max] = starRange
+    if (data && !isUpdating) {
+      const { gainsOnly, starRange } = filters;
+      const [min, max] = starRange;
       const updatedRecs = data.recs.map((r) => ({
         ...r,
-        isFiltered: (gainsOnly && r.weightedPPGain <= 0) || r.starsMod < min || r.starsMod > max
+        isFiltered:
+          (gainsOnly && r.weightedPPGain <= 0) ||
+          r.starsMod < min ||
+          r.starsMod > max,
       }));
-      setData((prev) => ({...prev, recs: updatedRecs} as PlayerData))
+      setData((prev) => ({ ...prev, recs: updatedRecs } as PlayerData));
     }
-  }, [data, filters])
+  }, [isUpdating, filters]);
 
   const isStarRangeEnabled =
     filters.starRange[0] > 0 || filters.starRange[1] < Infinity;

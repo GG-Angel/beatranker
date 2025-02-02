@@ -54,8 +54,8 @@ function App() {
           <div className="flex flex-row gap-x-8">
             <button onClick={() => setData(null)}>Home</button>
             <RefreshButton />
-            <ModifiersMenu />
             <FiltersMenu />
+            <ModifiersMenu />
           </div>
         )}
         <div className="flex flex-row flex-1 gap-x-8 justify-end">
