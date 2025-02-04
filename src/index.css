@@ -1,5 +1,6 @@
 @import "./styles/fonts.css";
 @import "./styles/animations.css";
+@import "./styles/plot.css";
 
 @tailwind base;
 @tailwind components;

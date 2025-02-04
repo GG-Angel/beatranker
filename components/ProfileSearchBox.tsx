@@ -47,7 +47,7 @@ const ProfileSearchBox = () => {
           disabled={isLoading}
         />
         <button
-          className={`w-[58px] h-[50px] flex justify-center items-center ${
+          className={`w-[58px] h-[50px] flex justify-center items-center transition ${
             isLoading || playerId.trim() === ""
               ? "bg-blue-300 dark:bg-blue-300"
               : "bg-blue-light dark:bg-blue-dark px-4 py-3 hover:bg-blue-400 dark:hover:bg-sky-600"
