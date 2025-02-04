@@ -133,9 +133,9 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
               >
                 <Icons.download fill={iconFill} />
               </a>
-              <a>
+              {/* <a>
                 <Icons.more fill={iconFill} />
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
