@@ -63,7 +63,7 @@ function App() {
           <div className="flex h-full items-center">
             <div className="flex flex-1 flex-col items-center">
               <div className="flex flex-row gap-x-4 items-center mb-6">
-                <img src={isDark ? Images.beatranker : Images.beatrankerOutline} width={39} />
+                <img className={`${!isDark && "brightness-0"}`} src={isDark ? Images.beatranker : Images.beatrankerOutline} width={39} />
                 <h1 className="text-ch2 font-extrabold">
                   BeatRanker
                 </h1>
