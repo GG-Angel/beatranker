@@ -3,9 +3,11 @@ import { MLData, Modifier, PlayerData, Recommendation } from "./types";
 
 const api = "http://127.0.0.1:8000";
 
+const timeoutConfig = { timeout: 24000, timeoutErrorMessage: "Request timed out" }
+
 export const getPlayer = async (playerId: string, force: boolean = false): Promise<PlayerData> => {
   const url = `${api}/recommendations/${playerId.trim()}?force=${force}`;
-  const resp = await axios.get(url);
+  const resp = await axios.get(url, timeoutConfig);
   const playerData = resp.data;
   return playerData;
 };
@@ -21,7 +23,7 @@ export const updateMods = async (
     model: model,
     mods: mods,
   };
-  const resp = await axios.put(url, data);
+  const resp = await axios.put(url, data, timeoutConfig);
   const updatedData = resp.data;
   return updatedData;
 };

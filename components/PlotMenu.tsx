@@ -37,7 +37,7 @@ const PlotMenu = () => {
             >
               <Icons.close fill={isDark ? Colors.tx.dark : Colors.tx.alt} />
             </button>
-            <div className="overflow-scroll w-full h-full">
+            <div className="overflow-scroll w-full h-full rounded-lg bg-white">
               { data && <Plot data={data.ml.plot.data} layout={data.ml.plot.layout} style={{ width: "100%", height: "100%"}} />}
             </div>
           </div>
