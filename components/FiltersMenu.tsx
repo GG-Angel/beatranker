@@ -34,6 +34,12 @@ export const FiltersMenu = () => {
   };
 
   useEffect(() => {
+    if (isUpdating) {
+      setIsOpened(false);
+    }
+  }, [isOpened, isUpdating]);
+
+  useEffect(() => {
     if (data && !isUpdating) {
       const { gainsOnly, starRange } = filters;
       const [min, max] = starRange;

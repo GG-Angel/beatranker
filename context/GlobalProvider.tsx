@@ -86,12 +86,6 @@ export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!data) {
-      setOriginalRecs(null);
-    }
-  }, [data, originalRecs])
-
   const value = {
     data,
     originalRecs,

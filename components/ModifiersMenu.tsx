@@ -6,7 +6,7 @@ import { updateMods } from "../api/beatranker";
 import { isAxiosError } from "axios";
 import GlobalContext from "../context/GlobalContext";
 
-type ModInfoDict = {
+type InfoDict = {
   [key in Modifier]: {
     name: string;
     desc: string;
@@ -14,7 +14,7 @@ type ModInfoDict = {
   };
 };
 
-const info: ModInfoDict = {
+const info: InfoDict = {
   SF: {
     name: "Super Fast Song",
     desc: "Increases song speed by 50%",
@@ -58,6 +58,7 @@ const ModifiersMenu = () => {
   const {
     data,
     setData,
+    originalRecs,
     modifiers,
     setModifiers,
     isUpdating,
@@ -68,6 +69,7 @@ const ModifiersMenu = () => {
 
   const [localModifiers, setLocalModifiers] = useState<Modifier[]>([]);
   const [changesMade, setChangesMade] = useState<boolean>(false);
+  const [appliedMods, setAppliedMods] = useState<boolean>(false);
   const [isOpened, setIsOpened] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -79,11 +81,11 @@ const ModifiersMenu = () => {
 
   useEffect(() => {
     function wereChangesMade(): boolean {
-      if (modifiers.length !== localModifiers.length) return false;
+      if (modifiers.length !== localModifiers.length) return true;
       for (let i = 0; i < modifiers.length; i++) {
-        if (modifiers[i] !== localModifiers[i]) return false;
+        if (modifiers[i] !== localModifiers[i]) return true;
       }
-      return true;
+      return false;
     }
     setChangesMade(wereChangesMade());
   }, [modifiers, localModifiers]);
@@ -114,6 +116,7 @@ const ModifiersMenu = () => {
         );
         setData({ ...data, recs: updatedRecs });
         setModifiers(localModifiers);
+        setAppliedMods(true);
         updateLog(
           logId,
           "success",
@@ -128,6 +131,29 @@ const ModifiersMenu = () => {
       }
       setIsUpdating(false);
     }
+  };
+
+  const handleResetMods = async () => {
+    if (!data || !originalRecs) return;
+    setIsOpened(false);
+    setIsUpdating(true);
+    const logId = addLog("information", "Reverting modifier changes...", true);
+    try {
+      setData({ ...data, recs: originalRecs });
+      setModifiers([]);
+      setLocalModifiers([]);
+      setAppliedMods(false);
+      updateLog(
+        logId,
+        "success",
+        "Reverted to original recommendations! :D",
+        false
+      );
+    } catch (error) {
+      updateLog(logId, "error", "Failed to revert modifier changes. :(", false);
+    }
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    setIsUpdating(false);
   };
 
   return (
@@ -195,12 +221,24 @@ const ModifiersMenu = () => {
             );
           })}
           <button
-            className={`flex flex-row w-full gap-x-2 items-center justify-center px-4 py-2 rounded-b-lg transition text-tx-dark bg-green-dark dark:bg-green-light ${
-              changesMade
-                ? "grayscale opacity-40"
-                : "hover:opacity-80 active:opacity-60"
+            className={`flex flex-row w-full gap-x-2 items-center justify-between px-4 py-2 transition text-tx-dark ${
+              appliedMods
+                ? "bg-red-light dark:bg-red-dark hover:bg-opacity-90 active:bg-opacity-80"
+                : "bg-tx-alt opacity-40"
             }`}
-            disabled={changesMade}
+            disabled={!appliedMods}
+            onClick={handleResetMods}
+          >
+            Revert Changes
+            <Icons.undo fill="white" />
+          </button>
+          <button
+            className={`flex flex-row w-full gap-x-2 items-center justify-between px-4 py-2 rounded-b-lg transition text-tx-dark ${
+              changesMade
+                ? "bg-green-dark dark:bg-green-light hover:bg-opacity-90 active:bg-opacity-80"
+                : "bg-tx-alt opacity-40"
+            }`}
+            disabled={!changesMade}
             onClick={handleApplyMods}
           >
             Apply Mods
