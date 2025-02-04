@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { useOnClickOutside } from '../utils/utils';
 import Icons from '../constants/icons';
 import GlobalContext from '../context/GlobalContext';
@@ -7,7 +7,7 @@ import Plot from 'react-plotly.js';
 
 const PlotMenu = () => {
   const { data, isDark } = useContext(GlobalContext)
-  const [isOpened, setIsOpened] = useState<boolean>(true)
+  const [isOpened, setIsOpened] = useState<boolean>(false)
   const plotRef = useRef<HTMLDivElement | null>(null);
   useOnClickOutside(plotRef, () => setIsOpened(false));
 

@@ -19,7 +19,7 @@ export const RefreshButton = () => {
       setIsUpdating(true);
       const logId = addLog("information", "Refreshing scores...", true);
       try {
-        const playerData = await getPlayer(data.profile.id);
+        const playerData = await getPlayer(data.profile.id, true);
         if (modifiers.length > 0) {
           const { plot, recs } = await updateMods(
             modifiers,

@@ -3,8 +3,8 @@ import { MLData, Modifier, PlayerData, Recommendation } from "./types";
 
 const api = "http://127.0.0.1:8000";
 
-export const getPlayer = async (playerId: string): Promise<PlayerData> => {
-  const url = `${api}/recommendations/${playerId.trim()}`;
+export const getPlayer = async (playerId: string, force: boolean = false): Promise<PlayerData> => {
+  const url = `${api}/recommendations/${playerId.trim()}?force=${force}`;
   const resp = await axios.get(url);
   const playerData = resp.data;
   return playerData;

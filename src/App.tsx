@@ -55,10 +55,10 @@ function App() {
         {data && (
           <div className="flex flex-row gap-x-8">
             <HomeButton />
+            <PlotMenu />
             <RefreshButton />
             <FiltersMenu />
             <ModifiersMenu />
-            <PlotMenu />
           </div>
         )}
         <div className="flex flex-row flex-1 gap-x-8 justify-end">
