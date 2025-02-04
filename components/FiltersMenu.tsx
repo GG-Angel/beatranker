@@ -11,7 +11,7 @@ export interface FilterState {
 export const FiltersMenu = () => {
   const { data, setData, isUpdating, filters, setFilters } =
     useContext(GlobalContext);
-  const [isOpened, setIsOpened] = useState<boolean>(true);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
 
   const menuRef = useRef<HTMLDivElement | null>(null);
   useOnClickOutside(menuRef, () => setIsOpened(false));
@@ -54,15 +54,23 @@ export const FiltersMenu = () => {
   return (
     <div
       ref={menuRef}
-      className={`flex flex-col items-center font-geist font-medium text-cbody transition ${
-        isUpdating ? "text-tx-alt" : "text-tx-light dark:text-tx-dark"
-      }`}
+      className="flex flex-col items-center font-geist font-medium text-cbody"
     >
-      <button onClick={() => setIsOpened(!isOpened)} disabled={isUpdating}>
+      <button
+        className={`transition ${
+          isUpdating
+            ? "text-tx-alt"
+            : isOpened
+            ? "text-indigo-500 dark:text-indigo-300"
+            : `text-tx-light dark:text-tx-dark hover:text-indigo-500 hover:dark:text-indigo-300`
+        }`}
+        onClick={() => setIsOpened(!isOpened)}
+        disabled={isUpdating}
+      >
         Filters
       </button>
       {isOpened && (
-        <div className="absolute top-[72px] w-[256px] flex flex-col items-center z-20 rounded-lg shadow-xl bg-card-light dark:bg-card-dark shadow-black/5">
+        <div className="absolute top-[72px] w-[256px] flex flex-col items-center z-20 rounded-lg shadow-xl text-tx-light dark:text-tx-dark bg-card-light dark:bg-card-dark shadow-black/5">
           <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-b-[12px] border-solid border-b-card-light dark:border-b-card-dark border-l-transparent border-r-transparent absolute top-[-12px]"></div>
           <button
             className={`w-full flex flex-col px-4 py-2 rounded-t-lg text-left transition ${

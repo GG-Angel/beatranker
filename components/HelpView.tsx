@@ -39,7 +39,11 @@ const HelpView = () => {
   return (
     <>
       <button
-        className="font-geist text-cbody font-medium text-tx-light dark:text-tx-dark"
+        className={`font-geist text-cbody font-medium transition ${
+          isOpened
+            ? "text-indigo-500 dark:text-indigo-300"
+            : `text-tx-light dark:text-tx-dark hover:text-indigo-500 hover:dark:text-indigo-300`
+        }`}
         onClick={() => setIsOpened(true)}
         disabled={isOpened}
       >
@@ -57,7 +61,7 @@ const HelpView = () => {
             >
               <Icons.close fill={isDark ? Colors.tx.dark : Colors.tx.alt} />
             </button>
-            <div className="flex flex-col h-full gap-y-8 overflow-y-scroll font-geist text-cbody font-medium">
+            <div className="flex flex-col h-full pr-3 gap-y-8 overflow-y-scroll font-geist text-cbody font-medium">
               <Section header="What is BeatRanker?">
                 <p>
                   <span className="font-bold">BeatRanker</span> is a web app

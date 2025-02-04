@@ -133,11 +133,19 @@ const ModifiersMenu = () => {
   return (
     <div
       ref={menuRef}
-      className={`flex flex-col items-center font-geist font-medium text-cbody transition ${
-        isUpdating ? "text-tx-alt" : "text-tx-light dark:text-tx-dark"
-      }`}
+      className="flex flex-col items-center font-geist font-medium text-cbody"
     >
-      <button onClick={() => setIsOpened(!isOpened)} disabled={isUpdating}>
+      <button
+        className={`transition ${
+          isUpdating
+            ? "text-tx-alt"
+            : isOpened
+            ? "text-indigo-500 dark:text-indigo-300"
+            : `text-tx-light dark:text-tx-dark hover:text-indigo-500 hover:dark:text-indigo-300`
+        }`}
+        onClick={() => setIsOpened(!isOpened)}
+        disabled={isUpdating}
+      >
         Modifiers
         {modifiers.length > 0 && (
           <span className="text-tx-alt ml-2">({renderCommas(modifiers)})</span>

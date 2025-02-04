@@ -12,6 +12,7 @@ import PlayerCard from "../components/PlayerCard";
 import Logger from "../components/Logger";
 import HelpView from "../components/HelpView";
 import { FiltersMenu } from "../components/FiltersMenu";
+import HomeButton from "../components/HomeButton";
 
 function App() {
   const { data, setData, setOriginalRecs } = useContext(GlobalContext);
@@ -19,7 +20,7 @@ function App() {
   useEffect(() => {
     const data = ResponseJSON as PlayerData;
     setData(data);
-    setOriginalRecs(data.recs)
+    setOriginalRecs(data.recs);
   }, []);
 
   const [columns, setColumns] = useState(2);
@@ -52,7 +53,7 @@ function App() {
       <header className="sticky top-0 z-50 flex justify-between px-16 py-8 bg-bg-light dark:bg-bg-dark">
         {data && (
           <div className="flex flex-row gap-x-8">
-            <button onClick={() => setData(null)}>Home</button>
+            <HomeButton />
             <RefreshButton />
             <FiltersMenu />
             <ModifiersMenu />
@@ -83,7 +84,9 @@ function App() {
               ref={gridRef}
             >
               <RecommendationList
-                recs={data.recs.filter((r) => r.status === "unplayed" && !r.isFiltered)}
+                recs={data.recs.filter(
+                  (r) => r.status === "unplayed" && !r.isFiltered
+                )}
                 header="Not Played"
                 columns={columns}
                 options={{
@@ -93,7 +96,9 @@ function App() {
                 }}
               />
               <RecommendationList
-                recs={data.recs.filter((r) => r.status === "played" && !r.isFiltered)}
+                recs={data.recs.filter(
+                  (r) => r.status === "played" && !r.isFiltered
+                )}
                 header="To Improve"
                 columns={columns}
                 options={{

@@ -37,7 +37,7 @@ export const RefreshButton = () => {
   return (
     <div
       className={`flex flex-col items-center font-geist font-medium text-cbody transition ${
-        isUpdating ? "text-tx-alt" : "text-tx-light dark:text-tx-dark"
+        isUpdating ? "text-tx-alt" : "text-tx-light dark:text-tx-dark hover:text-indigo-500 hover:dark:text-indigo-300"
       }`}
     >
       <button onClick={() => refreshData()} disabled={isUpdating}>
