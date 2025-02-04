@@ -13,7 +13,7 @@ const ProfileSearchBox = () => {
 
   const handleSubmitId = async () => {
     setIsLoading(true);
-    setStatusText("Predicting scores...");
+    setStatusText("Calculating your potential, please wait ~15 seconds...");
     try {
       const playerData = await getPlayer(playerId);
       setData(playerData);

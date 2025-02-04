@@ -3,7 +3,6 @@ import { renderUTCAsLocal, useOnClickOutside } from "../utils/utils";
 import Icons from "../constants/icons";
 import GlobalContext from "../context/GlobalContext";
 import { Colors } from "../constants";
-import Plot from "react-plotly.js";
 
 type SectionProps = {
   header: string;

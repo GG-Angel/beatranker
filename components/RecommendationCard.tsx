@@ -125,7 +125,7 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Icons.beatsaver fill={iconFill} />
+                <Icons.beatsaver className={`${!isDark && "brightness-0"}`} />
               </a>
               <a
                 className="cursor-pointer"

@@ -1,8 +1,6 @@
 import "./App.css";
 import { useContext, useEffect, useRef, useState } from "react";
 
-import ResponseJSON from "../api/response.json";
-import { PlayerData } from "../api/types";
 import RecommendationList from "../components/RecommendationList";
 import ProfileSearchBox from "../components/ProfileSearchBox";
 import ModifiersMenu from "../components/ModifiersMenu";
@@ -14,15 +12,10 @@ import HelpView from "../components/HelpView";
 import { FiltersMenu } from "../components/FiltersMenu";
 import HomeButton from "../components/HomeButton";
 import PlotMenu from "../components/PlotMenu";
+import { Images } from "../constants";
 
 function App() {
-  const { data, setData, setOriginalRecs } = useContext(GlobalContext);
-
-  useEffect(() => {
-    const data = ResponseJSON as PlayerData;
-    setData(data);
-    setOriginalRecs(data.recs);
-  }, []);
+  const { data, isDark } = useContext(GlobalContext);
 
   const [columns, setColumns] = useState(2);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -69,9 +62,12 @@ function App() {
         {!data && (
           <div className="flex h-full items-center">
             <div className="flex flex-1 flex-col items-center">
-              <h1 className="text-ch2 font-extrabold text-center mb-6">
-                BeatRanker
-              </h1>
+              <div className="flex flex-row gap-x-4 items-center mb-6">
+                <img src={isDark ? Images.beatranker : Images.beatrankerOutline} width={39} />
+                <h1 className="text-ch2 font-extrabold">
+                  BeatRanker
+                </h1>
+              </div>
               <div className="w-full max-w-[648px]">
                 <ProfileSearchBox />
               </div>

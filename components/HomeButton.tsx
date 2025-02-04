@@ -2,11 +2,17 @@ import { useContext } from "react";
 import GlobalContext from "../context/GlobalContext";
 
 const HomeButton = () => {
-  const { setData, setOriginalRecs } = useContext(GlobalContext);
+  const { setData, setOriginalRecs, setFilters, setModifiers } =
+    useContext(GlobalContext);
 
   const handleHome = () => {
     setData(null);
     setOriginalRecs(null);
+    setFilters({
+      gainsOnly: false,
+      starRange: [-Infinity, Infinity],
+    });
+    setModifiers([]);
   };
 
   return (
