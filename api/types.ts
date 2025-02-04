@@ -59,7 +59,10 @@ export interface Profile {
 
 export interface MLData {
   model: number[];
-  plot: string;
+  plot: {
+    data: Plotly.Data[]
+    layout: Partial<Plotly.Layout>
+  }
   lastMapRefresh: string;
 }
 

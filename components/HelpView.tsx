@@ -3,6 +3,7 @@ import { renderUTCAsLocal, useOnClickOutside } from "../utils/utils";
 import Icons from "../constants/icons";
 import GlobalContext from "../context/GlobalContext";
 import { Colors } from "../constants";
+import Plot from "react-plotly.js";
 
 type SectionProps = {
   header: string;
@@ -11,7 +12,7 @@ type SectionProps = {
 
 const HelpView = () => {
   const { data, isDark } = useContext(GlobalContext);
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState(true);
   const helpRef = useRef<HTMLDivElement | null>(null);
   const altStyle = "text-indigo-600 dark:text-indigo-400 hover:underline";
 
@@ -35,6 +36,8 @@ const HelpView = () => {
       </div>
     );
   };
+
+  // { data && <Plot data={data.ml.plot.data} layout={data.ml.plot.layout} />}
 
   return (
     <>

@@ -109,12 +109,12 @@ const ModifiersMenu = () => {
       setIsUpdating(true);
       const logId = addLog("information", "Recalculating modifiers...", true);
       try {
-        const updatedRecs = await updateMods(
+        const { plot, recs } = await updateMods(
           localModifiers,
           data.recs,
           data.ml.model
         );
-        setData({ ...data, recs: updatedRecs });
+        setData({ ...data, recs: recs, ml: { ...data.ml, plot: plot } });
         setModifiers(localModifiers);
         setAppliedMods(true);
         updateLog(

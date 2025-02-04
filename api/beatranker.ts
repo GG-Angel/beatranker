@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Modifier, PlayerData, Recommendation } from "./types";
+import { MLData, Modifier, PlayerData, Recommendation } from "./types";
 
 const api = "http://127.0.0.1:8000";
 
@@ -14,7 +14,7 @@ export const updateMods = async (
   mods: Modifier[],
   recs: Recommendation[],
   model: number[]
-): Promise<Recommendation[]> => {
+): Promise<{ plot: MLData["plot"]; recs: Recommendation[] }> => {
   const url = `${api}/modifiers`;
   const data = {
     recs: recs,
@@ -22,6 +22,6 @@ export const updateMods = async (
     mods: mods,
   };
   const resp = await axios.put(url, data);
-  const updatedRecs = resp.data;
-  return updatedRecs;
+  const updatedData = resp.data;
+  return updatedData;
 };
