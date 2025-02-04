@@ -13,6 +13,7 @@ import Logger from "../components/Logger";
 import HelpView from "../components/HelpView";
 import { FiltersMenu } from "../components/FiltersMenu";
 import HomeButton from "../components/HomeButton";
+import PlotMenu from "../components/PlotMenu";
 
 function App() {
   const { data, setData, setOriginalRecs } = useContext(GlobalContext);
@@ -57,6 +58,7 @@ function App() {
             <RefreshButton />
             <FiltersMenu />
             <ModifiersMenu />
+            <PlotMenu />
           </div>
         )}
         <div className="flex flex-row flex-1 gap-x-8 justify-end">
