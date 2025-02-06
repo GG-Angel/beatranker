@@ -57,6 +57,15 @@ export interface Profile {
   medianRank: number;
 }
 
+export interface ProfileCompact {
+  id: string;
+  name: string;
+  alias: string | null;
+  avatar: string;
+  pp: number;
+  rank: number;
+}
+
 export interface MLData {
   model: number[];
   plot: {
