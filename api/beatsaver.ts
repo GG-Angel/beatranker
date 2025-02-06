@@ -1,10 +1,10 @@
 import axios from "axios"
 
-const api = "https://api.beatsaver.com"
+const apiUrl = "https://api.beatsaver.com"
 
 export const downloadMap = async (mapId: string): Promise<void> => {
   try {
-    const url = `${api}/maps/id/${mapId}`
+    const url = `${apiUrl}/maps/id/${mapId}`
     const resp = await axios.get(url);
     const data = resp.data;
     const versions = data.versions
