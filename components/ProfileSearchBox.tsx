@@ -24,7 +24,7 @@ const ProfileSearchBox = () => {
       } catch (error) {
         console.error("Failed to search for players", error)
       }
-    }, 1000); // 1 second
+    }, 500);
 
     return () => clearTimeout(delay);
   }, [input]);
