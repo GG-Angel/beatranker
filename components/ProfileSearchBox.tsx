@@ -2,15 +2,15 @@ import { useContext, useEffect, useState } from "react";
 import { Icons, Images } from "../constants";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { getPlayer } from "../api/beatranker";
+import { getPlayer, searchPlayers } from "../api/beatranker";
 import GlobalContext from "../context/GlobalContext";
-import { searchPlayers, SearchPlayersResponse } from "../api/beatleader";
+import { ProfileCompact } from "../api/types";
 
 const ProfileSearchBox = () => {
   const { setData, setOriginalRecs, isLoading, setIsLoading } =
     useContext(GlobalContext);
   const [searchResults, setSearchResults] =
-    useState<SearchPlayersResponse>([]);
+    useState<ProfileCompact[]>([]);
   const [input, setInput] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [focused, setFocused] = useState<boolean>(false)
@@ -24,7 +24,7 @@ const ProfileSearchBox = () => {
       } catch (error) {
         console.error("Failed to search for players", error)
       }
-    }, 1000); // 1 second
+    }, 500);
 
     return () => clearTimeout(delay);
   }, [input]);
@@ -72,6 +72,7 @@ const ProfileSearchBox = () => {
           placeholder="Your BeatLeader Username or ID"
           type="search"
           value={input}
+          maxLength={100}
           onFocus={() => setFocused(true)}
           onChange={(e) => setInput(e.target.value)}
           onSubmit={() => setSubmitted(true)}
