@@ -14,7 +14,7 @@ export type SearchPlayersResponse = {
 export const searchPlayers = async (
   username: string = ""
 ): Promise<SearchPlayersResponse> => {
-  const url = `${apiUrl}/players?page=1&count=10&search=${username.trim()}`;
+  const url = `${apiUrl}/players?page=1&count=5&search=${username.trim()}`;
   const resp = await axios.get(url);
   const data = resp.data.data;
   const players: SearchPlayersResponse = data.map(

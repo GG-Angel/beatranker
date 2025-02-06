@@ -6,114 +6,32 @@ import { getPlayer } from "../api/beatranker";
 import GlobalContext from "../context/GlobalContext";
 import { searchPlayers, SearchPlayersResponse } from "../api/beatleader";
 
-const mockResults: SearchPlayersResponse = [
-  {
-    id: "3225556157461414",
-    name: "Bizzy825",
-    alias: null,
-    avatar: "https://cdn.assets.beatleader.xyz/3225556157461414R39.png",
-    rank: 1,
-    pp: 6123,
-  },
-  {
-    id: "1922350521131465",
-    name: "#StopAbusingModifiersForFreePP",
-    alias: null,
-    avatar: "https://cdn.assets.beatleader.com/1922350521131465R17.png",
-    rank: 2,
-    pp: 7123,
-  },
-  {
-    id: "2169974796454690",
-    name: "brody from 0piumb0ys",
-    alias: "bytesy",
-    avatar: "https://cdn.assets.beatleader.com/2169974796454690R13.png",
-    rank: 3,
-    pp: 7123,
-  },
-  {
-    id: "76561198988695829",
-    name: "OlbmaPhlee",
-    alias: null,
-    avatar: "https://cdn.assets.beatleader.com/76561198988695829R23.png",
-    rank: 4,
-    pp: 7123.12,
-  },
-  {
-    id: "76561199486405949",
-    name: "soni",
-    alias: "soni",
-    avatar: "https://cdn.assets.beatleader.com/76561199486405949R14.png",
-    rank: 5,
-    pp: 7123,
-  },
-  {
-    id: "76561198404774259",
-    name: "SilentBang",
-    alias: null,
-    avatar: "https://cdn.assets.beatleader.xyz/76561198404774259R14.png",
-    rank: 6,
-    pp: 6123,
-  },
-  {
-    id: "76561198186151129",
-    name: "ACC | Pandita",
-    alias: null,
-    avatar: "https://cdn.assets.beatleader.xyz/76561198186151129R19.png",
-    rank: 7,
-    pp: 7123,
-  },
-  {
-    id: "76561199104169308",
-    name: "thinking",
-    alias: "thinkingswag",
-    avatar: "https://cdn.assets.beatleader.xyz/76561199104169308R23.png",
-    rank: 8,
-    pp: 7123,
-  },
-  {
-    id: "76561198960449289",
-    name: "aqua",
-    alias: null,
-    avatar: "https://cdn.assets.beatleader.xyz/76561198960449289R49.png",
-    rank: 9,
-    pp: 12383.21,
-  },
-  {
-    id: "2769016623220259",
-    name: "NailikLP",
-    alias: null,
-    avatar: "https://cdn.assets.beatleader.xyz/2769016623220259.png",
-    rank: 10,
-    pp: 12383.21,
-  },
-];
-
 const ProfileSearchBox = () => {
   const { setData, setOriginalRecs, isLoading, setIsLoading } =
     useContext(GlobalContext);
   const [searchResults, setSearchResults] =
     useState<SearchPlayersResponse>([]);
   const [input, setInput] = useState<string>("");
-  const [submitted, setSubmitted] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
+  const [focused, setFocused] = useState<boolean>(false)
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
     const delay = setTimeout(async () => {
       try {
         const results = await searchPlayers(input);
         setSearchResults(results);
-        setStatus("")
       } catch (error) {
         console.error("Failed to search for players", error)
       }
-    }, 1000); // 1 seconds
+    }, 1000); // 1 second
 
     return () => clearTimeout(delay);
   }, [input]);
 
   useEffect(() => {
     if (submitted) {
+      setFocused(false);
       handleSubmitId();
     }
   }, [submitted]);
@@ -150,10 +68,11 @@ const ProfileSearchBox = () => {
           <img src={Images.beatleader} width={26} />
         </div>
         <input
-          className={`flex flex-1 px-4 py-3 bg-card-light text-tx-light font-geist font-medium text-cbody bg-transparent outline-none truncate min-w-0`}
+          className={`flex flex-1 px-4 py-3 text-tx-light font-geist font-medium text-cbody bg-transparent outline-none truncate min-w-0 ${isLoading && "animate-pulse"}`}
           placeholder="Your BeatLeader Username or ID"
           type="search"
           value={input}
+          onFocus={() => setFocused(true)}
           onChange={(e) => setInput(e.target.value)}
           onSubmit={() => setSubmitted(true)}
           onKeyDown={(e) => {
@@ -175,8 +94,8 @@ const ProfileSearchBox = () => {
           {isLoading ? <LoadingSpinner /> : <Icons.search fill="white" />}
         </button>
       </div>
-      {searchResults && !submitted && (
-        <table className="w-full border-collapse rounded-lg overflow-hidden text-tx-light font-geist font-medium text-cbody">
+      {searchResults.length > 0 && focused && (
+        <table className="w-full border-collapse rounded-lg overflow-hidden text-tx-light font-geist font-medium text-cbody slide-up">
           <tbody>
             {searchResults.map((player, index) => (
               <tr
@@ -187,9 +106,9 @@ const ProfileSearchBox = () => {
                 <td className="pl-4 py-2 font-semibold">
                   #{player.rank.toLocaleString()}
                 </td>
-                <td className="flex flex-row items-center gap-x-2 px-4 sm:px-2 py-2">
+                <td className="flex flex-row items-center gap-x-3 px-4 sm:px-2 py-2">
                   <img className="w-8 h-8 rounded-full" src={player.avatar} />
-                  <td className="font-semibold truncate">{player.alias ?? player.name}</td>
+                  <p className="font-semibold truncate">{player.alias ?? player.name}</p>
                 </td>
                 <td className="hidden sm:table-cell text-tx-alt text-right py-2 pr-4">
                   {player.pp.toLocaleString()}pp
