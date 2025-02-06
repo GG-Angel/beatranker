@@ -1,5 +1,35 @@
+.slide-up {
+  animation: slide-up 300ms;
+}
+
+.slide-down {
+  animation: slide-down 300ms;
+}
+
 .fade-in {
   animation: fade-in 300ms;
+}
+
+.fade-in-slide {
+  animation: fade-in-slide 300ms;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(10px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-10px);
+  }
+  to {
+    transform: translateY(0px);
+  }
 }
 
 @keyframes fade-in {
@@ -11,10 +41,6 @@
   }
 }
 
-.fade-in-slide {
-  animation: fade-in-slide 300ms;
-}
-
 @keyframes fade-in-slide {
   from {
     opacity: 0;
@@ -22,6 +48,6 @@
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0px);
   }
 }
