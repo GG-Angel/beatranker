@@ -108,7 +108,7 @@ const ProfileSearchBox = () => {
                   #{player.rank.toLocaleString()}
                 </td>
                 <td className="flex flex-row items-center gap-x-3 px-4 sm:px-2 py-2">
-                  <img className="w-8 h-8 rounded-full" src={player.avatar} />
+                  <img className="w-8 h-8 rounded-full bg-slate-600" src={player.avatar} />
                   <p className="font-semibold truncate">{player.alias ?? player.name}</p>
                 </td>
                 <td className="hidden sm:table-cell text-tx-alt text-right py-2 pr-4">
