@@ -12,8 +12,6 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,6 +21,8 @@
 
 html, body {
   height: 100%;
+  color: light-dark(#0C0C0D, #FFFFFF);
+  background-color: light-dark(#F5F5F7, #151419);
 }
 
 body {

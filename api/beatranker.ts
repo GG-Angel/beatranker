@@ -1,5 +1,11 @@
 import axios from "axios";
-import { MLData, Modifier, PlayerData, ProfileCompact, Recommendation } from "./types";
+import {
+  MLData,
+  Modifier,
+  PlayerData,
+  ProfileCompact,
+  Recommendation,
+} from "./types";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -7,11 +13,14 @@ export const searchPlayers = async (
   query: string = "",
   k: number = 5
 ): Promise<ProfileCompact[]> => {
-  const url = `${apiUrl}/search/?query=${query}&k=${k}`
-  const resp = await axios.get(url, {timeout: 5000, timeoutErrorMessage: "Search request timed out"})
-  const players = resp.data as ProfileCompact[]
-  return players.sort((a, b) => a.rank - b.rank)
-}
+  const url = `${apiUrl}/search/?query=${query}&k=${k}`;
+  const resp = await axios.get(url, {
+    timeout: 5000,
+    timeoutErrorMessage: "Search request timed out",
+  });
+  const players = resp.data as ProfileCompact[];
+  return players.sort((a, b) => a.rank - b.rank);
+};
 
 export const getPlayer = async (
   playerId: string,
@@ -19,7 +28,7 @@ export const getPlayer = async (
 ): Promise<PlayerData> => {
   const url = `${apiUrl}/recommendations/${playerId.trim()}?force=${force}`;
   const resp = await axios.get(url, {
-    timeout: 30000,
+    timeout: 60000,
     timeoutErrorMessage: "Get player request timed out",
   });
   const playerData = resp.data;

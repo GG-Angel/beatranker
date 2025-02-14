@@ -56,6 +56,7 @@ const ProfileSearchBox = () => {
       } else {
         setStatus("Unexpected error, please try again. :(");
       }
+      console.error(error)
     }
     setIsLoading(false);
     setSubmitted(false);

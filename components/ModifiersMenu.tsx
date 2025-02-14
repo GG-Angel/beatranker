@@ -128,6 +128,7 @@ const ModifiersMenu = () => {
           isAxiosError(error) ? `: ${error.message}` : ". :("
         }`;
         updateLog(logId, "error", message, false);
+        console.error(error)
       }
       setIsUpdating(false);
     }
@@ -151,6 +152,7 @@ const ModifiersMenu = () => {
       );
     } catch (error) {
       updateLog(logId, "error", "Failed to revert modifier changes. :(", false);
+      console.error(error)
     }
     await new Promise((resolve) => setTimeout(resolve, 0));
     setIsUpdating(false);

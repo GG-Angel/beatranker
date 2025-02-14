@@ -36,6 +36,7 @@ export const RefreshButton = () => {
           isAxiosError(error) ? `: ${error.message}` : ". :("
         }`;
         updateLog(logId, "error", message, false);
+        console.error(error)
       }
       setIsUpdating(false);
     }

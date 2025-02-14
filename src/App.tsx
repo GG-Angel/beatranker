@@ -38,9 +38,10 @@ function App() {
     };
   }, []);
 
-  return (
+  return (    
+    <div className="flex flex-col items-center w-screen h-screen">
     <div
-      className={`flex flex-col w-full ${
+      className={`flex flex-col w-full max-w-[2160px] ${
         data ? "xl:h-full" : "h-full"
       } font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark`}
     >
@@ -114,6 +115,7 @@ function App() {
         )}
       </div>
       <Logger />
+    </div>
     </div>
   );
 }
