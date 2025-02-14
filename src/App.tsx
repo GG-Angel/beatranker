@@ -38,84 +38,86 @@ function App() {
     };
   }, []);
 
-  return (    
-    <div className="flex flex-col items-center w-screen h-screen">
-    <div
-      className={`flex flex-col w-full max-w-[2160px] ${
-        data ? "xl:h-full" : "h-full"
-      } font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark`}
-    >
-      <header className="sticky top-0 z-50 flex justify-between px-16 py-8 bg-bg-light dark:bg-bg-dark">
-        {data && (
-          <div className="flex flex-row gap-x-8">
-            <HomeButton />
-            <PlotMenu />
-            <RefreshButton />
-            <FiltersMenu />
-            <ModifiersMenu />
+  return (
+    <div className="flex flex-col items-center w-full h-screen">
+      <div
+        className={`flex flex-col w-full max-w-[2160px] ${
+          data ? "xl:h-full" : "h-full"
+        } font-geist font-medium text-cbody bg-bg-light dark:bg-bg-dark text-tx-light dark:text-tx-dark`}
+      >
+        <header className="sticky top-0 z-50 flex justify-between px-16 py-8 bg-bg-light dark:bg-bg-dark">
+          {data && (
+            <div className="flex flex-row gap-x-8">
+              <HomeButton />
+              <PlotMenu />
+              <RefreshButton />
+              <FiltersMenu />
+              <ModifiersMenu />
+            </div>
+          )}
+          <div className="flex flex-row flex-1 gap-x-8 justify-end">
+            <HelpView />
           </div>
-        )}
-        <div className="flex flex-row flex-1 gap-x-8 justify-end">
-          <HelpView />
+        </header>
+        <div className="flex flex-col w-full h-full px-16 pb-8 gap-y-8">
+          {!data && (
+            <div className="flex h-full items-center">
+              <div className="flex flex-1 flex-col items-center">
+                <div className="flex flex-row gap-x-4 items-center mb-6">
+                  <img
+                    className={`${!isDark && "brightness-0"}`}
+                    src={isDark ? Images.beatranker : Images.beatrankerOutline}
+                    width={39}
+                  />
+                  <h1 className="text-ch2 font-extrabold">BeatRanker</h1>
+                </div>
+                <div className="w-full max-w-[648px]">
+                  <ProfileSearchBox />
+                </div>
+              </div>
+            </div>
+          )}
+          {data && (
+            <>
+              <PlayerCard />
+              <div
+                className="w-full h-full grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16"
+                ref={gridRef}
+              >
+                <RecommendationList
+                  recs={data.recs.filter(
+                    (r) => r.status === "unplayed" && !r.isFiltered
+                  )}
+                  header="Not Played"
+                  columns={columns}
+                  options={{
+                    "PP gained": "weightedPPGain",
+                    "Acc estimate": "predictedAccuracy",
+                    "Star rating": "starsMod",
+                  }}
+                />
+                <RecommendationList
+                  recs={data.recs.filter(
+                    (r) => r.status === "played" && !r.isFiltered
+                  )}
+                  header="To Improve"
+                  columns={columns}
+                  options={{
+                    "PP gained": "weightedPPGain",
+                    "Unweighted PP": "predictedPP",
+                    "Acc estimate": "predictedAccuracy",
+                    "Current acc": "currentAccuracy",
+                    "Current rank": "rank",
+                    "Star rating": "starsMod",
+                    "Date set": "timePost",
+                  }}
+                />
+              </div>
+            </>
+          )}
         </div>
-      </header>
-      <div className="flex flex-col w-full h-full px-16 pb-8 gap-y-8">
-        {!data && (
-          <div className="flex h-full items-center">
-            <div className="flex flex-1 flex-col items-center">
-              <div className="flex flex-row gap-x-4 items-center mb-6">
-                <img className={`${!isDark && "brightness-0"}`} src={isDark ? Images.beatranker : Images.beatrankerOutline} width={39} />
-                <h1 className="text-ch2 font-extrabold">
-                  BeatRanker
-                </h1>
-              </div>
-              <div className="w-full max-w-[648px]">
-                <ProfileSearchBox />
-              </div>
-            </div>
-          </div>
-        )}
-        {data && (
-          <>
-            <PlayerCard />
-            <div
-              className="w-full h-full grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16"
-              ref={gridRef}
-            >
-              <RecommendationList
-                recs={data.recs.filter(
-                  (r) => r.status === "unplayed" && !r.isFiltered
-                )}
-                header="Not Played"
-                columns={columns}
-                options={{
-                  "PP gained": "weightedPPGain",
-                  "Acc estimate": "predictedAccuracy",
-                  "Star rating": "starsMod",
-                }}
-              />
-              <RecommendationList
-                recs={data.recs.filter(
-                  (r) => r.status === "played" && !r.isFiltered
-                )}
-                header="To Improve"
-                columns={columns}
-                options={{
-                  "PP gained": "weightedPPGain",
-                  "Unweighted PP": "predictedPP",
-                  "Acc estimate": "predictedAccuracy",
-                  "Current acc": "currentAccuracy",
-                  "Current rank": "rank",
-                  "Star rating": "starsMod",
-                  "Date set": "timePost",
-                }}
-              />
-            </div>
-          </>
-        )}
+        <Logger />
       </div>
-      <Logger />
-    </div>
     </div>
   );
 }
