@@ -11,6 +11,7 @@ const SortDirection: React.FC<{
     <button
       className="flex items-center justify-center w-[35.2px] h-[35.2px] rounded-lg border-b-2 transition bg-card-light dark:bg-card-dark border-card-alt-light dark:border-card-alt-dark hover:border-active-light dark:hover:border-active-dark"
       onClick={updateDirection}
+      aria-label="Toggle Sort Direction"
     >
       <Icons.arrow 
         fill={isDark ? Colors.tx.dark : Colors.tx.light}

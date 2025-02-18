@@ -29,6 +29,7 @@ const SortDropdown: React.FC<{
             : "border-card-alt-light dark:border-card-alt-dark rounded-b-lg"
         }`}
         onClick={() => setIsOpened(!isOpened)}
+        aria-label="Sort Dropdown Toggle"
       >
         <p>{selected}</p>
         <Icons.dropdown
@@ -49,6 +50,7 @@ const SortDropdown: React.FC<{
                 }`}
                 onClick={() => handleSelect(option)}
                 key={index}
+                aria-label="Sorting Option"
               >
                 {option}
               </button>

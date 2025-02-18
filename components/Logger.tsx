@@ -66,6 +66,7 @@ const LogMessage: React.FC<{ log: LogMessage }> = ({ log }) => {
       <button
         className="hover:opacity-60 bg-transparent transition-opacity"
         onClick={() => removeLog(log.id)}
+        aria-label="Hide Log Message"
       >
         <Icons.close
           fill={isDark ? Colors.tx.dark : Colors.tx.light}

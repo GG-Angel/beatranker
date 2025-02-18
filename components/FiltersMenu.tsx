@@ -72,6 +72,7 @@ export const FiltersMenu = () => {
         }`}
         onClick={() => setIsOpened(!isOpened)}
         disabled={isUpdating}
+        aria-label="Filters Menu Toggle"
       >
         Filters
       </button>
@@ -87,6 +88,7 @@ export const FiltersMenu = () => {
             onClick={() =>
               setFilters({ ...filters, gainsOnly: !filters.gainsOnly })
             }
+            aria-label="Chase Dem Gains Filter"
           >
             <p>Chase Dem Gains 💪</p>
             <p className="text-ctri text-tx-alt">

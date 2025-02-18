@@ -173,6 +173,7 @@ const ModifiersMenu = () => {
         }`}
         onClick={() => setIsOpened(!isOpened)}
         disabled={isUpdating}
+        aria-label="Modifiers Menu Toggle"
       >
         Modifiers
         {modifiers.length > 0 && (
@@ -204,6 +205,7 @@ const ModifiersMenu = () => {
                 onClick={() => toggleModifier(mod)}
                 disabled={disabled}
                 key={index}
+                aria-label="Modifier"
               >
                 <div className="w-full flex flex-row justify-between">
                   <p>{modInfo.name}</p>
@@ -230,6 +232,7 @@ const ModifiersMenu = () => {
             }`}
             disabled={!appliedMods}
             onClick={handleResetMods}
+            aria-label="Revert to Original Recommendations"
           >
             Revert Changes
             <Icons.undo fill="white" />
@@ -242,6 +245,7 @@ const ModifiersMenu = () => {
             }`}
             disabled={!changesMade}
             onClick={handleApplyMods}
+            aria-label="Apply Modifiers"
           >
             Apply Mods
             <Icons.check fill="white" />

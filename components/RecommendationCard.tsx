@@ -36,6 +36,7 @@ const RecommendationCard: React.FC<{ rec: Recommendation }> = ({ rec }) => {
           src={rec.cover}
           width={100}
           loading="lazy"
+          alt="Beat Saber Map Cover"
         />
       </div>
       <div className="flex flex-1 flex-row h-[100px] items-center justify-between font-geist font-medium text-cbody text-tx-light dark:text-tx-dark px-4 py-3 gap-x-8">

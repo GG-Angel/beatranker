@@ -36,7 +36,7 @@ export const RefreshButton = () => {
           isAxiosError(error) ? `: ${error.message}` : ". :("
         }`;
         updateLog(logId, "error", message, false);
-        console.error(error)
+        console.error(error);
       }
       setIsUpdating(false);
     }
@@ -50,7 +50,11 @@ export const RefreshButton = () => {
           : "text-tx-light dark:text-tx-dark hover:text-indigo-500 hover:dark:text-indigo-300"
       }`}
     >
-      <button onClick={() => refreshData()} disabled={isUpdating}>
+      <button
+        onClick={() => refreshData()}
+        disabled={isUpdating}
+        aria-label="Refresh Scores"
+      >
         Refresh
       </button>
     </div>

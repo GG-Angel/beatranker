@@ -21,6 +21,7 @@ import linestart from "../assets/icons/linestart.svg?react";
 import undo from "../assets/icons/undo.svg?react";
 import light from "../assets/icons/light.svg?react"; 
 import dark from "../assets/icons/dark.svg?react";
+import spinner from "../assets/icons/spinner.svg?react"
 
 export default {
   beatsaver,
@@ -42,5 +43,6 @@ export default {
   linestart,
   undo,
   light,
-  dark
+  dark,
+  spinner
 }

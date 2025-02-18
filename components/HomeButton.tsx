@@ -19,6 +19,7 @@ const HomeButton = () => {
     <button
       className="text-cbody font-geist font-medium transition text-tx-light dark:text-tx-dark hover:text-indigo-500 hover:dark:text-indigo-300"
       onClick={handleHome}
+      aria-label="Go to Home"
     >
       Home
     </button>

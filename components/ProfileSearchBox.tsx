@@ -66,7 +66,7 @@ const ProfileSearchBox = () => {
     <div className="flex flex-col gap-y-2">
       <div className="flex flex-row w-full bg-card-light rounded-lg">
         <div className="flex justify-center items-center px-4 border-r-2">
-          <img src={Images.beatleader} width={26} />
+          <img src={Images.beatleader} width={26} height={26} alt="BeatLeader Logo" />
         </div>
         <input
           className={`flex flex-1 px-4 py-3 text-tx-light font-geist font-medium text-cbody bg-transparent outline-none truncate min-w-0 ${isLoading && "animate-pulse"}`}
@@ -92,6 +92,7 @@ const ProfileSearchBox = () => {
           } rounded-l-none rounded-r-lg outline-none focus:outline-none`}
           onClick={() => setSubmitted(true)}
           disabled={isLoading || input.trim().length === 0}
+          aria-label="Fetch Profile"
         >
           {isLoading ? <LoadingSpinner /> : <Icons.search fill="white" />}
         </button>
@@ -109,7 +110,7 @@ const ProfileSearchBox = () => {
                   #{player.rank.toLocaleString()}
                 </td>
                 <td className="flex flex-row items-center gap-x-3 px-4 sm:px-2 py-2">
-                  <img className="w-8 h-8 rounded-full bg-slate-600" src={player.avatar} />
+                  <img className="w-8 h-8 rounded-full bg-slate-600" src={player.avatar} alt="Player Avatar" />
                   <p className="font-semibold truncate">{player.alias ?? player.name}</p>
                 </td>
                 <td className="hidden sm:table-cell text-tx-alt text-right py-2 pr-4">

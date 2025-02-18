@@ -46,6 +46,7 @@ const HelpView = () => {
         }`}
         onClick={() => setIsOpened(true)}
         disabled={isOpened}
+        aria-label="Open Help Menu"
       >
         Help
       </button>
@@ -53,11 +54,12 @@ const HelpView = () => {
         <div className="fixed top-0 left-0 flex justify-center items-center w-full h-full z-40 bg-black/10 dark:bg-white/5 bg-opacity-50 backdrop-blur-md fade-in">
           <div
             ref={helpRef}
-            className="relative w-5/6 sm:w-4/5 h-3/5 max-w-[800px] p-8 rounded-2xl border-4 border-solid border-card-alt-light dark:border-card-alt-dark bg-card-light dark:bg-card-dark text-tx-light dark:text-tx-dark shadow-xl shadow-black/25 fade-in-slide"
+            className="relative w-5/6 sm:w-4/5 h-3/5 max-w-[800px] p-8 rounded-2xl border-4 border-solid border-card-alt-light dark:border-card-alt-dark bg-card-light dark:bg-card-dark text-tx-light dark:text-tx-dark shadow-xl shadow-black/25 fade-in-slide-up"
           >
             <button
               onClick={() => setIsOpened(false)}
               className="hover:brightness-95 active:brightness-75 dark:hover:brightness-75 dark:active:brightness-50 transition absolute flex items-center justify-center w-12 h-12 -top-6 -right-6 rounded-full border-4 border-solid z-50 border-card-alt-light dark:border-card-alt-dark bg-card-light dark:bg-card-dark"
+              aria-label="Close Help Menu"
             >
               <Icons.close fill={isDark ? Colors.tx.dark : Colors.tx.alt} />
             </button>
